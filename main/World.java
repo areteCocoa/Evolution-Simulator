@@ -4,7 +4,7 @@ import java.util.*;
 
 public class World implements Runnable{
 	public int height, width;
-	Environment[][] environments;
+	public Environment[][] environments;
 	
 	Thread worldThread;
 	
@@ -25,14 +25,13 @@ public class World implements Runnable{
 
 	public void addOrganisms(int count) {
 		for(int x=0; x<count; x++) {
-			environments[(new Random().nextInt(5))][(new Random().nextInt(3))].addOrganism(new Organism());
+			environments[(new Random().nextInt(this.width))][(new Random().nextInt(this.height))].addOrganism(new Organism());
 		}
 	}
 	
 	@Override
 	public void run() {
 		while(true) {
-			System.out.println("Updating World...");
 			
 			// Tell Environments to update
 			for(int x=0; x<width; x++) {
@@ -42,7 +41,7 @@ public class World implements Runnable{
 			}
 			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(2000);
 			}
 			catch (InterruptedException e) {System.out.println("ERROR");}
 		}

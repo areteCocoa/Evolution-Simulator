@@ -3,11 +3,13 @@ package main;
 import java.util.*;
 
 public class Organism {
-	int species;
+	public static int speciesCount=5;
+	
+	public int species;
 	boolean isDead;
 	
 	public Organism() {
-		species = (new Random().nextInt(3));
+		species = (new Random().nextInt(speciesCount));
 		isDead = false;
 	}
 	
@@ -17,10 +19,16 @@ public class Organism {
 	}
 	
 	public String getName() {
-		return "NAME NOT IMPLEMENTED, SEE FUTURE UPDATES!";
+		return Singleton.organismNameTable.get(species);
 	}
 	
 	public Organism reproduce() {
 		return new Organism(this.species);
+	}
+	
+	public void testSurvival(int deathChance) {
+		if((new Random()).nextInt(100)>deathChance) {
+			isDead = true;
+		}
 	}
 }

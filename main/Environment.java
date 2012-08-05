@@ -4,13 +4,15 @@ import java.awt.*;
 import java.util.*;
 
 public class Environment {
-	int biome;
+	public int biome;
 	Dimension coordinates;
-	ArrayList<Organism> organisms;
+	public ArrayList<Organism> organisms;
+	
+	public static int biomeCount = 3;
 	
 	public Environment(int x, int y) {
 		coordinates = new Dimension(x, y);
-		biome = (new Random()).nextInt(3);
+		biome = (new Random()).nextInt(biomeCount);
 		organisms = new ArrayList<Organism>();
 	}
 	public Environment(int x, int y, int biomeType) {
@@ -25,21 +27,23 @@ public class Environment {
 	}
 	
 	public void update() {
-		// Update all organisms, reproduce, sweep out old deads
+		// Update all organisms, reproduce, sweep out old organisms with "isDead"
 		Random rand = new Random();
 		ArrayList<Organism> newOrganisms = new ArrayList<Organism>();
+		ArrayList<Organism> deadOrganisms = new ArrayList<Organism>();
 		
 		for(int c=0; c<organisms.size(); c++) {
 			// Does the organism survive?
-			// Survival code here
+			organisms.get(c).testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
 			
 			if(organisms.get(c).isDead) {
-				organisms.remove(c);
+				deadOrganisms.add(organisms.get(c));
 			}
-			if(rand.nextBoolean()) {
+			if(rand.nextBoolean() && organisms.get(c).isDead == false) {
 				newOrganisms.add(organisms.get(c).reproduce());
 			}
 		}
 		organisms.addAll(newOrganisms);
+		organisms.removeAll(deadOrganisms);
 	}
 }
