@@ -11,6 +11,8 @@ public class Singleton {
 	public static Hashtable<Integer, String> organismNameTable;
 	public static Hashtable<Integer, String> biomeNameTable;
 	
+	public static String dataURLString;
+	
 	public static void main() {
 		// All the temporary lists
 		// List of organism names
@@ -63,14 +65,15 @@ public class Singleton {
 	
 	public static void readFileToList(String fileName, ArrayList<String> list) {
 		try {
-		    BufferedReader in = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/data/" + fileName));
+		    // BufferedReader in = new BufferedReader(new FileReader(Singleton.class.getResource("/data/").toString() + fileName));
+			BufferedReader in = new BufferedReader(new InputStreamReader(Singleton.class.getResourceAsStream("/data/" + fileName)));
 		    String str;
 		    while ((str = in.readLine()) != null) {
 		        list.add(str);
 		    }
 		    in.close();
 		} catch (IOException e) {
-			System.out.println("Error reading file: " + (e.getMessage()));
+			System.out.println("Error reading file: " + fileName + " - " + (e.getMessage()));
 		}
 	}
 	
@@ -82,7 +85,7 @@ public class Singleton {
 			color = (Color)field.get(null);
 		} catch (Exception e) {
 		    color = null;
-		    System.out.println("Error processing stringToColor");
+		    // System.out.println("Error processing stringToColor");
 		}
 		return color;
 	}
