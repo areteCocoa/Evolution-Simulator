@@ -26,9 +26,17 @@ public class Organism {
 		return new Organism(this.species);
 	}
 	
-	public void testSurvival(int deathChance) {
+	public boolean testSurvival(int deathChance) {
 		if((new Random()).nextInt(100)>deathChance) {
-			isDead = true;
+			kill();
+			return false;
 		}
+		else {
+			return true;
+		}
+	}
+	
+	public void kill() {
+		isDead = true;
 	}
 }

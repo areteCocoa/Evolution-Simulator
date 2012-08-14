@@ -4,22 +4,33 @@ import java.awt.*;
 import java.util.*;
 
 public class Environment {
-	public int biome;
-	Dimension coordinates;
-	public ArrayList<Organism> organisms;
-	
 	public static int biomeCount = 3;
 	
+	public int biome;
+	public Point coordinates;
+	public ArrayList<Organism> organisms;
+	
+	public int resourceCount, resourceRegenRate;
+	
 	public Environment(int x, int y) {
-		coordinates = new Dimension(x, y);
+		coordinates = new Point(x, y);
 		biome = (new Random()).nextInt(biomeCount);
 		organisms = new ArrayList<Organism>();
+		
+		initResources();
 	}
+	
 	public Environment(int x, int y, int biomeType) {
-		coordinates = new Dimension(x, y);
-		// ADD IF BIOME IS IN BIOME DICTIONARY/SET
+		coordinates = new Point(x, y);
 		biome = biomeType;
 		organisms = new ArrayList<Organism>();
+		
+		initResources();
+	}
+
+	private void initResources() {
+		resourceRegenRate = (new Random()).nextInt(9)+1;
+		resourceCount = resourceRegenRate * 4;
 	}
 	
 	public void addOrganism(Organism o) {
@@ -27,6 +38,9 @@ public class Environment {
 	}
 	
 	public void update() {
+		// Regenerate more resources
+		resourceCount += resourceRegenRate;
+		
 		// Update all organisms, reproduce, sweep out old organisms with "isDead"
 		Random rand = new Random();
 		ArrayList<Organism> newOrganisms = new ArrayList<Organism>();
@@ -34,7 +48,14 @@ public class Environment {
 		
 		for(int c=0; c<organisms.size(); c++) {
 			// Does the organism survive?
-			organisms.get(c).testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
+			if(resourceCount > 0) {
+				organisms.get(c).testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
+				resourceCount -= 1;
+			}
+			else {
+				organisms.get(c).kill();
+			}
+			
 			
 			if(organisms.get(c).isDead) {
 				deadOrganisms.add(organisms.get(c));
@@ -45,5 +66,9 @@ public class Environment {
 		}
 		organisms.addAll(newOrganisms);
 		organisms.removeAll(deadOrganisms);
+	}
+	
+	public EnvironmentStats getEnvironmentStats() {
+		return (new EnvironmentStats(this));
 	}
 }

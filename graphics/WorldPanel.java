@@ -1,17 +1,19 @@
 package graphics;
 
 import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import main.*;
+import model.FocusTableModel;
 
 // Main Panel Class
 @SuppressWarnings("serial")
-public class WorldPanel extends JPanel implements Runnable{
-	public int envSize = 150;
-	public int cellPadding = 5;
+public class WorldPanel extends JPanel implements Runnable, MouseListener{
+	public static int envSize = 150;
+	public static int cellPadding = 5;
 
 	World world;
 	
@@ -22,8 +24,10 @@ public class WorldPanel extends JPanel implements Runnable{
 		
 		world = w;
 		
+		this.addMouseListener(this);
+		
 		// Initialize Thread
-		worldPanelThread = new Thread(this);
+		worldPanelThread = new Thread(this, "World Panel Thread");
 		worldPanelThread.start();
 	}
 	
@@ -70,6 +74,13 @@ public class WorldPanel extends JPanel implements Runnable{
 	public void run() {
 		while(true) {
 			repaint();
+			
+			if(FocusPanel.hasActivePanel()){
+				FocusPanel.updateActivePanel();
+			}
+			if(FocusPanel.lastClickedEnv != null) {
+				FocusTableModel.updateActiveModel();
+			}
 			try {
 				Thread.sleep(1000);
 			}
@@ -77,4 +88,22 @@ public class WorldPanel extends JPanel implements Runnable{
 		}
 		
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		FocusPanel.setEnv(world.environments[e.getX()/(envSize + cellPadding)][e.getY()/(envSize + cellPadding)]);
+		FocusTableModel.updateActiveModel();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 }

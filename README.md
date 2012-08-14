@@ -17,3 +17,8 @@ Future implementations include:
 • Randomly generated names/shapes/colors for each organism (WIP)
 • Organism migration across environments (Future update)
 • Sexual/Asexual reproduction (Future update)
+
+Thanks to the following people for testing:
+Andy Peterson
+Victor Cabunoc
+Dmitriy Strelkov

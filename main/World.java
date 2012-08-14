@@ -19,7 +19,7 @@ public class World implements Runnable{
 			}
 		}
 		
-		worldThread = new Thread(this);
+		worldThread = new Thread(this, "World Engine Thread");
 		worldThread.start();
 	}
 

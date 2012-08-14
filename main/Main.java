@@ -1,5 +1,7 @@
 package main;
 
+import graphics.*;
+
 public class Main {
 	
 	public static void main(String[] args) {
@@ -8,7 +10,8 @@ public class Main {
 		World world = new World(5, 7);
 		world.addOrganisms(500);
 		
-		ViewController mainController = new ViewController(world);
+		MainViewController mainController = new MainViewController(world);
+		
 		mainController.showFrame();
 	}
 }
