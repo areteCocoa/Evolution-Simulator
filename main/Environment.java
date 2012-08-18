@@ -3,6 +3,8 @@ package main;
 import java.awt.*;
 import java.util.*;
 
+import model.EnvironmentStatsModel;
+
 public class Environment {
 	public static int biomeCount = 3;
 	
@@ -10,7 +12,7 @@ public class Environment {
 	public Point coordinates;
 	public ArrayList<Organism> organisms;
 	
-	public int resourceCount, resourceRegenRate;
+	public int resourceCount, resourceRegenRate, resourceMax;
 	
 	public Environment(int x, int y) {
 		coordinates = new Point(x, y);
@@ -31,6 +33,7 @@ public class Environment {
 	private void initResources() {
 		resourceRegenRate = (new Random()).nextInt(9)+1;
 		resourceCount = resourceRegenRate * 4;
+		resourceMax = resourceCount*6;
 	}
 	
 	public void addOrganism(Organism o) {
@@ -48,6 +51,8 @@ public class Environment {
 		
 		for(int c=0; c<organisms.size(); c++) {
 			// Does the organism survive?
+			// int resourcePressure = (int)(100*resourceCount/resourceMax);
+			// System.out.println(resourcePressure);
 			if(resourceCount > 0) {
 				organisms.get(c).testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
 				resourceCount -= 1;
@@ -68,7 +73,7 @@ public class Environment {
 		organisms.removeAll(deadOrganisms);
 	}
 	
-	public EnvironmentStats getEnvironmentStats() {
-		return (new EnvironmentStats(this));
+	public EnvironmentStatsModel getEnvironmentStats() {
+		return (new EnvironmentStatsModel(this));
 	}
 }

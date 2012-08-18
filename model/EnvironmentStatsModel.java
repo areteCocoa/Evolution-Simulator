@@ -1,13 +1,16 @@
-package main;
+package model;
 
 import java.awt.*;
 
-public class EnvironmentStats {
+import main.Environment;
+import main.Singleton;
+
+public class EnvironmentStatsModel {
 	public String name;
 	public Point coordinates;
 	public int biome, resourceCount, resourceRate;
 	
-	public EnvironmentStats(Environment e) {
+	public EnvironmentStatsModel(Environment e) {
 		this.coordinates = e.coordinates;
 		this.biome = e.biome;
 		this.name = Singleton.biomeNameTable.get(this.biome);

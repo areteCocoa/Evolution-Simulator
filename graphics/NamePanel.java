@@ -1,31 +1,61 @@
 package graphics;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
 
 import main.*;
-import model.EnvironmentTableModel;
+import model.*;
 
-public class NamePanel extends JPanel {
+public class NamePanel extends JPanel implements MouseListener, TableCellRenderer {
 	private static final long serialVersionUID = 1L;
-	World world;
 	
-	JTable environmentTable;
+	public static NamePanel activePanel;
+	
+	World world;
+	JTabbedPane tabbedView;
+	JTable environmentTable, speciesTable;
+	JTable[] tables;
+	int selectedIndex, selectedTable;
 	
 	public NamePanel(World w) {
 		setBorder(BorderFactory.createLineBorder(Color.black));
+		setBackground(Color.white);
+		setLayout(new GridLayout(1, 1));
+		
+		selectedTable = 0;
 		
 		environmentTable = new JTable(new EnvironmentTableModel());
-		this.add(environmentTable);
+		speciesTable = new JTable(new SpeciesTableModel());
 		
-		environmentTable.setRowHeight(25);
-		environmentTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-		environmentTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-		environmentTable.setFont(new Font("Helvetica", Font.PLAIN, 16));
-		environmentTable.setEnabled(false);
+		tables = new JTable[2];
+		tables[0] = environmentTable;
+		tables[1] = speciesTable;
+		
+		// Configure tables
+		for(int x=0; x<tables.length; x++) {
+			tables[x].setRowHeight(50);
+			tables[x].setFont(Singleton.defaultFont);
+			tables[x].setOpaque(true);
+			tables[x].setEnabled(true);
+			tables[x].setColumnSelectionAllowed(false);
+			tables[x].setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			tables[x].getColumnModel().getColumn(2).setCellRenderer(this);
+			tables[x].addMouseListener(this);
+		}
+		
+		tabbedView = new JTabbedPane();
+		tabbedView.addTab("Environments", new JScrollPane(environmentTable));
+		tabbedView.addTab("Species", new JScrollPane(speciesTable));
+		tabbedView.addMouseListener(this);
+		this.add(tabbedView);
 		
 		world = w;
+		
+		activePanel = this;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -44,12 +74,12 @@ public class NamePanel extends JPanel {
 		} */
 		
 		// Display Species
-		for(int x=0; x<Organism.speciesCount; x++) {
+		/* for(int x=0; x<Organism.speciesCount; x++) {
 			g.setColor(Color.black);
 			g.drawString(("Species #" + Integer.toString(x)) + ": " + Singleton.organismNameTable.get(x), 20, 30*(x+1)+150);
 			g.setColor(Singleton.stringToColor(Singleton.organismColorTable.get(x)));
 			g.fillRect(this.getWidth()-50, 30*(x)+16+150, 16, 16);
-		}
+		} */
 		
 		// Display resolution vs window size
 		/* g.setColor(Color.black);
@@ -59,5 +89,45 @@ public class NamePanel extends JPanel {
 	
 	public Dimension getPreferredSize() {
 		return new Dimension((int)(StatsPanel.width*.6), 500);
+	}
+	
+	public void addMouseListener(MouseListener m) {
+		super.addMouseListener(m);
+		tabbedView.addMouseListener(m);
+		
+		for(int x=0; x<tables.length; x++) {
+			tables[x].addMouseListener(m);
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		selectedTable = tabbedView.getSelectedIndex();
+		selectedIndex = tables[selectedTable].getSelectedRow();
+	}
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
+		if(table == speciesTable && column == 2) {
+			return new ColorTableCell((Color) speciesTable.getModel().getValueAt(row, 2));
+		}
+		else if(table == environmentTable && column == 2) {
+			return new ColorTableCell((Color) environmentTable.getModel().getValueAt(row, 2));
+		}
+		
+		return null;
 	}
 }

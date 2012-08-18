@@ -3,3 +3,7 @@ Dog
 Butterfly
 Dinosaur
 Sim
+Capybera
+Echidna
+Okapi
+Cassowary

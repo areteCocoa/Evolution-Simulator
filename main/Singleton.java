@@ -7,13 +7,16 @@ import java.util.*;
 
 public class Singleton {
 	public static Hashtable<Integer, Color> biomeColorTable;
-	public static Hashtable<Integer, String> organismColorTable;
+	public static Hashtable<Integer, Color> organismColorTable;
 	public static Hashtable<Integer, String> organismNameTable;
 	public static Hashtable<Integer, String> biomeNameTable;
 	
-	public static String dataURLString;
+	public static Font defaultFont;
 	
 	public static void main() {
+		// Non-list statics
+		defaultFont = new Font("Helvetica", Font.PLAIN, 16);
+		
 		// All the temporary lists
 		// List of organism names
 		ArrayList<String> nameList = new ArrayList<String>();
@@ -40,17 +43,17 @@ public class Singleton {
 		biomeColorTable.put(1, Color.gray);
 		biomeColorTable.put(2, new Color(50, 50, 50));
 		
-		organismColorTable = new Hashtable<Integer, String>();
-		randomizeListToHashtable(organismColorList, organismColorTable);
+		organismColorTable = new Hashtable<Integer, Color>();
+		randomizeListToColorHashtable(organismColorList, organismColorTable);
 		
 		organismNameTable = new Hashtable<Integer, String>();
-		randomizeListToHashtable(nameList, organismNameTable);
+		randomizeListToStringHashtable(nameList, organismNameTable);
 		
 		biomeNameTable = new Hashtable<Integer, String>();
-		randomizeListToHashtable(biomeNameList, biomeNameTable);
+		randomizeListToStringHashtable(biomeNameList, biomeNameTable);
 	}
 	
-	public static void randomizeListToHashtable(ArrayList<String> list, Hashtable<Integer, String> table) {
+	public static void randomizeListToStringHashtable(ArrayList<String> list, Hashtable<Integer, String> table) {
 		Random rand = new Random();
 		int randInt;
 		int count = 0;
@@ -58,6 +61,19 @@ public class Singleton {
 		while(list.size() > 0) {
 			 randInt = rand.nextInt(list.size());
 			 table.put(count, list.get(randInt));
+			 list.remove(randInt);
+			 count++;
+		}
+	}
+	
+	public static void randomizeListToColorHashtable(ArrayList<String> list, Hashtable<Integer, Color> table) {
+		Random rand = new Random();
+		int randInt;
+		int count = 0;
+		
+		while(list.size() > 0) {
+			 randInt = rand.nextInt(list.size());
+			 table.put(count, stringToColor(list.get(randInt)));
 			 list.remove(randInt);
 			 count++;
 		}
@@ -85,7 +101,7 @@ public class Singleton {
 			color = (Color)field.get(null);
 		} catch (Exception e) {
 		    color = null;
-		    // System.out.println("Error processing stringToColor");
+		    System.out.println("Error processing stringToColor");
 		}
 		return color;
 	}

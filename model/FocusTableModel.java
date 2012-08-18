@@ -2,7 +2,6 @@ package model;
 
 import graphics.FocusPanel;
 import javax.swing.table.AbstractTableModel;
-import main.*;
 
 public class FocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
@@ -23,7 +22,7 @@ public class FocusTableModel extends AbstractTableModel {
 	}
 	
 	private void updateTableData() {
-		EnvironmentStats envStats = FocusPanel.lastClickedEnv.getEnvironmentStats();
+		EnvironmentStatsModel envStats = FocusPanel.lastClickedEnv.getEnvironmentStats();
 		
 		tableData[0][1] = envStats.name;
 		tableData[1][1] = envStats.coordinates.x + " " + envStats.coordinates.y;

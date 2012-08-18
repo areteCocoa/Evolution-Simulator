@@ -11,6 +11,7 @@ public class StatsPanel extends JPanel {
 	public static int height = 400;
 	public static int width = 400;
 	
+	TimePanel timePanel;
 	NamePanel infoPanel;
 	FocusPanel focusPanel;
 	NameInfoPanel nameInfoPanel;
@@ -23,12 +24,19 @@ public class StatsPanel extends JPanel {
 		int inset = 4;
 		c.insets = new Insets(inset, inset, inset, inset);
 		
+		/* timePanel = new TimePanel();
+		c.insets = new Insets(0, 0, inset, 0);
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy=0;
+		this.add(timePanel, c); */
+		
 		infoPanel = new NamePanel(world);
 		c.insets = new Insets(0, 0, inset, inset);
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		this.add(infoPanel, c);
 		
 		nameInfoPanel = new NameInfoPanel();
@@ -39,7 +47,7 @@ public class StatsPanel extends JPanel {
 		JSeparator midline = new JSeparator(SwingConstants.HORIZONTAL);
 		c.insets = new Insets(inset, 0, inset, 0);
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridwidth = 2;
 		this.add(midline, c);
 		
@@ -48,7 +56,7 @@ public class StatsPanel extends JPanel {
 		c.insets = new Insets(inset, 0, 0, inset);
 		c.gridwidth = 1;
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		this.add(focusPanel, c);
 		
 		focusInfoPanel = new FocusInfoPanel();

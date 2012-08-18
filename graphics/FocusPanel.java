@@ -39,7 +39,7 @@ public class FocusPanel extends JPanel {
 			int cellPadding = (int) (tempRect.getWidth() - cellSize*maxLength)/(maxLength+1);
 			int row = 1; int column = 1;
 			for(int c=0; c<lastClickedEnv.organisms.size(); c++) {
-				g.setColor(Singleton.stringToColor(Singleton.organismColorTable.get(lastClickedEnv.organisms.get(c).species)));
+				g.setColor(Singleton.organismColorTable.get(lastClickedEnv.organisms.get(c).species));
 				g.fillRect(tempRect.x + row*cellPadding + cellSize*(row-1), tempRect.y + column*cellPadding + cellSize*(column-1), cellSize, cellSize);
 				row++;
 				if(row>maxLength) {

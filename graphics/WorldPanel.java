@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import main.*;
 import model.FocusTableModel;
+import model.SpeciesFocusTableModel;
 
 // Main Panel Class
 @SuppressWarnings("serial")
@@ -55,7 +56,7 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 				int cellPadding = (envSize - cellSize*maxLength)/(maxLength+1);
 				int row = 1; int column = 1;
 				for(int c=0; c<world.environments[x][y].organisms.size(); c++) {
-					g.setColor(Singleton.stringToColor(Singleton.organismColorTable.get(world.environments[x][y].organisms.get(c).species)));
+					g.setColor(Singleton.organismColorTable.get(world.environments[x][y].organisms.get(c).species));
 					g.fillRect(tempRect.x + row*cellPadding + cellSize*(row-1), tempRect.y + column*cellPadding + cellSize*(column-1), cellSize, cellSize);
 					row++;
 					if(row>maxLength) {
@@ -74,6 +75,8 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 	public void run() {
 		while(true) {
 			repaint();
+			
+			SpeciesFocusTableModel.updateActiveTableData();
 			
 			if(FocusPanel.hasActivePanel()){
 				FocusPanel.updateActivePanel();
