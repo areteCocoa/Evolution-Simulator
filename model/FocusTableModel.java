@@ -1,6 +1,5 @@
 package model;
 
-import graphics.FocusPanel;
 import javax.swing.table.AbstractTableModel;
 
 public class FocusTableModel extends AbstractTableModel {
@@ -8,6 +7,8 @@ public class FocusTableModel extends AbstractTableModel {
 	
 	Object[][] tableData;
 	static FocusTableModel tableModel;
+	
+	EnvironmentStatsModel envStats;
 	
 	public FocusTableModel() {
 		tableData = new String[4][2];
@@ -21,37 +22,30 @@ public class FocusTableModel extends AbstractTableModel {
 		tableModel = this;
 	}
 	
-	private void updateTableData() {
-		EnvironmentStatsModel envStats = FocusPanel.lastClickedEnv.getEnvironmentStats();
-		
-		tableData[0][1] = envStats.name;
-		tableData[1][1] = envStats.coordinates.x + " " + envStats.coordinates.y;
-		tableData[2][1] = Integer.toString(envStats.resourceCount);
-		tableData[3][1] = Integer.toString(envStats.resourceRate);
-		
-		fireTableDataChanged();
+	public void setNewEnvironment(EnvironmentStatsModel s) {
+		envStats = s;
+		this.updateTableData();
 	}
 	
-	public static void updateActiveModel() {
-		tableModel.updateTableData();
+	public void updateTableData() {
+		if(envStats != null) {
+			tableData[0][1] = envStats.name;
+			tableData[1][1] = envStats.coordinates.x + " " + envStats.coordinates.y;
+			tableData[2][1] = Integer.toString(envStats.resourceCount);
+			tableData[3][1] = Integer.toString(envStats.resourceRate);
+			
+			fireTableDataChanged();
+		}
 	}
 	
 	@Override
-	public int getColumnCount() {
-		return tableData[0].length;
-	}
+	public int getColumnCount() {return tableData[0].length;}
 
 	@Override
-	public int getRowCount() {
-		return tableData.length;
-	}
+	public int getRowCount() {return tableData.length;}
 
 	@Override
-	public Object getValueAt(int arg0, int arg1) {
-		return tableData[arg0][arg1];
-	}
+	public Object getValueAt(int arg0, int arg1) {return tableData[arg0][arg1];}
 	
-	public boolean isCellEditable(int arg0, int arg1) {
-		return false;
-	}
+	public boolean isCellEditable(int arg0, int arg1) {return false;}
 }

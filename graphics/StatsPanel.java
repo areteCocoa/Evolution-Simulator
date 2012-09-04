@@ -1,69 +1,60 @@
 package graphics;
 
 import java.awt.*;
-
 import javax.swing.*;
+
+import simplifiedMouseListener.SimplifiedMouseListener;
 import main.*;
 
 public class StatsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	public static int height = 400;
-	public static int width = 400;
+	private TimePanel timePanel;
+	private OverviewViewController overviewPanel;
+	private FocusViewController focusPanel;
 	
-	TimePanel timePanel;
-	NamePanel infoPanel;
-	FocusPanel focusPanel;
-	NameInfoPanel nameInfoPanel;
-	FocusInfoPanel focusInfoPanel;
+	private GridBagLayout gridBag;
+	private int height, width;
+	
+	private SimplifiedMouseListener[] SMListeners;
+	
+	public static int inset = (int)(MainViewController.panelPadding/2);
 	
 	public StatsPanel(World world) {
 		// setBorder(BorderFactory.createLineBorder(Color.black));
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		int inset = 4;
-		c.insets = new Insets(inset, inset, inset, inset);
 		
-		/* timePanel = new TimePanel();
+		gridBag = new GridBagLayout();
+		this.setLayout(gridBag);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		inset = (int)(MainViewController.panelPadding/2);
+		c.fill = GridBagConstraints.BOTH;
+		
+		timePanel = new TimePanel(world);
 		c.insets = new Insets(0, 0, inset, 0);
 		c.gridwidth = 2;
 		c.gridx = 0;
-		c.gridy=0;
-		this.add(timePanel, c); */
+		c.gridy = 0;
+		this.add(timePanel, c);
 		
-		infoPanel = new NamePanel(world);
-		c.insets = new Insets(0, 0, inset, inset);
-		c.gridwidth = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
+		overviewPanel = new OverviewViewController(world);
+		c.insets = new Insets(inset, 0, inset, 0);
 		c.gridy = 1;
-		this.add(infoPanel, c);
+		this.add(overviewPanel, c);
 		
-		nameInfoPanel = new NameInfoPanel();
-		c.insets = new Insets(0, inset, inset, 0);
-		c.gridx = 1;
-		this.add(nameInfoPanel, c);
-		
-		JSeparator midline = new JSeparator(SwingConstants.HORIZONTAL);
+		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
 		c.insets = new Insets(inset, 0, inset, 0);
 		c.gridx = 0;
 		c.gridy = 2;
-		c.gridwidth = 2;
-		this.add(midline, c);
+		this.add(separator, c);
 		
-		focusPanel = new FocusPanel();
-		c.fill = GridBagConstraints.BOTH;
-		c.insets = new Insets(inset, 0, 0, inset);
-		c.gridwidth = 1;
-		c.gridx = 0;
+		focusPanel = new FocusViewController(world);
 		c.gridy = 3;
+		c.insets = new Insets(inset, 0, 0, 0);
 		this.add(focusPanel, c);
 		
-		focusInfoPanel = new FocusInfoPanel();
-		c.insets = new Insets(inset, inset, 0, 0);
-		c.gridx = 1;
-		c.fill = GridBagConstraints.BOTH;
-		this.add(focusInfoPanel, c);
+		SMListeners = new SimplifiedMouseListener[1];
+		SMListeners[0] = focusPanel;
 	}
 	
 	public void setBounds(Rectangle rect) {
@@ -71,5 +62,22 @@ public class StatsPanel extends JPanel {
 		
 		width = rect.width;
 		height = rect.height;
+		
+		int workingWidth = width;
+		int workingHeight = height - (int)(workingWidth*.6);
+		
+		int[] columnWidths = {height - workingHeight, (int)(workingWidth*.4)};
+		int[] rowHeights = {(int)(workingHeight*.10), (int)(workingHeight*.8), (int)(workingHeight*.05), height - workingHeight};
+		
+		gridBag.columnWidths = columnWidths;
+		gridBag.rowHeights = rowHeights;
+		
+		overviewPanel.setDimensions(columnWidths, rowHeights[1]);
+		focusPanel.setDimensions(columnWidths, rowHeights[3]);
+	}
+	
+	public SimplifiedMouseListener[] getSMListeners() {
+		// Add panels that implement SMListener
+		return SMListeners;
 	}
 }

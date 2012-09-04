@@ -16,3 +16,4 @@ Future implementations include:
 • Randomly generated names/shapes/colors for each organism (WIP)
 • Organism migration across environments (Future update)
 • Sexual/Asexual reproduction (Future update)
+• Full control over organisms, passing of time, etc.

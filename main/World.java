@@ -4,13 +4,18 @@ import java.util.*;
 
 public class World implements Runnable{
 	public int height, width;
+	Thread worldThread;
+	
 	public Environment[][] environments;
 	
-	Thread worldThread;
+	// Non-GUI data
+	public int day;
 	
 	public World(int h, int w) {
 		height = h;
 		width = w;
+		
+		day = 0;
 		
 		environments = new Environment[width][height];
 		for(int x=0; x<width; x++) {
@@ -19,7 +24,7 @@ public class World implements Runnable{
 			}
 		}
 		
-		worldThread = new Thread(this, "World Engine Thread");
+		worldThread = new Thread(this, "World-Engine");
 		worldThread.start();
 	}
 
@@ -39,6 +44,8 @@ public class World implements Runnable{
 					environments[x][y].update();
 				}
 			}
+			
+			day++;
 			
 			try {
 				Thread.sleep(2000);

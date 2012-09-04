@@ -3,12 +3,12 @@ package graphics;
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.*;
+
+import simplifiedMouseListener.*;
 
 import main.*;
-import model.FocusTableModel;
-import model.SpeciesFocusTableModel;
+import model.*;
 
 // Main Panel Class
 @SuppressWarnings("serial")
@@ -16,6 +16,8 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 	public static int envSize = 150;
 	public static int cellPadding = 5;
 
+	SimplifiedMouseListener[] SMListeners;
+	
 	World world;
 	
 	Thread worldPanelThread;
@@ -26,9 +28,10 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 		world = w;
 		
 		this.addMouseListener(this);
+		SMListeners = new SimplifiedMouseListener[1];
 		
 		// Initialize Thread
-		worldPanelThread = new Thread(this, "World Panel Thread");
+		worldPanelThread = new Thread(this, "World-GUI");
 		worldPanelThread.start();
 	}
 	
@@ -71,6 +74,10 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 		}
 	}
 
+	public void addSimplifiedMouseListener(SimplifiedMouseListener l) {
+		SMListeners[0] = l;
+	}
+	
 	@Override
 	public void run() {
 		while(true) {
@@ -78,12 +85,6 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 			
 			SpeciesFocusTableModel.updateActiveTableData();
 			
-			if(FocusPanel.hasActivePanel()){
-				FocusPanel.updateActivePanel();
-			}
-			if(FocusPanel.lastClickedEnv != null) {
-				FocusTableModel.updateActiveModel();
-			}
 			try {
 				Thread.sleep(1000);
 			}
@@ -94,8 +95,11 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		FocusPanel.setEnv(world.environments[e.getX()/(envSize + cellPadding)][e.getY()/(envSize + cellPadding)]);
-		FocusTableModel.updateActiveModel();
+		int tempX = e.getX()/(envSize + cellPadding), tempY = e.getY()/(envSize + cellPadding);
+		FocusPanel.setEnv(world.environments[tempX][tempY]);
+		if(SMListeners[0] != null) {
+			SMListeners[0].fireMouseEvent(new SimplifiedMouseEvent("Environment Update", 0, new Point(tempX, tempY)));
+		}
 	}
 
 	@Override

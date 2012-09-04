@@ -1,6 +1,8 @@
 package model;
 
 import javax.swing.table.AbstractTableModel;
+
+import main.Environment;
 import main.Singleton;
 
 public class EnvironmentTableModel extends AbstractTableModel {
@@ -10,7 +12,7 @@ public class EnvironmentTableModel extends AbstractTableModel {
 	final String[] columnHeader = {"Biome #", "Name", "Color"};
 	
 	public EnvironmentTableModel() {
-		tableData = new Object[Singleton.biomeNameTable.size()][3];
+		tableData = new Object[Environment.biomeCount+1][3];
 		for(int y=0; y<tableData.length; y++) {
 			tableData[y][0] = Integer.toString(y);
 			tableData[y][1] = Singleton.biomeNameTable.get(y);

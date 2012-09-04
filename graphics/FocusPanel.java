@@ -10,7 +10,7 @@ import main.Singleton;
 @SuppressWarnings("serial")
 public class FocusPanel extends JPanel {
 
-	public static Environment lastClickedEnv;
+	public Environment lastClickedEnvironment;
 	private static FocusPanel activePanel;
 	
 	private static final int envPadding = 2;
@@ -28,18 +28,18 @@ public class FocusPanel extends JPanel {
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		// Draw environment
-		if(lastClickedEnv != null) {
+		if(lastClickedEnvironment != null) {
 			Rectangle tempRect = new Rectangle(envPadding, envPadding, this.getWidth() - envPadding*2, this.getWidth() - envPadding*2);
 			
-			g.setColor(Singleton.biomeColorTable.get(lastClickedEnv.biome));
+			g.setColor(Singleton.biomeColorTable.get(lastClickedEnvironment.biome));
 			g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
 			
-			int maxLength = (int)Math.sqrt(lastClickedEnv.organisms.size())+1;
+			int maxLength = (int)Math.sqrt(lastClickedEnvironment.organisms.size())+1;
 			int cellSize = (int)((1.0/maxLength)*(tempRect.getWidth()/2));
 			int cellPadding = (int) (tempRect.getWidth() - cellSize*maxLength)/(maxLength+1);
 			int row = 1; int column = 1;
-			for(int c=0; c<lastClickedEnv.organisms.size(); c++) {
-				g.setColor(Singleton.organismColorTable.get(lastClickedEnv.organisms.get(c).species));
+			for(int c=0; c<lastClickedEnvironment.organisms.size(); c++) {
+				g.setColor(Singleton.organismColorTable.get(lastClickedEnvironment.organisms.get(c).species));
 				g.fillRect(tempRect.x + row*cellPadding + cellSize*(row-1), tempRect.y + column*cellPadding + cellSize*(column-1), cellSize, cellSize);
 				row++;
 				if(row>maxLength) {
@@ -53,12 +53,8 @@ public class FocusPanel extends JPanel {
 		}
 	}
 	
-	public Dimension getPreferredSize() {
-		return new Dimension((MainViewController.panelHeight*2)/5, (MainViewController.panelHeight*2)/5);
-	}
-	
 	public static void setEnv(Environment env) {
-		lastClickedEnv = env;
+		FocusPanel.activePanel.lastClickedEnvironment = env;
 		FocusPanel.activePanel.repaint();
 	}
 	

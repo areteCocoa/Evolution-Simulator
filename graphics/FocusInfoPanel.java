@@ -3,6 +3,7 @@ package graphics;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import main.Environment;
 import model.FocusTableModel;
 
 import java.awt.*;
@@ -10,16 +11,21 @@ import java.awt.*;
 public class FocusInfoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	Environment lastClickedEnvironment;
+	
 	JTable infoTable;
+	FocusTableModel focusTableModel;
 	
 	public FocusInfoPanel() {
 		setBackground(Color.white);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		infoTable = new JTable(new FocusTableModel());
+		focusTableModel = new FocusTableModel();
+		
+		infoTable = new JTable(focusTableModel);
 		infoTable.setRowHeight(25);
-		infoTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-		infoTable.getColumnModel().getColumn(1).setPreferredWidth(125);
+		// infoTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+		// infoTable.getColumnModel().getColumn(1).setPreferredWidth(125);
 		infoTable.setFont(new Font("Helvetica", Font.PLAIN, 13));
 		infoTable.setEnabled(false);
 		
@@ -30,7 +36,8 @@ public class FocusInfoPanel extends JPanel {
 		add(infoTable);
 	}
 	
-	public Dimension getPreferredSize() {
-		return new Dimension((int)(StatsPanel.width*.4)-10, (MainViewController.panelHeight*2)/5);
+	public void setLastClickedEnvironment(Environment e) {
+		lastClickedEnvironment = e;
+		focusTableModel.setNewEnvironment(e.getEnvironmentStats());
 	}
 }
