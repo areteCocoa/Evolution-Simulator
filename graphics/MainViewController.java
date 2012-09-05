@@ -32,12 +32,9 @@ public class MainViewController {
 			MPWidth = (WorldPanel.cellPadding*(world.width+1)) + (WorldPanel.envSize*world.width);
 		}
 		else if(world.height < world.width) {
-			WorldPanel.envSize = (MPWidth - (WorldPanel.cellPadding*(world.width + 1)))/world.width;
+			WorldPanel.envSize = (MPWidth - (WorldPanel.cellPadding*(world.width+1)))/world.width;
 			MPHeight = (WorldPanel.cellPadding*(world.height+1)) + (WorldPanel.envSize*world.height);
 		}
-		
-		// WorldPanel.envSize = (int)(((Toolkit.getDefaultToolkit().getScreenSize().width)*(1200.0/1920.0))/world.width);
-		// int mainPanelWidth = (WorldPanel.cellPadding*(world.width+1)) + (WorldPanel.envSize*world.width);
 		
 		// Set rectangles for the panels
 		mainRectangle = new Rectangle(panelPadding, panelPadding, MPWidth, MPHeight);

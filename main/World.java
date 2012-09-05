@@ -20,24 +20,24 @@ public class World implements Runnable{
 		environments = new Environment[width][height];
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
-				environments[x][y] = new Environment(x, y);
+				environments[x][y] = new Environment(this, x, y);
 			}
 		}
 		
 		worldThread = new Thread(this, "World-Engine");
-		worldThread.start();
 	}
 
 	public void addOrganisms(int count) {
+		Environment tempEnv;
 		for(int x=0; x<count; x++) {
-			environments[(new Random().nextInt(this.width))][(new Random().nextInt(this.height))].addOrganism(new Organism());
+			tempEnv = environments[(new Random().nextInt(this.width))][(new Random().nextInt(this.height))];
+			tempEnv.addRandomOrganism();
 		}
 	}
 	
 	@Override
 	public void run() {
 		while(true) {
-			
 			// Tell Environments to update
 			for(int x=0; x<width; x++) {
 				for(int y=0; y<height; y++) {
@@ -52,5 +52,9 @@ public class World implements Runnable{
 			}
 			catch (InterruptedException e) {System.out.println("ERROR");}
 		}
+	}
+	
+	public void startThread() {
+		worldThread.start();
 	}
 }

@@ -10,67 +10,103 @@ public class Environment {
 	
 	public int biome;
 	public Point coordinates;
-	public ArrayList<Organism> organisms;
+	public ArrayList<Organism> organisms, incomingOrganisms;
 	
 	public int resourceCount, resourceRegenRate, resourceMax;
 	
-	public Environment(int x, int y) {
-		coordinates = new Point(x, y);
-		biome = (new Random()).nextInt(biomeCount);
-		organisms = new ArrayList<Organism>();
-		
-		initResources();
+	World world;
+	
+	public Environment(World world, int x, int y) {
+		this(world, x, y, (new Random()).nextInt(biomeCount));
 	}
 	
-	public Environment(int x, int y, int biomeType) {
+	public Environment(World world, int x, int y, int biomeType) {
+		this.world = world;
 		coordinates = new Point(x, y);
 		biome = biomeType;
 		organisms = new ArrayList<Organism>();
+		incomingOrganisms = new ArrayList<Organism>();
 		
-		initResources();
-	}
-
-	private void initResources() {
 		resourceRegenRate = (new Random()).nextInt(9)+1;
 		resourceCount = resourceRegenRate * 4;
-		resourceMax = resourceCount*6;
+		resourceMax = resourceCount*2;
 	}
+	
+	
 	
 	public void addOrganism(Organism o) {
 		organisms.add(o);
 	}
 	
+	public void addRandomOrganism() {
+		organisms.add(new Organism(this));
+	}
+	
+	public void addIncomingOrganism(Organism o) {
+		incomingOrganisms.add(o);
+	}
+	
 	public void update() {
 		// Regenerate more resources
 		resourceCount += resourceRegenRate;
+		if(resourceCount > resourceMax) {
+			resourceCount = resourceMax;
+		}
 		
 		// Update all organisms, reproduce, sweep out old organisms with "isDead"
 		Random rand = new Random();
-		ArrayList<Organism> newOrganisms = new ArrayList<Organism>();
-		ArrayList<Organism> deadOrganisms = new ArrayList<Organism>();
+		ArrayList<Organism> newOrganisms = new ArrayList<Organism>(),
+				deadOrganisms = new ArrayList<Organism>(),
+				outgoingOrganisms = new ArrayList<Organism>();
 		
+		Organism tempOrganism;
 		for(int c=0; c<organisms.size(); c++) {
-			// Does the organism survive?
-			// int resourcePressure = (int)(100*resourceCount/resourceMax);
-			// System.out.println(resourcePressure);
+			tempOrganism = organisms.get(c);
+			
+			tempOrganism.update();
+			
+			// Resource Check
 			if(resourceCount > 0) {
-				organisms.get(c).testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
-				resourceCount -= 1;
+				tempOrganism.testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
 			}
 			else {
-				organisms.get(c).kill();
+				tempOrganism.kill();
 			}
 			
-			
-			if(organisms.get(c).isDead) {
-				deadOrganisms.add(organisms.get(c));
+			// Add dead organisms to list to be removed later
+			if(tempOrganism.isDead) {
+				deadOrganisms.add(tempOrganism);
 			}
-			if(rand.nextBoolean() && organisms.get(c).isDead == false) {
-				newOrganisms.add(organisms.get(c).reproduce());
+			
+			// Chance to reproduce/migrate
+			if(rand.nextBoolean() && tempOrganism.isDead == false) {
+				newOrganisms.add(tempOrganism.reproduce());
+			}
+			
+			if(tempOrganism.wantsMigration) {
+				outgoingOrganisms.add(tempOrganism);
+				
+				int offset = 0;
+				while(offset == 0) {
+					offset = (new Random()).nextInt(3) - 1;
+				}
+				if((new Random()).nextBoolean()) {
+					// Move vertically
+					try{world.environments[this.coordinates.x + offset][this.coordinates.y].addIncomingOrganism(tempOrganism);}
+					catch(ArrayIndexOutOfBoundsException e) {world.environments[this.coordinates.x - offset][this.coordinates.y].addIncomingOrganism(tempOrganism);}
+				}
+				else {
+					// Move horizontally
+					try{world.environments[this.coordinates.x][this.coordinates.y + offset].addIncomingOrganism(tempOrganism);}
+					catch(ArrayIndexOutOfBoundsException e) {world.environments[this.coordinates.x][this.coordinates.y - offset].addIncomingOrganism(tempOrganism);}
+				}
 			}
 		}
 		organisms.addAll(newOrganisms);
 		organisms.removeAll(deadOrganisms);
+		
+		organisms.addAll(incomingOrganisms);
+		organisms.removeAll(outgoingOrganisms);
 	}
 	
 	public EnvironmentStatsModel getEnvironmentStats() {
