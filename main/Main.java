@@ -13,6 +13,13 @@ public class Main {
 		MainViewController mainController = new MainViewController(world);
 		
 		mainController.showFrame();
+		
+		world.addDataListener(mainController);
+		
+		try {
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e) {System.out.println("ERROR");}
 		world.startThread();
 	}
 }

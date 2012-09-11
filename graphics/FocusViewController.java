@@ -42,8 +42,15 @@ public class FocusViewController extends JPanel implements SimplifiedMouseListen
 		
 		grid.columnWidths = columnWidths;
 		grid.rowHeights = rowHeights;
+		
+		focusInfoPanel.resizeTable(columnWidths[1]);
 	}
 
+	public void updateData() {
+		focusPanel.repaint();
+		focusInfoPanel.updateData();
+	}
+	
 	@Override
 	public void fireMouseEvent(SimplifiedMouseEvent s) {
 		Point p;

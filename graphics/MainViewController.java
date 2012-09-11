@@ -2,31 +2,35 @@ package graphics;
 
 import javax.swing.*;
 
-import main.World;
+import main.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 
-public class MainViewController {
-	public static int height = (int) ((Toolkit.getDefaultToolkit().getScreenSize().height));
+public class MainViewController implements DataListener{
+	public static int height = (int) ((Toolkit.getDefaultToolkit().getScreenSize().height) * .95);
 	public static int width = (int) ((Toolkit.getDefaultToolkit().getScreenSize().width));
-	static int panelPadding = (int) (width*.01);
-	// static int panelHeight = (int) (height - (panelPadding*2) - 25);
+	static int panelPadding = (int) (height*.01);
 	
 	JFrame mainFrame;
 	
 	WorldPanel worldPanel;
 	StatsPanel statsPanel;
+	ControlPanel controlPanel;
+	
+	private ArrayList<DataListener> dataListeners;
 	
 	public MainViewController(World world) {
-		Rectangle mainRectangle, statsRectangle;
+		Rectangle mainRectangle, statsRectangle, controlRectangle;
 		
 		// Handle all the panels before the main frame
 		worldPanel = new WorldPanel(world);
 		statsPanel = new StatsPanel(world);
+		controlPanel = new ControlPanel(world);
 		
 		// Calculate envSize and mainWidth
-		int workingWidth = width - (panelPadding*3), workingHeight = height - (panelPadding*2) - 25;
-		int MPWidth = (int)(workingWidth*.7), MPHeight = (int)(workingHeight);
+		int workingWidth = width - (panelPadding*3), workingHeight = height - (panelPadding*3) - 25;
+		int MPWidth = (int)(workingWidth*.7), MPHeight = (int)(workingHeight*.8);
 		if(world.height > world.width) {
 			WorldPanel.envSize = (MPHeight - (WorldPanel.cellPadding*(world.height + 1)))/world.height;
 			MPWidth = (WorldPanel.cellPadding*(world.width+1)) + (WorldPanel.envSize*world.width);
@@ -39,14 +43,16 @@ public class MainViewController {
 		// Set rectangles for the panels
 		mainRectangle = new Rectangle(panelPadding, panelPadding, MPWidth, MPHeight);
 		statsRectangle = new Rectangle((panelPadding*2)+mainRectangle.width, panelPadding, workingWidth - mainRectangle.width, MPHeight);
+		controlRectangle = new Rectangle(panelPadding, (panelPadding*2)+mainRectangle.height, workingWidth, workingHeight - mainRectangle.height);
 		
 		// Resize frame to proper size
 		width = (panelPadding*3) + mainRectangle.width + statsRectangle.width;
-		height = (panelPadding*2) + mainRectangle.height + 25;
+		height = (panelPadding*3) + mainRectangle.height + controlRectangle.height + 25;
 		
 		// Resize panels to new size
 		worldPanel.setBounds(mainRectangle);
 		statsPanel.setBounds(statsRectangle);
+		controlPanel.setBounds(controlRectangle);
 		
 		// Main Frame
 		mainFrame = new JFrame("Evolution Simulation");
@@ -61,13 +67,22 @@ public class MainViewController {
 		// Add panels to frame
 		mainFrame.add(worldPanel);
 		mainFrame.add(statsPanel);
-	}
-	
-	public void defaultSize() {
-		mainFrame.setSize(width, height);
+		mainFrame.add(controlPanel);
+		
+		// Add data listeners
+		dataListeners = new ArrayList<DataListener>();
+		dataListeners.add(worldPanel); dataListeners.add(statsPanel);
 	}
 	
 	public void showFrame() {
 		mainFrame.setVisible(true);
+		this.fireDataUpdate();
+	}
+	
+	@Override
+	public void fireDataUpdate() {
+		for(int x=0; x<dataListeners.size(); x++) {
+			dataListeners.get(x).fireDataUpdate();
+		}
 	}
 }

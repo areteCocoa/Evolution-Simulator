@@ -18,13 +18,7 @@ public class Organism {
 	
 	// Clone Constructor
 	public Organism(Organism o) {
-		this.containingEnvironment = o.containingEnvironment;
-		this.species = o.species;
-		this.isDead = o.isDead;
-		this.wantsMigration = o.wantsMigration;
-		
-		this.feed = o.feed;
-		this.maxFeed = o.maxFeed;
+		this(o.containingEnvironment, o.species);
 	}
 	
 	public Organism(Environment env) {
@@ -76,11 +70,12 @@ public class Organism {
 		if(feed>0) {
 			feed--;
 		}
-		else {
+		else if(!isDead) {
 			kill();
 		}
 		
-		if(Dice.getPercentage(feed, maxFeed) < 30 && Dice.getPercentBoolean(10)) {
+		if(Dice.getPercentage(feed, maxFeed) < 40 && Dice.getPercentBoolean(5) && !isDead) {
+			// System.out.println(this + " " + isDead);
 			this.wantsMigration = true;
 		}
 		else {

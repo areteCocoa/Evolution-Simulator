@@ -24,8 +24,6 @@ public class FocusInfoPanel extends JPanel {
 		
 		infoTable = new JTable(focusTableModel);
 		infoTable.setRowHeight(25);
-		// infoTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-		// infoTable.getColumnModel().getColumn(1).setPreferredWidth(125);
 		infoTable.setFont(new Font("Helvetica", Font.PLAIN, 13));
 		infoTable.setEnabled(false);
 		
@@ -36,8 +34,22 @@ public class FocusInfoPanel extends JPanel {
 		add(infoTable);
 	}
 	
+	public void resizeTable(int width) {
+		int maxWidth = (int)(width*.9);
+		
+		infoTable.getColumnModel().getColumn(0).setPreferredWidth((int)(maxWidth*.4));
+		infoTable.getColumnModel().getColumn(1).setPreferredWidth((int)(maxWidth*.6));
+	}
+	
 	public void setLastClickedEnvironment(Environment e) {
 		lastClickedEnvironment = e;
 		focusTableModel.setNewEnvironment(e.getEnvironmentStats());
+	}
+	
+	public void updateData() {
+		if(lastClickedEnvironment != null) {
+			focusTableModel.setNewEnvironment(lastClickedEnvironment.getEnvironmentStats());
+			focusTableModel.updateTableData();
+		}
 	}
 }

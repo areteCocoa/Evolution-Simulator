@@ -40,8 +40,8 @@ public class Singleton {
 		// Table of Color per Biome
 		biomeColorTable = new Hashtable<Integer, Color>();
 		biomeColorTable.put(0, Color.black);
-		biomeColorTable.put(1, Color.gray);
-		biomeColorTable.put(2, new Color(50, 50, 50));
+		biomeColorTable.put(1, new Color(50, 50, 50));
+		biomeColorTable.put(2, Color.gray);
 		
 		organismColorTable = new Hashtable<Integer, Color>();
 		randomizeListToColorHashtable(organismColorList, organismColorTable);

@@ -6,7 +6,6 @@ public class FocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	Object[][] tableData;
-	static FocusTableModel tableModel;
 	
 	EnvironmentStatsModel envStats;
 	
@@ -18,8 +17,6 @@ public class FocusTableModel extends AbstractTableModel {
 		tableData[1][0] = "Coordinates";
 		tableData[2][0] = "Resources";
 		tableData[3][0] = "Resource Regen";
-		
-		tableModel = this;
 	}
 	
 	public void setNewEnvironment(EnvironmentStatsModel s) {

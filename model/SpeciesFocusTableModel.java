@@ -5,14 +5,12 @@ import javax.swing.table.AbstractTableModel;
 public class SpeciesFocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
-	private static SpeciesFocusTableModel activeModel;
+	// private static SpeciesFocusTableModel activeModel;
 	
 	Object[][] tableData;
 	int species;
 	
 	public SpeciesFocusTableModel() {
-		activeModel = this;
-		
 		tableData = new String[3][2];
 		this.species = -1;
 		
@@ -24,8 +22,6 @@ public class SpeciesFocusTableModel extends AbstractTableModel {
 	}
 	
 	public SpeciesFocusTableModel(int species) {
-		activeModel = this;
-		
 		tableData = new String[3][2];
 		this.species = species;
 		
@@ -58,13 +54,7 @@ public class SpeciesFocusTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 	
-	public static void updateActiveTableData() {
-		if(activeModel != null) {
-			activeModel.updateTableData();
-		}
-	}
-	
-	public void updateTableData() {
+	public void updateData() {
 		if(species != -1) {
 			tableData[0][1] = Integer.toString(SpeciesStatsModel.totalAlive[species]);
 			tableData[1][1] = Integer.toString(SpeciesStatsModel.totalDead[species]);

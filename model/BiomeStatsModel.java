@@ -4,5 +4,9 @@ import main.Environment;
 
 public class BiomeStatsModel {
 	public static int biomeCount = Environment.biomeCount;
-	// What data do I want to display?
+	public static int[] totalBiomes = new int[biomeCount];
+	
+	public static void newBiomeCreated(int biome) {
+		totalBiomes[biome]++;
+	}
 }

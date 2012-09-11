@@ -50,8 +50,15 @@ public class OverviewInfoPanel extends JPanel {
 	
 	public void updateTableInfo(int tableIndex, int selectedIndex) {
 		if(tableIndex == 0) {
-			// TODO Update biome table model
+			biomeModel.changeBiome(selectedIndex);
 		}
-		else if(tableIndex == 1) {speciesModel.changeSpecies(selectedIndex);}
+		else if(tableIndex == 1) {
+			speciesModel.changeSpecies(selectedIndex);
+		}
+	}
+	
+	public void updateData() {
+		biomeModel.updateData();
+		speciesModel.updateData();
 	}
 }

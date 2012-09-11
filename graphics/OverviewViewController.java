@@ -35,7 +35,7 @@ public class OverviewViewController extends JPanel implements MouseListener {
 	}
 	
 	public void update() {
-		// TODO Big thread update
+		overviewInfoPanel.updateData();
 	}
 
 	public void setDimensions(int[] columnWidths, int height) {
@@ -43,10 +43,8 @@ public class OverviewViewController extends JPanel implements MouseListener {
 		
 		grid.columnWidths = columnWidths;
 		grid.rowHeights = rowHeights;
-	}
-	
-	public void drawPanels() {
 		
+		overviewPanel.resizeTable(columnWidths[0]);
 	}
 	
 	@Override

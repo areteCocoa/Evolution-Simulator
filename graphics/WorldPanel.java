@@ -8,11 +8,10 @@ import javax.swing.*;
 import simplifiedMouseListener.*;
 
 import main.*;
-import model.*;
 
 // Main Panel Class
 @SuppressWarnings("serial")
-public class WorldPanel extends JPanel implements Runnable, MouseListener{
+public class WorldPanel extends JPanel implements Runnable, MouseListener, DataListener{
 	public static int envSize = 150;
 	public static int cellPadding = 5;
 
@@ -20,7 +19,7 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 	
 	World world;
 	
-	Thread worldPanelThread;
+	Thread thread;
 	
 	public WorldPanel(World w) {
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -31,8 +30,8 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 		SMListeners = new SimplifiedMouseListener[1];
 		
 		// Initialize Thread
-		worldPanelThread = new Thread(this, "World-GUI");
-		worldPanelThread.start();
+		thread = new Thread(this, "World-GUI");
+		thread.start();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -78,21 +77,19 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener{
 		SMListeners[0] = l;
 	}
 	
+	
+	
 	@Override
 	public void run() {
-		while(true) {
-			repaint();
-			
-			SpeciesFocusTableModel.updateActiveTableData();
-			
-			try {
-				Thread.sleep(1000);
-			}
-			catch (InterruptedException e) {System.out.println("ERROR");}
-		}
-		
+		repaint();
 	}
 
+	@Override
+	public void fireDataUpdate() {
+		thread = new Thread(this, "World-GUI");
+		thread.start();
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int tempX = e.getX()/(envSize + cellPadding), tempY = e.getY()/(envSize + cellPadding);

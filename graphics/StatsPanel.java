@@ -6,7 +6,7 @@ import javax.swing.*;
 import simplifiedMouseListener.SimplifiedMouseListener;
 import main.*;
 
-public class StatsPanel extends JPanel {
+public class StatsPanel extends JPanel implements Runnable, DataListener {
 	private static final long serialVersionUID = 1L;
 	
 	private TimePanel timePanel;
@@ -19,6 +19,8 @@ public class StatsPanel extends JPanel {
 	private SimplifiedMouseListener[] SMListeners;
 	
 	public static int inset = (int)(MainViewController.panelPadding/2);
+	
+	Thread thread;
 	
 	public StatsPanel(World world) {
 		// setBorder(BorderFactory.createLineBorder(Color.black));
@@ -79,5 +81,18 @@ public class StatsPanel extends JPanel {
 	public SimplifiedMouseListener[] getSMListeners() {
 		// Add panels that implement SMListener
 		return SMListeners;
+	}
+	
+	@Override
+	public void run() {
+		timePanel.updateData();
+		// overviewPanel.updateData();
+		focusPanel.updateData();
+	}
+
+	@Override
+	public void fireDataUpdate() {
+		thread = new Thread(this, "StatsPanel");
+		thread.start();
 	}
 }

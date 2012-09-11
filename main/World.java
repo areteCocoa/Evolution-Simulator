@@ -4,12 +4,15 @@ import java.util.*;
 
 public class World implements Runnable{
 	public int height, width;
-	Thread worldThread;
+	
+	private Thread worldThread;
+	private ArrayList<DataListener> dataListeners;
 	
 	public Environment[][] environments;
 	
 	// Non-GUI data
 	public int day;
+	// Day[] dayDatabase;
 	
 	public World(int h, int w) {
 		height = h;
@@ -25,6 +28,7 @@ public class World implements Runnable{
 		}
 		
 		worldThread = new Thread(this, "World-Engine");
+		dataListeners = new ArrayList<DataListener>();
 	}
 
 	public void addOrganisms(int count) {
@@ -32,6 +36,12 @@ public class World implements Runnable{
 		for(int x=0; x<count; x++) {
 			tempEnv = environments[(new Random().nextInt(this.width))][(new Random().nextInt(this.height))];
 			tempEnv.addRandomOrganism();
+		}
+	}
+	
+	public void addDataListener(DataListener d) {
+		if(!dataListeners.contains(d)) {
+			dataListeners.add(d);
 		}
 	}
 	
@@ -45,10 +55,16 @@ public class World implements Runnable{
 				}
 			}
 			
+			// Add to stats models
 			day++;
 			
+			// Update other classes listening for updates in this class
+			for(int x=0; x<dataListeners.size(); x++) {
+				dataListeners.get(x).fireDataUpdate();
+			}
+			
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(500);
 			}
 			catch (InterruptedException e) {System.out.println("ERROR");}
 		}

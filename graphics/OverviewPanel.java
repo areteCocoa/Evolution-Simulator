@@ -13,13 +13,14 @@ import model.*;
 public class OverviewPanel extends JPanel implements MouseListener, TableCellRenderer {
 	private static final long serialVersionUID = 1L;
 	
-	public static OverviewPanel activePanel;
-	
 	World world;
 	JTabbedPane tabbedView;
 	JTable environmentTable, speciesTable;
 	JTable[] tables;
 	int selectedIndex, selectedTable;
+	
+	EnvironmentTableModel environmentTableModel;
+	SpeciesTableModel speciesTableModel;
 	
 	public OverviewPanel(World w) {
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -28,8 +29,11 @@ public class OverviewPanel extends JPanel implements MouseListener, TableCellRen
 		
 		selectedTable = 0;
 		
-		environmentTable = new JTable(new EnvironmentTableModel());
-		speciesTable = new JTable(new SpeciesTableModel());
+		environmentTableModel = new EnvironmentTableModel();
+		speciesTableModel = new SpeciesTableModel();
+		
+		environmentTable = new JTable(environmentTableModel);
+		speciesTable = new JTable(speciesTableModel);
 		
 		tables = new JTable[2];
 		tables[0] = environmentTable;
@@ -52,10 +56,9 @@ public class OverviewPanel extends JPanel implements MouseListener, TableCellRen
 		tabbedView.addTab("Species", new JScrollPane(speciesTable));
 		tabbedView.addMouseListener(this);
 		this.add(tabbedView);
+		tabbedView.setSelectedIndex(1);
 		
 		world = w;
-		
-		activePanel = this;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -85,6 +88,15 @@ public class OverviewPanel extends JPanel implements MouseListener, TableCellRen
 		/* g.setColor(Color.black);
 		g.drawString("Screen resolution:" + Integer.toString(Toolkit.getDefaultToolkit().getScreenSize().height) + " x " + Integer.toString(Toolkit.getDefaultToolkit().getScreenSize().width), 20, 500);
 		g.drawString("Window Size: " + MainViewController.height + " x " + MainViewController.width, 20, 525); */
+	}
+	
+	public void resizeTable(int width) {
+		int maxWidth = (int)(width*.9);
+		for(int x=0; x<tables.length; x++) {
+			tables[x].getColumnModel().getColumn(0).setPreferredWidth((int)(maxWidth*.2));
+			tables[x].getColumnModel().getColumn(1).setPreferredWidth((int)(maxWidth*.6));
+			tables[x].getColumnModel().getColumn(2).setPreferredWidth((int)(maxWidth*.2));
+		}
 	}
 	
 	public void addMouseListener(MouseListener m) {

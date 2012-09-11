@@ -3,6 +3,7 @@ package main;
 import java.awt.*;
 import java.util.*;
 
+import model.BiomeStatsModel;
 import model.EnvironmentStatsModel;
 
 public class Environment {
@@ -21,6 +22,7 @@ public class Environment {
 	}
 	
 	public Environment(World world, int x, int y, int biomeType) {
+		// All actual data
 		this.world = world;
 		coordinates = new Point(x, y);
 		biome = biomeType;
@@ -30,9 +32,10 @@ public class Environment {
 		resourceRegenRate = (new Random()).nextInt(9)+1;
 		resourceCount = resourceRegenRate * 4;
 		resourceMax = resourceCount*2;
+		
+		// All statistics data
+		BiomeStatsModel.newBiomeCreated(biomeType);
 	}
-	
-	
 	
 	public void addOrganism(Organism o) {
 		organisms.add(o);
@@ -83,7 +86,7 @@ public class Environment {
 				newOrganisms.add(tempOrganism.reproduce());
 			}
 			
-			if(tempOrganism.wantsMigration) {
+			if(tempOrganism.wantsMigration && !tempOrganism.isDead) {
 				outgoingOrganisms.add(tempOrganism);
 				
 				int offset = 0;
