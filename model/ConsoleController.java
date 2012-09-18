@@ -13,7 +13,9 @@ public class ConsoleController {
 	
 	public String processInput(String input) {
 		String output = "Invalid command.";
-		
+		if(world.isDoneRunning()) {
+			return "The simulation has ended";
+		}
 		if(input.equalsIgnoreCase("stop")) {
 			if(world.isRunning()) {
 				output = "Stopping world.";

@@ -2,7 +2,7 @@ package graphics.start.create;
 
 import javax.swing.*;
 
-import main.WorldScenario;
+import main.Scenario;
 
 import java.awt.event.*;
 
@@ -11,7 +11,7 @@ public class CreateWorldViewController implements ActionListener{
 	JDialog window;
 	CreateWorldView createWorldView;
 	
-	private WorldScenario scenario;
+	private Scenario scenario;
 	
 	public CreateWorldViewController(JFrame owner) {
 		createWorldView = new CreateWorldView();
@@ -20,13 +20,14 @@ public class CreateWorldViewController implements ActionListener{
 		window = new JDialog(owner, "Create New World", true);
 		window.setContentPane(createWorldView);
 		window.pack();
+		window.setLocationRelativeTo(null);
 	}
 	
 	public void showDialog() {
 		window.setVisible(true);
 	}
 	
-	public WorldScenario getWorldScenario() {
+	public Scenario getWorldScenario() {
 		return scenario;
 	}
 	

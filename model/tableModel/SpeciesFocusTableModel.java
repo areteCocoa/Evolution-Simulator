@@ -7,8 +7,6 @@ import model.SpeciesStatsModel;
 public class SpeciesFocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
-	// private static SpeciesFocusTableModel activeModel;
-	
 	Object[][] tableData;
 	int species;
 	

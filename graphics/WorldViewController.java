@@ -77,9 +77,11 @@ public class WorldViewController implements DataListener{
 		dataListeners.add(worldPanel); dataListeners.add(statsPanel);
 	}
 	
-	public void showFrame() {
-		mainFrame.setVisible(true);
-		this.fireDataUpdate();
+	public void showFrame(boolean should) {
+		mainFrame.setVisible(should);
+		if(should) {
+			this.fireDataUpdate();
+		}
 	}
 	
 	@Override
@@ -87,5 +89,9 @@ public class WorldViewController implements DataListener{
 		for(int x=0; x<dataListeners.size(); x++) {
 			dataListeners.get(x).fireDataUpdate();
 		}
+	}
+	
+	public JFrame getMainFrame() {
+		return mainFrame;
 	}
 }

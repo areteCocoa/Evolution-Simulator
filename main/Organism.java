@@ -2,6 +2,7 @@ package main;
 
 import java.util.*;
 
+import main.traits.Trait;
 import model.SpeciesStatsModel;
 
 public class Organism {
@@ -14,7 +15,7 @@ public class Organism {
 	
 	// Other attributes - Change often
 	private int feed, maxFeed;
-	// Characteristic characteristics[]
+	private ArrayList<Trait> traits;
 	
 	// Clone Constructor
 	public Organism(Organism o) {
@@ -34,6 +35,9 @@ public class Organism {
 		feed = 1;
 		maxFeed = feed*5;
 		
+		// TODO Add traits to organism
+		traits = new ArrayList<Trait>();
+		
 		SpeciesStatsModel.newOrganism(species);
 	}
 	
@@ -42,6 +46,7 @@ public class Organism {
 	}
 	
 	public Organism reproduce() {
+		feed--;
 		return new Organism(this);
 	}
 	
@@ -81,6 +86,12 @@ public class Organism {
 		else {
 			this.wantsMigration = false;
 		}
+		
+		// TODO Mutate traits
+		// For all the traits
+		// Chance to mutate
+		// If mutate == true
+		// trait.mutate
 	}
 	
 	public void kill() {

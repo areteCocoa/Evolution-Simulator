@@ -8,7 +8,6 @@ import java.awt.event.AdjustmentListener;
 
 import javax.swing.*;
 
-import main.World;
 import model.ConsoleController;
 
 public class ConsolePanel extends JPanel implements ActionListener {

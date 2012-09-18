@@ -12,11 +12,11 @@ public class StartViewController implements WindowListener, ActionListener {
 	StartView startView;
 	JFrame mainFrame;
 	
-	WorldScenario scenario;
+	Scenario scenario;
 	
 	public boolean isShowing;
 	
-	public StartViewController(WorldScenario s) {
+	public StartViewController(Scenario s) {
 		isShowing = false;
 		this.scenario = s;
 		
@@ -26,12 +26,14 @@ public class StartViewController implements WindowListener, ActionListener {
 		mainFrame = new JFrame("Evolution Simulator");
 		mainFrame.setContentPane(startView);
 		mainFrame.addWindowListener(this);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void showFrame(boolean should) {
 		isShowing = should;
-		mainFrame.setVisible(should);
 		mainFrame.pack();
+		mainFrame.setLocationRelativeTo(null);
+		mainFrame.setVisible(should);
 		scenarioLock();
 	}
 	
@@ -74,7 +76,7 @@ public class StartViewController implements WindowListener, ActionListener {
 		}
 	}
 	
-	public WorldScenario getScenario() {
+	public Scenario getScenario() {
 		return scenario;
 	}
 

@@ -1,6 +1,7 @@
 package main;
 
 import java.util.*;
+import model.WorldData;
 
 public class World implements Runnable{
 	public int height, width;
@@ -13,16 +14,24 @@ public class World implements Runnable{
 	// Non-GUI data
 	private boolean shouldUpdate;
 	
-	public int day;
+	public int day, duration;
 	// Day[] dayDatabase;
 	
-	public World(int h, int w) {
-		height = h;
-		width = w;
+	public WorldData worldData;
+	
+	public World(int height, int width) {
+		this(height, width, 0);
+	}
+	
+	// Main Constructor - All others default to this
+	public World(int height, int width, int duration) {
+		this.height = height;
+		this.width = width;
 		
 		shouldUpdate = true;
 		
 		day = 0;
+		this.duration = duration;
 		
 		environments = new Environment[width][height];
 		for(int x=0; x<width; x++) {
@@ -31,10 +40,12 @@ public class World implements Runnable{
 			}
 		}
 		dataListeners = new ArrayList<DataListener>();
+		
+		worldData = new WorldData();
 	}
 	
-	public World(WorldScenario scenario) {
-		this(scenario.size.height, scenario.size.width);
+	public World(Scenario scenario) {
+		this(scenario.size.height, scenario.size.width, scenario.duration);
 	}
 
 	public void addOrganisms(int count) {
@@ -59,7 +70,7 @@ public class World implements Runnable{
 	
 	@Override
 	public void run() {
-		while(shouldUpdate) {
+		while(shouldUpdate && (day < duration || duration == 0)) {
 			// Tell Environments to update
 			for(int x=0; x<width; x++) {
 				for(int y=0; y<height; y++) {
@@ -69,6 +80,7 @@ public class World implements Runnable{
 			
 			// Add to stats models
 			day++;
+			// Day[].update();
 			
 			// Update other classes listening for updates in this class
 			fireDataUpdate();
@@ -90,6 +102,19 @@ public class World implements Runnable{
 		shouldUpdate = true;
 		worldThread = new Thread(this, "World-Engine");
 		worldThread.start();
+	}
+	
+	public WorldData getWorldData() {
+		return worldData;
+	}
+	
+	public boolean isDoneRunning() {
+		if(day < duration) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 	// All controller methods

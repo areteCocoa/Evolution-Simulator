@@ -53,6 +53,12 @@ public class Environment {
 	}
 	
 	public void update() {
+		// TODO Add natural disasters
+		// Disaster class
+		// int killCount
+		// String name
+		// (Class?) EnvironmentalImpact
+		
 		// Regenerate more resources
 		resourceCount += resourceRegenRate;
 		if(resourceCount > resourceMax) {
@@ -71,13 +77,8 @@ public class Environment {
 			
 			tempOrganism.update();
 			
-			// Resource Check
-			if(resourceCount > 0) {
-				tempOrganism.testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
-			}
-			else {
-				tempOrganism.kill();
-			}
+			// Test the survival
+			tempOrganism.testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
 			
 			// Add dead organisms to list to be removed later
 			if(tempOrganism.isDead) {
