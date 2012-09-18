@@ -1,6 +1,8 @@
-package model;
+package model.tableModel;
 
 import javax.swing.table.AbstractTableModel;
+
+import model.EnvironmentStatsModel;
 
 public class FocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

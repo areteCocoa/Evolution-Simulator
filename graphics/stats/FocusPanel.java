@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stats;
 
 import java.awt.*;
 

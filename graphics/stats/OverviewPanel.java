@@ -1,4 +1,6 @@
-package graphics;
+package graphics.stats;
+
+import graphics.ColorTableCell;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -8,7 +10,7 @@ import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 
 import main.*;
-import model.*;
+import model.tableModel.*;
 
 public class OverviewPanel extends JPanel implements MouseListener, TableCellRenderer {
 	private static final long serialVersionUID = 1L;

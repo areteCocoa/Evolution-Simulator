@@ -1,8 +1,8 @@
-package graphics;
+package graphics.stats;
 
 import java.awt.*;
 import javax.swing.*;
-import model.*;
+import model.tableModel.*;
 
 public class OverviewInfoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

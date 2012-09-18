@@ -1,4 +1,5 @@
-package graphics;
+package graphics.stats;
+
 
 import java.awt.*;
 import javax.swing.JPanel;

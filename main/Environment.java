@@ -41,8 +41,11 @@ public class Environment {
 		organisms.add(o);
 	}
 	
-	public void addRandomOrganism() {
-		organisms.add(new Organism(this));
+	public Organism addRandomOrganism() {
+		Organism tempOrganism = new Organism(this);
+		organisms.add(tempOrganism);
+		
+		return tempOrganism;
 	}
 	
 	public void addIncomingOrganism(Organism o) {

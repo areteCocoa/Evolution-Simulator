@@ -1,5 +1,8 @@
 package graphics;
 
+import graphics.control.ControlPanel;
+import graphics.stats.StatsPanel;
+
 import javax.swing.*;
 
 import main.*;
@@ -7,10 +10,10 @@ import main.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class MainViewController implements DataListener{
+public class WorldViewController implements DataListener{
 	public static int height = (int) ((Toolkit.getDefaultToolkit().getScreenSize().height) * .95);
 	public static int width = (int) ((Toolkit.getDefaultToolkit().getScreenSize().width));
-	static int panelPadding = (int) (height*.01);
+	public static int panelPadding = (int) (height*.01);
 	
 	JFrame mainFrame;
 	
@@ -20,7 +23,7 @@ public class MainViewController implements DataListener{
 	
 	private ArrayList<DataListener> dataListeners;
 	
-	public MainViewController(World world) {
+	public WorldViewController(World world) {
 		Rectangle mainRectangle, statsRectangle, controlRectangle;
 		
 		// Handle all the panels before the main frame
@@ -43,7 +46,7 @@ public class MainViewController implements DataListener{
 		// Set rectangles for the panels
 		mainRectangle = new Rectangle(panelPadding, panelPadding, MPWidth, MPHeight);
 		statsRectangle = new Rectangle((panelPadding*2)+mainRectangle.width, panelPadding, workingWidth - mainRectangle.width, MPHeight);
-		controlRectangle = new Rectangle(panelPadding, (panelPadding*2)+mainRectangle.height, workingWidth, workingHeight - mainRectangle.height);
+		controlRectangle = new Rectangle(panelPadding, (panelPadding*2)+mainRectangle.height, mainRectangle.width + statsRectangle.width, workingHeight - mainRectangle.height);
 		
 		// Resize frame to proper size
 		width = (panelPadding*3) + mainRectangle.width + statsRectangle.width;

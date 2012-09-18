@@ -1,10 +1,10 @@
-package graphics;
+package graphics.stats;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import main.Environment;
-import model.FocusTableModel;
+import model.tableModel.FocusTableModel;
 
 import java.awt.*;
 

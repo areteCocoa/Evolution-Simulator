@@ -1,5 +1,7 @@
 package graphics;
 
+import graphics.stats.FocusPanel;
+
 import java.awt.*;
 import java.awt.event.*;
 

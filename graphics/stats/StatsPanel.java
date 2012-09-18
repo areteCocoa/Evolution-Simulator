@@ -1,4 +1,6 @@
-package graphics;
+package graphics.stats;
+
+import graphics.WorldViewController;
 
 import java.awt.*;
 import javax.swing.*;
@@ -18,7 +20,7 @@ public class StatsPanel extends JPanel implements Runnable, DataListener {
 	
 	private SimplifiedMouseListener[] SMListeners;
 	
-	public static int inset = (int)(MainViewController.panelPadding/2);
+	public static int inset = (int)(WorldViewController.panelPadding/2);
 	
 	Thread thread;
 	
@@ -29,7 +31,7 @@ public class StatsPanel extends JPanel implements Runnable, DataListener {
 		this.setLayout(gridBag);
 		GridBagConstraints c = new GridBagConstraints();
 		
-		inset = (int)(MainViewController.panelPadding/2);
+		inset = (int)(WorldViewController.panelPadding/2);
 		c.fill = GridBagConstraints.BOTH;
 		
 		timePanel = new TimePanel(world);
