@@ -2,8 +2,6 @@ package main;
 
 import javax.swing.JOptionPane;
 
-import model.WorldData;
-
 import graphics.*;
 import graphics.start.*;
 import graphics.end.*;
@@ -37,15 +35,8 @@ public class Main {
 		// Set up updating
 		world.addDataListener(mainController);
 		
-		// TODO better implementation here
-		// Let the mainViewController draw before drawing the world
-		try {
-			Thread.sleep(250);
-		}
-		catch (InterruptedException e) {System.out.println("ERROR");}
-		
 		// Auto-start the world - possibly remove later
-		world.startThread();
+		// world.startThread();
 		
 		while(!world.isDoneRunning()) {
 			try {
@@ -54,11 +45,13 @@ public class Main {
 			catch (InterruptedException e) {System.out.println("ERROR");}
 		}
 		
-		JOptionPane.showConfirmDialog(mainController.getMainFrame(), "View Data?", "End of Simulation",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-		mainController.showFrame(false);
-		
-		EndViewController endWindow = new EndViewController(world);
-		endWindow.showFrame();
+		if(world.isDoneRunning()) {
+			JOptionPane.showConfirmDialog(mainController.getMainFrame(), "View Data?", "End of Simulation",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			mainController.showFrame(false);
+			
+			EndViewController endWindow = new EndViewController(world.getWorldData());
+			endWindow.showFrame();
+		}
 	}
 }

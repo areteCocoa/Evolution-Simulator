@@ -3,7 +3,7 @@ package main.traits;
 // Superclass for all types of traits
 public abstract class Trait {
 	
-	private String name;
+	protected String name;
 	private int value;
 	
 	public Trait() {

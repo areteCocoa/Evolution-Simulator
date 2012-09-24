@@ -12,7 +12,8 @@ public class World implements Runnable{
 	public Environment[][] environments;
 	
 	// Non-GUI data
-	private boolean shouldUpdate;
+	// shouldUpdate refers to threading, doneRunning is the duration of the world
+	private boolean shouldUpdate, doneRunning;
 	
 	public int day, duration;
 	// Day[] dayDatabase;
@@ -28,7 +29,8 @@ public class World implements Runnable{
 		this.height = height;
 		this.width = width;
 		
-		shouldUpdate = true;
+		// shouldUpdate = true;
+		doneRunning = false;
 		
 		day = 0;
 		this.duration = duration;
@@ -46,6 +48,7 @@ public class World implements Runnable{
 	
 	public World(Scenario scenario) {
 		this(scenario.size.height, scenario.size.width, scenario.duration);
+		this.worldData.name = scenario.name;
 	}
 
 	public void addOrganisms(int count) {
@@ -70,7 +73,7 @@ public class World implements Runnable{
 	
 	@Override
 	public void run() {
-		while(shouldUpdate && (day < duration || duration == 0)) {
+		while(shouldUpdate && !doneRunning) {
 			// Tell Environments to update
 			for(int x=0; x<width; x++) {
 				for(int y=0; y<height; y++) {
@@ -85,10 +88,18 @@ public class World implements Runnable{
 			// Update other classes listening for updates in this class
 			fireDataUpdate();
 			
+			// Should I be done running?
+			if(day == duration && duration != 0) {
+				doneRunning = true;
+			}
+			
 			try {
 				Thread.sleep(500);
 			}
 			catch (InterruptedException e) {System.out.println("ERROR");}
+		}
+		if(doneRunning) {
+			// initialize worldData for end data presentation
 		}
 	}
 	
@@ -109,12 +120,7 @@ public class World implements Runnable{
 	}
 	
 	public boolean isDoneRunning() {
-		if(day < duration) {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return doneRunning;
 	}
 	
 	// All controller methods
@@ -130,5 +136,9 @@ public class World implements Runnable{
 	
 	public boolean isRunning() {
 		return shouldUpdate;
+	}
+	
+	public void end() {
+		doneRunning = true;
 	}
 }

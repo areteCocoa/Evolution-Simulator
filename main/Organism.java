@@ -2,7 +2,7 @@ package main;
 
 import java.util.*;
 
-import main.traits.Trait;
+import main.traits.*;
 import model.SpeciesStatsModel;
 
 public class Organism {
@@ -88,6 +88,9 @@ public class Organism {
 		}
 		
 		// TODO Mutate traits
+		if(Dice.getPercentBoolean(1)) {
+			traits.add(new PhysicalTrait());
+		}
 		// For all the traits
 		// Chance to mutate
 		// If mutate == true

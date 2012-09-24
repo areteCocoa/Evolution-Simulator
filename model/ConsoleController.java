@@ -39,6 +39,10 @@ public class ConsoleController {
 			output = ("Inserting organism at: " + temp.containingEnvironment.coordinates.x + " x " + temp.containingEnvironment.coordinates.y +
 					" with species type " + temp.species);
 		}
+		else if(input.equalsIgnoreCase("end")) {
+			output = "Ending simulation.";
+			world.end();
+		}
 		
 		return output;
 	}

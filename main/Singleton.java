@@ -8,8 +8,13 @@ import java.util.*;
 public class Singleton {
 	public static Hashtable<Integer, Color> biomeColorTable;
 	public static Hashtable<Integer, Color> organismColorTable;
+	
 	public static Hashtable<Integer, String> organismNameTable;
 	public static Hashtable<Integer, String> biomeNameTable;
+	
+	public static Hashtable<Integer, String> behaviorTraitTable;
+	public static Hashtable<Integer, String> physicalTraitTable;
+	
 	
 	public static Font defaultFont;
 	
@@ -36,9 +41,17 @@ public class Singleton {
 		ArrayList<String> biomeNameList = new ArrayList<String>();
 		readFileToList("biomeNames.txt", biomeNameList);
 		
+		ArrayList<String> behaviorTraitList = new ArrayList<String>();
+		readFileToList("behaviorTraits.txt", behaviorTraitList);
+		
+		ArrayList<String> physicalTraitList = new ArrayList<String>();
+		readFileToList("physicalTraits.txt", physicalTraitList);
+		
+		
+		
 		// All the static Hashtables
 		// Table of Color per Biome
-		biomeColorTable = new Hashtable<Integer, Color>();
+		biomeColorTable = new Hashtable<Integer, Color>(); // TODO Read biomeColorList to this table
 		biomeColorTable.put(0, Color.black);
 		biomeColorTable.put(1, new Color(50, 50, 50));
 		biomeColorTable.put(2, Color.gray);
@@ -51,6 +64,12 @@ public class Singleton {
 		
 		biomeNameTable = new Hashtable<Integer, String>();
 		randomizeListToStringHashtable(biomeNameList, biomeNameTable);
+		
+		behaviorTraitTable = new Hashtable<Integer, String>();
+		randomizeListToStringHashtable(behaviorTraitList, behaviorTraitTable);
+		
+		physicalTraitTable = new Hashtable<Integer, String>();
+		randomizeListToStringHashtable(physicalTraitList, physicalTraitTable);
 	}
 	
 	public static void randomizeListToStringHashtable(ArrayList<String> list, Hashtable<Integer, String> table) {

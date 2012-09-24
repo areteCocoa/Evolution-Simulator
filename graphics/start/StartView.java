@@ -11,6 +11,7 @@ public class StartView extends JPanel {
 	JButton newButton, openButton, editorButton, helpButton;
 	
 	public StartView() {
+		this.setBorder(BorderFactory.createLineBorder(getBackground(), 10));
 		this.setLayout(new GridLayout(2, 2, 10, 10));
 		
 		newButton = new JButton("Create New World");

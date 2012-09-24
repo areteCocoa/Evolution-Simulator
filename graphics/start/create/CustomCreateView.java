@@ -7,10 +7,10 @@ import javax.swing.*;
 
 import main.Scenario;
 
-public class CreateWorldView extends JPanel implements ActionListener{
+public class CustomCreateView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
-	JButton doneButton;
+	// JButton doneButton;
 	ActionListener actionListener;
 	
 	JTextArea nameInput;
@@ -18,7 +18,9 @@ public class CreateWorldView extends JPanel implements ActionListener{
 		durationSpinner;
 	JCheckBox setDurationBox;
 	
-	public CreateWorldView() {
+	public CustomCreateView() {
+		setBorder(BorderFactory.createLineBorder(getBackground(), 15));
+		
 		this.setLayout(new GridLayout(4, 3, 10, 10));
 		
 		// v1: Name, size
@@ -27,16 +29,16 @@ public class CreateWorldView extends JPanel implements ActionListener{
 				// xLabel = new JLabel(" x ");
 				durationLabel = new JLabel("Limited Duration: ");
 		
-		nameInput = new JTextArea();
+		nameInput = new JTextArea("Earth");
 		sizeInputX = new JSpinner(new SpinnerNumberModel(7, 1, 10, 1));
 		sizeInputY = new JSpinner(new SpinnerNumberModel(5, 1, 10, 1));
 		durationSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 20, 1));
 		
-		setDurationBox = new JCheckBox("");
+		setDurationBox = new JCheckBox("Enabled");
 		
-		doneButton = new JButton("Done");
+		/* doneButton = new JButton("Done");
 		doneButton.setActionCommand("done");
-		doneButton.addActionListener(this);
+		doneButton.addActionListener(this); */
 		
 		this.add(nameLabel);
 		this.add(getEmptyComp());
@@ -50,7 +52,7 @@ public class CreateWorldView extends JPanel implements ActionListener{
 		this.add(setDurationBox);
 		this.add(durationSpinner);
 		
-		this.add(doneButton);
+		// this.add(doneButton);
 	}
 	
 	private JComponent getEmptyComp() {

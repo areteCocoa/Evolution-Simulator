@@ -1,16 +1,15 @@
 package graphics.end;
 
 import javax.swing.*;
-
-import main.*;
+import model.WorldData;
 
 public class EndViewController {
 	
 	JFrame mainFrame;
 	EndView endView;
 	
-	public EndViewController(World world) {
-		endView = new EndView();
+	public EndViewController(WorldData worldData) {
+		endView = new EndView(worldData.name);
 		
 		mainFrame = new JFrame("End of Simulation Analysis");
 		mainFrame.setContentPane(endView);
