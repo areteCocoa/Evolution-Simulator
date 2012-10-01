@@ -12,4 +12,12 @@ public class BehaviorTrait extends Trait {
 		
 		name = Singleton.behaviorTraitTable.get((new Random()).nextInt(Singleton.behaviorTraitTable.size()-1));
 	}
+	
+	public static BehaviorTrait getMaxAgeTrait(int age) {
+		BehaviorTrait temp = new BehaviorTrait();
+		temp.name = "Age";
+		temp.value = 5;
+		
+		return temp;
+	}
 }

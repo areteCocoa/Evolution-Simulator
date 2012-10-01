@@ -2,11 +2,10 @@ package graphics.stats;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
-import main.World;
-
-public class OverviewViewController extends JPanel implements MouseListener {
+public class OverviewViewController extends JPanel implements MouseListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	OverviewPanel overviewPanel;
@@ -14,12 +13,12 @@ public class OverviewViewController extends JPanel implements MouseListener {
 	
 	GridBagLayout grid;
 	
-	public OverviewViewController(World world) {
+	public OverviewViewController() {
 		grid = new GridBagLayout();
 		setLayout(grid);
 		GridBagConstraints c = new GridBagConstraints();
 		
-		overviewPanel = new OverviewPanel(world);
+		overviewPanel = new OverviewPanel();
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
@@ -32,9 +31,10 @@ public class OverviewViewController extends JPanel implements MouseListener {
 		this.add(overviewInfoPanel, c);
 		
 		overviewPanel.addMouseListener(this);
+		overviewPanel.addKeyListener(this);
 	}
 	
-	public void update() {
+	public void updateData() {
 		overviewInfoPanel.updateData();
 	}
 
@@ -64,4 +64,15 @@ public class OverviewViewController extends JPanel implements MouseListener {
 		overviewInfoPanel.setTableView(overviewPanel.selectedTable);
 		overviewInfoPanel.updateTableInfo(overviewPanel.selectedTable, overviewPanel.selectedIndex);
 	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		overviewInfoPanel.updateTableInfo(overviewPanel.selectedTable, overviewPanel.selectedIndex);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {}
 }

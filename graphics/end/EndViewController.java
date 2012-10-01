@@ -9,7 +9,7 @@ public class EndViewController {
 	EndView endView;
 	
 	public EndViewController(WorldData worldData) {
-		endView = new EndView(worldData.name);
+		endView = new EndView(worldData);
 		
 		mainFrame = new JFrame("End of Simulation Analysis");
 		mainFrame.setContentPane(endView);

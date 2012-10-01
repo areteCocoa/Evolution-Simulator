@@ -78,7 +78,7 @@ public class Environment {
 			tempOrganism.update();
 			
 			// Test the survival
-			tempOrganism.testSurvival(100 - Math.abs(biome - organisms.get(c).species)*50);
+			tempOrganism.testSurvival(100 - Math.abs(biome - organisms.get(c).species)*75);
 			
 			// Add dead organisms to list to be removed later
 			if(tempOrganism.isDead) {
@@ -86,7 +86,7 @@ public class Environment {
 			}
 			
 			// Chance to reproduce/migrate
-			if(rand.nextBoolean() && tempOrganism.isDead == false) {
+			if(rand.nextBoolean() && !deadOrganisms.contains(tempOrganism)) {
 				newOrganisms.add(tempOrganism.reproduce());
 			}
 			
@@ -114,6 +114,8 @@ public class Environment {
 		
 		organisms.addAll(incomingOrganisms);
 		organisms.removeAll(outgoingOrganisms);
+		
+		incomingOrganisms.removeAll(incomingOrganisms);
 	}
 	
 	public EnvironmentStatsModel getEnvironmentStats() {

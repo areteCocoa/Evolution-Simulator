@@ -10,6 +10,6 @@ public class PhysicalTrait extends Trait {
 		super();
 		
 		name = Singleton.physicalTraitTable.get((new Random()).nextInt(Singleton.physicalTraitTable.size()-1));
-		System.out.println(name);
+		// System.out.println(name);
 	}
 }
