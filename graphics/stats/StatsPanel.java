@@ -41,7 +41,7 @@ public class StatsPanel extends JPanel implements Runnable, DataListener {
 		c.gridy = 0;
 		this.add(timePanel, c);
 		
-		overviewPanel = new OverviewViewController(world);
+		overviewPanel = new OverviewViewController();
 		c.insets = new Insets(inset, 0, inset, 0);
 		c.gridy = 1;
 		this.add(overviewPanel, c);
@@ -88,7 +88,7 @@ public class StatsPanel extends JPanel implements Runnable, DataListener {
 	@Override
 	public void run() {
 		timePanel.updateData();
-		// overviewPanel.updateData();
+		overviewPanel.updateData();
 		focusPanel.updateData();
 	}
 

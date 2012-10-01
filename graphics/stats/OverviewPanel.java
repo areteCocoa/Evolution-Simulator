@@ -3,6 +3,8 @@ package graphics.stats;
 import graphics.ColorTableCell;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -12,10 +14,9 @@ import javax.swing.table.TableCellRenderer;
 import main.*;
 import model.tableModel.*;
 
-public class OverviewPanel extends JPanel implements MouseListener, TableCellRenderer {
+public class OverviewPanel extends JPanel implements MouseListener, KeyListener, TableCellRenderer {
 	private static final long serialVersionUID = 1L;
-	
-	World world;
+
 	JTabbedPane tabbedView;
 	JTable environmentTable, speciesTable;
 	JTable[] tables;
@@ -24,7 +25,7 @@ public class OverviewPanel extends JPanel implements MouseListener, TableCellRen
 	EnvironmentTableModel environmentTableModel;
 	SpeciesTableModel speciesTableModel;
 	
-	public OverviewPanel(World w) {
+	public OverviewPanel() {
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.white);
 		setLayout(new GridLayout(1, 1));
@@ -51,45 +52,16 @@ public class OverviewPanel extends JPanel implements MouseListener, TableCellRen
 			tables[x].setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			tables[x].getColumnModel().getColumn(2).setCellRenderer(this);
 			tables[x].addMouseListener(this);
+			tables[x].addKeyListener(this);
 		}
 		
 		tabbedView = new JTabbedPane();
 		tabbedView.addTab("Environments", new JScrollPane(environmentTable));
 		tabbedView.addTab("Species", new JScrollPane(speciesTable));
 		tabbedView.addMouseListener(this);
+		tabbedView.addKeyListener(this);
 		this.add(tabbedView);
 		tabbedView.setSelectedIndex(1);
-		
-		world = w;
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
-		
-		// Fill background
-		g.setColor(Color.white);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		
-		// Display Environment Biomes
-		/* for(int x=0; x<Environment.biomeCount; x++) {
-			g.setColor(Color.black);
-			g.drawString("Biome #" + Integer.toString(x) + ": " + Singleton.biomeNameTable.get(x), 20, 30*(x+1));
-			g.setColor(Singleton.biomeColorTable.get(x));
-			g.fillRect(this.getWidth()-50, 30*(x)+16, 16, 16);
-		} */
-		
-		// Display Species
-		/* for(int x=0; x<Organism.speciesCount; x++) {
-			g.setColor(Color.black);
-			g.drawString(("Species #" + Integer.toString(x)) + ": " + Singleton.organismNameTable.get(x), 20, 30*(x+1)+150);
-			g.setColor(Singleton.stringToColor(Singleton.organismColorTable.get(x)));
-			g.fillRect(this.getWidth()-50, 30*(x)+16+150, 16, 16);
-		} */
-		
-		// Display resolution vs window size
-		/* g.setColor(Color.black);
-		g.drawString("Screen resolution:" + Integer.toString(Toolkit.getDefaultToolkit().getScreenSize().height) + " x " + Integer.toString(Toolkit.getDefaultToolkit().getScreenSize().width), 20, 500);
-		g.drawString("Window Size: " + MainViewController.height + " x " + MainViewController.width, 20, 525); */
 	}
 	
 	public void resizeTable(int width) {
@@ -107,6 +79,15 @@ public class OverviewPanel extends JPanel implements MouseListener, TableCellRen
 		
 		for(int x=0; x<tables.length; x++) {
 			tables[x].addMouseListener(m);
+		}
+	}
+	
+	public void addKeyListener(KeyListener l) {
+		super.addKeyListener(l);
+		tabbedView.addKeyListener(l);
+		
+		for(int x=0; x<tables.length; x++) {
+			tables[x].addKeyListener(l);
 		}
 	}
 
@@ -128,6 +109,18 @@ public class OverviewPanel extends JPanel implements MouseListener, TableCellRen
 		selectedIndex = tables[selectedTable].getSelectedRow();
 	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		selectedTable = tabbedView.getSelectedIndex();
+		selectedIndex = tables[selectedTable].getSelectedRow();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {

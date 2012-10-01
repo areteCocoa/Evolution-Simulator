@@ -4,7 +4,7 @@ package main.traits;
 public abstract class Trait {
 	
 	protected String name;
-	private int value;
+	protected int value;
 	
 	public Trait() {
 		

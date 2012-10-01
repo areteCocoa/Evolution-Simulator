@@ -1,7 +1,7 @@
 package main;
 
 import java.util.*;
-import model.WorldData;
+import model.*;
 
 public class World implements Runnable{
 	public int height, width;
@@ -14,9 +14,10 @@ public class World implements Runnable{
 	// Non-GUI data
 	// shouldUpdate refers to threading, doneRunning is the duration of the world
 	private boolean shouldUpdate, doneRunning;
+	private int dayDuration;
 	
 	public int day, duration;
-	// Day[] dayDatabase;
+	private DayDataManager dayData;
 	
 	public WorldData worldData;
 	
@@ -34,6 +35,7 @@ public class World implements Runnable{
 		
 		day = 0;
 		this.duration = duration;
+		dayData = new DayDataManager();
 		
 		environments = new Environment[width][height];
 		for(int x=0; x<width; x++) {
@@ -49,6 +51,8 @@ public class World implements Runnable{
 	public World(Scenario scenario) {
 		this(scenario.size.height, scenario.size.width, scenario.duration);
 		this.worldData.name = scenario.name;
+		this.dayDuration = scenario.dayDuration;
+		this.addOrganisms(scenario.startingSpeciesCount);
 	}
 
 	public void addOrganisms(int count) {
@@ -81,9 +85,10 @@ public class World implements Runnable{
 				}
 			}
 			
-			// Add to stats models
+			// Update DayData and reset speciesStatsModel
 			day++;
-			// Day[].update();
+			dayData.update();
+			SpeciesStatsModel.newDay();
 			
 			// Update other classes listening for updates in this class
 			fireDataUpdate();
@@ -94,12 +99,14 @@ public class World implements Runnable{
 			}
 			
 			try {
-				Thread.sleep(500);
+				Thread.sleep(dayDuration);
 			}
 			catch (InterruptedException e) {System.out.println("ERROR");}
 		}
 		if(doneRunning) {
-			// initialize worldData for end data presentation
+			worldData.daysRun = day;
+			worldData.intendedDuration = duration;
+			worldData.dayData = this.dayData;
 		}
 	}
 	

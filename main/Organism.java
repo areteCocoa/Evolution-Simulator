@@ -3,6 +3,7 @@ package main;
 import java.util.*;
 
 import main.traits.*;
+import model.Dice;
 import model.SpeciesStatsModel;
 
 public class Organism {
@@ -17,6 +18,10 @@ public class Organism {
 	private int feed, maxFeed;
 	private ArrayList<Trait> traits;
 	
+	// TODO better implementation of this
+	private Trait maxAge;
+	private int age;
+	
 	// Clone Constructor
 	public Organism(Organism o) {
 		this(o.containingEnvironment, o.species);
@@ -26,6 +31,7 @@ public class Organism {
 		this(env, (new Random().nextInt(speciesCount)));
 	}
 	
+	// Default Constructor
 	public Organism(Environment env, int species) {
 		this.species = species;
 		this.isDead = false;
@@ -35,8 +41,9 @@ public class Organism {
 		feed = 1;
 		maxFeed = feed*5;
 		
-		// TODO Add traits to organism
 		traits = new ArrayList<Trait>();
+		maxAge = new BehaviorTrait();
+		age = 0;
 		
 		SpeciesStatsModel.newOrganism(species);
 	}
@@ -50,13 +57,9 @@ public class Organism {
 		return new Organism(this);
 	}
 	
-	public boolean testSurvival(int deathChance) {
-		if((new Random()).nextInt(100)>deathChance) {
+	public void testSurvival(int deathChance) {
+		if((new Random()).nextInt(100)>deathChance && !isDead) {
 			kill();
-			return false;
-		}
-		else {
-			return true;
 		}
 	}
 	
@@ -80,16 +83,20 @@ public class Organism {
 		}
 		
 		if(Dice.getPercentage(feed, maxFeed) < 40 && Dice.getPercentBoolean(5) && !isDead) {
-			// System.out.println(this + " " + isDead);
 			this.wantsMigration = true;
 		}
 		else {
 			this.wantsMigration = false;
 		}
 		
+		// Manipulate traits
 		// TODO Mutate traits
 		if(Dice.getPercentBoolean(1)) {
 			traits.add(new PhysicalTrait());
+		}
+		age++;
+		if(age==maxAge.getValue() && !this.isDead) {
+			kill();
 		}
 		// For all the traits
 		// Chance to mutate
@@ -98,7 +105,13 @@ public class Organism {
 	}
 	
 	public void kill() {
-		SpeciesStatsModel.deadOrganism(species);
-		isDead = true;
+		if(!isDead) {
+			SpeciesStatsModel.deadOrganism(species);
+			isDead = true;
+			containingEnvironment.resourceCount+=feed;
+		}
+		else {
+			System.out.println("kill() called on organism already dead: " + this);
+		}
 	}
 }

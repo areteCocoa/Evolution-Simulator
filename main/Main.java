@@ -26,7 +26,7 @@ public class Main {
 		
 		// Create new world
 		World world = new World(scenario);
-		world.addOrganisms(10);
+		// world.addOrganisms(10);
 		
 		// Display the world
 		WorldViewController mainController = new WorldViewController(world);
