@@ -14,7 +14,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import main.Singleton;
 // import graphics.stats.OverviewViewController;
-import model.*;
+import model.analytical.WorldData;
 
 
 public class EndView extends JPanel {
@@ -36,7 +36,7 @@ public class EndView extends JPanel {
 				deadDataset = new DefaultCategoryDataset(),
 				totalDataset = new DefaultCategoryDataset();
 		
-		GraphDataInitializer.initDatasetFromWorldData(aliveDataset, data, GraphDataInitializer.TOTAL_EVER);
+		GraphDataInitializer.initDatasetFromWorldData(aliveDataset, data, GraphDataInitializer.TOTAL_ALIVE);
 		GraphDataInitializer.initDatasetFromWorldData(deadDataset, data, GraphDataInitializer.TOTAL_DEAD);
 		GraphDataInitializer.initDatasetFromWorldData(totalDataset, data, GraphDataInitializer.TOTAL_EVER);
 		
@@ -52,10 +52,12 @@ public class EndView extends JPanel {
 		tabView.addTab("Total", new ChartPanel(totalChart));
 		
 		customizeChart(aliveChart, data);
+		customizeChart(deadChart, data);
+		customizeChart(totalChart, data);
 		
 		this.add(nameLabel, BorderLayout.NORTH);
 		this.add(tabView, BorderLayout.CENTER);
-		this.add(overviewController, BorderLayout.EAST);
+		// this.add(overviewController, BorderLayout.EAST);
 		this.add(durationDayLabel, BorderLayout.SOUTH);
 	}
 	
@@ -64,7 +66,6 @@ public class EndView extends JPanel {
 		CategoryPlot plot = chart.getCategoryPlot();
 		
 		// CategoryAxis domainAxis = plot.getDomainAxis();
-		
 		
 		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
@@ -77,4 +78,6 @@ public class EndView extends JPanel {
 			render.setSeriesPaint(y, tempColor);
 		}
 	}
+	
+	
 }

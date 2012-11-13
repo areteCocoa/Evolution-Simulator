@@ -21,4 +21,6 @@ public abstract class Trait {
 	public String getName() {
 		return name;
 	}
+	
+	abstract public Trait reproduceTrait();
 }

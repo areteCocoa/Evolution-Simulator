@@ -6,7 +6,8 @@ public class Scenario {
 	
 	public String name;
 	public Dimension size;
-	public int duration, startingSpeciesCount, dayDuration;
+	public int duration, startingOrganismCount, dayDuration;
+	public int startingSpeciesCount, biomeCount;
 	
 	public Scenario() {
 		this(new Dimension());
@@ -21,15 +22,26 @@ public class Scenario {
 		this.name = s.name;
 		this.size = s.size;
 		this.duration = s.duration;
-		this.startingSpeciesCount = s.startingSpeciesCount;
+		this.startingOrganismCount = s.startingOrganismCount;
 		this.dayDuration = s.dayDuration;
+		this.startingSpeciesCount = s.startingSpeciesCount;
+		this.startingOrganismCount = s.startingOrganismCount;
+		this.biomeCount = s.biomeCount;
 	}
 	
 	public void cloneFromScenario(Scenario s) {
 		this.name = s.name;
 		this.size = s.size;
 		this.duration = s.duration;
-		this.startingSpeciesCount = s.startingSpeciesCount;
+		this.startingOrganismCount = s.startingOrganismCount;
 		this.dayDuration = s.dayDuration;
+		this.startingSpeciesCount = s.startingSpeciesCount;
+		this.startingOrganismCount = s.startingOrganismCount;
+		this.biomeCount = s.biomeCount;
+	}
+	
+	public void setStatics() {
+		Environment.biomeCount = this.biomeCount;
+		Organism.speciesCount = this.startingSpeciesCount;
 	}
 }

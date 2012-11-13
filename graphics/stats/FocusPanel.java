@@ -10,14 +10,12 @@ import main.Singleton;
 @SuppressWarnings("serial")
 public class FocusPanel extends JPanel {
 
-	public Environment lastClickedEnvironment;
-	private static FocusPanel activePanel;
+	private Environment lastClickedEnvironment;
 	
 	private static final int envPadding = 2;
 	
 	public FocusPanel() {
 		setBorder(BorderFactory.createLineBorder(Color.black));
-		FocusPanel.activePanel = this;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -53,21 +51,8 @@ public class FocusPanel extends JPanel {
 		}
 	}
 	
-	public static void setEnv(Environment env) {
-		FocusPanel.activePanel.lastClickedEnvironment = env;
-		FocusPanel.activePanel.repaint();
-	}
-	
-	public static void updateActivePanel() {
-		FocusPanel.activePanel.repaint();
-	}
-	
-	public static boolean hasActivePanel() {
-		if(activePanel == null) {
-			return false;
-		}
-		else {
-			return true;
-		}
+	public void setLastClickedEnvironment(Environment e) {
+		lastClickedEnvironment = e;
+		repaint();
 	}
 }

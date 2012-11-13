@@ -54,13 +54,20 @@ public class Organism {
 	
 	public Organism reproduce() {
 		feed--;
-		return new Organism(this);
+		Organism newOrganism = new Organism(this);
+		newOrganism.traits = this.copyTraits();
+		
+		return newOrganism;
 	}
 	
 	public void testSurvival(int deathChance) {
 		if((new Random()).nextInt(100)>deathChance && !isDead) {
 			kill();
 		}
+	}
+	
+	public void testBiomeSurvival() {
+		// Test physical traits compared to the biome
 	}
 	
 	public void update() {
@@ -90,7 +97,6 @@ public class Organism {
 		}
 		
 		// Manipulate traits
-		// TODO Mutate traits
 		if(Dice.getPercentBoolean(1)) {
 			traits.add(new PhysicalTrait());
 		}
@@ -102,8 +108,35 @@ public class Organism {
 		// Chance to mutate
 		// If mutate == true
 		// trait.mutate
+		// Test water survivability
+		boolean canSwim = false;
+		for(int x=0; x>traits.size(); x++) {
+			if(traits.get(x).getName() == "Fins" || traits.get(x).getName() == "Flippers") {
+				canSwim = true;
+				
+				// Temporary reward for having well adapted traits
+				System.out.println("Value is: " + traits.get(x).getValue());
+				if(traits.get(x).getValue() > 1) {
+					System.out.println("Yay!");
+					feed++;
+				}
+			}
+			
+			// Handle the physical traits
+			/* if(traits.get(x).getClass() == PhysicalTrait.class) {
+				PhysicalTrait tempTrait = (PhysicalTrait)traits.get(x);
+				
+			} else if(traits.get(x).getClass() == BehaviorTrait.class) { // Handle the behavioral traits
+				
+			} */
+			
+		}
+		if(canSwim == false && containingEnvironment.biome == 0) { 
+			kill();
+		}		
 	}
 	
+	// Marks organism as dead and notifies stats models
 	public void kill() {
 		if(!isDead) {
 			SpeciesStatsModel.deadOrganism(species);
@@ -111,7 +144,17 @@ public class Organism {
 			containingEnvironment.resourceCount+=feed;
 		}
 		else {
-			System.out.println("kill() called on organism already dead: " + this);
+			System.out.println("Error: kill() called on organism already dead: " + this);
 		}
+	}
+	
+	// Used for possible mutation of traits
+	private ArrayList<Trait> copyTraits() {
+		ArrayList<Trait> traits = new ArrayList<Trait>();
+		for(int x=0; x<this.traits.size(); x++) {
+			traits.add(this.traits.get(x).reproduceTrait());
+		}
+		
+		return traits;
 	}
 }

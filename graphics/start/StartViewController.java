@@ -1,6 +1,9 @@
 package graphics.start;
 
-import graphics.start.create.CreateWorldViewController;
+import graphics.start.create.*;
+import graphics.start.help.*;
+import graphics.start.load.*;
+import graphics.start.scenario.*;
 
 import java.awt.event.*;
 
@@ -53,13 +56,16 @@ public class StartViewController implements WindowListener, ActionListener {
 			createNewWorldWindow();
 		}
 		else if("open".equalsIgnoreCase(e.getActionCommand())) {
-			// comingSoon();
+			LoadViewController loadController = new LoadViewController(mainFrame);
+			loadController.showDialog(true);
 		}
 		else if("scenario".equalsIgnoreCase(e.getActionCommand())) {
-			// comingSoon();
+			ScenarioViewController scenarioWindow = new ScenarioViewController(mainFrame);
+			scenarioWindow.showDialog(true);
 		}
 		else if("help".equalsIgnoreCase(e.getActionCommand())) {
-			// comingSoon();
+			HelpViewController helpController = new HelpViewController(mainFrame);
+			helpController.showDialog(true);
 		}
 		else {
 			System.out.println("Invalid ActionEvent received");
@@ -67,6 +73,7 @@ public class StartViewController implements WindowListener, ActionListener {
 		
 	}
 	
+	// Dialog loading methods
 	private void createNewWorldWindow() {
 		CreateWorldViewController newWorld = new CreateWorldViewController(mainFrame);
 		newWorld.showDialog();

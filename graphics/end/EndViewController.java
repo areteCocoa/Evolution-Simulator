@@ -1,7 +1,8 @@
 package graphics.end;
 
 import javax.swing.*;
-import model.WorldData;
+
+import model.analytical.WorldData;
 
 public class EndViewController {
 	

@@ -3,3 +3,7 @@ green
 red
 blue
 cyan
+pink
+black
+green
+magenta

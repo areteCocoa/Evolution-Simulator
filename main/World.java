@@ -1,7 +1,10 @@
 package main;
 
 import java.util.*;
+
 import model.*;
+import model.analytical.DayDataManager;
+import model.analytical.WorldData;
 
 public class World implements Runnable{
 	public int height, width;
@@ -38,11 +41,55 @@ public class World implements Runnable{
 		dayData = new DayDataManager();
 		
 		environments = new Environment[width][height];
+		/*
+        # Fill world with land
+        while (world.LAND_COUNT > 0):
+            randEnv = self.environments[random.randrange(0, 80)][random.randrange(0, 40)];
+            if(randEnv.biome == 0):
+                world.LAND_COUNT = world.LAND_COUNT - 1;
+                randEnv.biome = 1;
+                tempCount = random.randrange(10, 20);
+                tempEnv = randEnv;
+                
+                # Create land off of existing land
+                while(tempCount > 0):
+                    for x in range(-1, 1, 1):
+                        for y in range(-1, 1, 1):
+                            tempEnv = self.environments[tempEnv.coordinates[0]+x][tempEnv.coordinates[1]+y];
+                            if(tempEnv.getBiome() != 1):
+                                if(random.randrange(1, 10) > 0):
+                                    tempEnv.setBiome(1);
+                                    world.LAND_COUNT = world.LAND_COUNT - 1;
+                                    tempCount = tempCount - 1;
+                    randEnv = self.environments[tempEnv.coordinates[0]+random.randrange(-1, 1)][tempEnv.coordinates[1]+random.randrange(-1, 1)];  
+                # End
+        */
+		// Fill world with water
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				environments[x][y] = new Environment(this, x, y, 0);
+			}
+		}
+		
+		// Add land
+		int landCount = 50;
+		while(landCount > 0) {
+			int x = (new Random()).nextInt(width), y = (new Random()).nextInt(height);
+			Environment randomEnvironment = environments[x][y];
+			if(randomEnvironment.biome == 0) {
+				landCount--;
+				environments[x][y] = new Environment(this, x, y, 1);
+			}
+		}
+		
+		/*
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
 				environments[x][y] = new Environment(this, x, y);
 			}
 		}
+		*/
+		
 		dataListeners = new ArrayList<DataListener>();
 		
 		worldData = new WorldData();
@@ -52,7 +99,7 @@ public class World implements Runnable{
 		this(scenario.size.height, scenario.size.width, scenario.duration);
 		this.worldData.name = scenario.name;
 		this.dayDuration = scenario.dayDuration;
-		this.addOrganisms(scenario.startingSpeciesCount);
+		this.addOrganisms(scenario.startingOrganismCount);
 	}
 
 	public void addOrganisms(int count) {
@@ -104,9 +151,7 @@ public class World implements Runnable{
 			catch (InterruptedException e) {System.out.println("ERROR");}
 		}
 		if(doneRunning) {
-			worldData.daysRun = day;
-			worldData.intendedDuration = duration;
-			worldData.dayData = this.dayData;
+			updateWorldData();
 		}
 	}
 	
@@ -122,7 +167,13 @@ public class World implements Runnable{
 		worldThread.start();
 	}
 	
+	private void updateWorldData() {
+		worldData.daysRun = day;
+		worldData.intendedDuration = duration;
+		worldData.dayData = this.dayData;
+	}
 	public WorldData getWorldData() {
+		updateWorldData();
 		return worldData;
 	}
 	

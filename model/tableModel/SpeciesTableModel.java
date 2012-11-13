@@ -15,7 +15,7 @@ public class SpeciesTableModel extends AbstractTableModel {
 	final String[] columnHeader = {"Species #", "Name", "Color"};
 	
 	public SpeciesTableModel() {
-		tableData = new Object[Organism.speciesCount+1][3];
+		tableData = new Object[Organism.speciesCount][3];
 		for(int y=0; y<tableData.length; y++) {
 			tableData[y][0] = Integer.toString(y);
 			tableData[y][1] = Singleton.organismNameTable.get(y);
@@ -30,7 +30,7 @@ public class SpeciesTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return tableData.length-1;
+		return tableData.length;
 	}
 
 	@Override

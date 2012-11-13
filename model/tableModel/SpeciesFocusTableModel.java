@@ -27,9 +27,9 @@ public class SpeciesFocusTableModel extends AbstractTableModel {
 		
 		setLabelColumn();
 		
-		tableData[0][1] = SpeciesStatsModel.totalAlive[species];
-		tableData[1][1] = SpeciesStatsModel.totalDead[species];
-		tableData[2][1] = SpeciesStatsModel.totalEver[species];
+		tableData[0][1] = Integer.toString(SpeciesStatsModel.totalAlive[species]);
+		tableData[1][1] = Integer.toString(SpeciesStatsModel.totalDead[species]);
+		tableData[2][1] = Integer.toString(SpeciesStatsModel.totalEver[species]);
 	}
 	
 	public void setLabelColumn() {

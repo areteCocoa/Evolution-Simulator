@@ -71,7 +71,7 @@ public class StatsPanel extends JPanel implements Runnable, DataListener {
 		int workingHeight = height - (int)(workingWidth*.6);
 		
 		int[] columnWidths = {height - workingHeight, (int)(workingWidth*.4)};
-		int[] rowHeights = {(int)(workingHeight*.10), (int)(workingHeight*.8), (int)(workingHeight*.05), height - workingHeight};
+		int[] rowHeights = {(int)(workingHeight*.10), (int)(workingHeight*.84), (int)(workingHeight*.05), height - workingHeight};
 		
 		gridBag.columnWidths = columnWidths;
 		gridBag.rowHeights = rowHeights;

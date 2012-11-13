@@ -20,4 +20,8 @@ public class BehaviorTrait extends Trait {
 		
 		return temp;
 	}
+
+	public Trait reproduceTrait() {
+		return null;
+	}
 }

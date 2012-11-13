@@ -7,7 +7,10 @@ import model.BiomeStatsModel;
 import model.EnvironmentStatsModel;
 
 public class Environment {
-	public static int biomeCount = 3;
+	public static int biomeCount;
+	
+	private static int[] heights = {5, 7, 9, 11, 13, 15},
+			widths = {7, 9, 13, 16, 18, 21};
 	
 	public int biome;
 	public Point coordinates;
@@ -18,7 +21,7 @@ public class Environment {
 	World world;
 	
 	public Environment(World world, int x, int y) {
-		this(world, x, y, (new Random()).nextInt(biomeCount));
+		this(world, x, y, (new Random()).nextInt(biomeCount)+1);
 	}
 	
 	public Environment(World world, int x, int y, int biomeType) {
@@ -29,9 +32,9 @@ public class Environment {
 		organisms = new ArrayList<Organism>();
 		incomingOrganisms = new ArrayList<Organism>();
 		
-		resourceRegenRate = (new Random()).nextInt(9)+1;
-		resourceCount = resourceRegenRate * 4;
-		resourceMax = resourceCount*2;
+		resourceRegenRate = (new Random()).nextInt(5)+5;
+		resourceCount = resourceRegenRate * 2;
+		resourceMax = resourceRegenRate*8;
 		
 		// All statistics data
 		BiomeStatsModel.newBiomeCreated(biomeType);
@@ -78,7 +81,7 @@ public class Environment {
 			tempOrganism.update();
 			
 			// Test the survival
-			tempOrganism.testSurvival(100 - Math.abs(biome - organisms.get(c).species)*75);
+			// tempOrganism.testSurvival(200 - Math.abs(biome - organisms.get(c).species)*75);
 			
 			// Add dead organisms to list to be removed later
 			if(tempOrganism.isDead) {
@@ -120,5 +123,22 @@ public class Environment {
 	
 	public EnvironmentStatsModel getEnvironmentStats() {
 		return (new EnvironmentStatsModel(this));
+	}
+	
+	// Statics
+	// Return Dimension given index from sizeStrings array
+	public static Dimension getDimensionFromIndex(int index) {
+		if(index < widths.length) {
+			return (new Dimension(widths[index], heights[index]));
+		}
+		return null;
+	}
+	
+	public static String[] getSizesAsString() {
+		String[] strings = new String[widths.length];
+		for(int c = 0; c < widths.length; c++) {
+			strings[c] = (String.valueOf(heights[c]) + " x " + String.valueOf(widths[c]));
+		}
+		return strings;
 	}
 }

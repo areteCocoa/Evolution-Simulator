@@ -1,4 +1,4 @@
-package model;
+package model.analytical;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,8 @@ public class DayDataManager {
 	
 	public void update() {
 		dayData.add(new Day());
+		// System.out.println(dayData.get(day).getSpeciesStatsModel().getTotal(0));
+		day++;
 	}
 	
 	public Day getDayData(int day) {

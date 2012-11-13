@@ -1,4 +1,6 @@
-package model;
+package model.analytical;
+
+import model.SpeciesStatsModel;
 
 public class Day {
 	

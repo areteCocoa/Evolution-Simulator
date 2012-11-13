@@ -1,6 +1,6 @@
-Arm
-Leg
-Finger
-Nose
+Fins
+Flippers
 Brain
+Eyeball
+Arms
 Torso

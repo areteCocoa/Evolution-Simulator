@@ -1,7 +1,5 @@
 package graphics;
 
-import graphics.stats.FocusPanel;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -16,7 +14,9 @@ import main.*;
 public class WorldPanel extends JPanel implements Runnable, MouseListener, DataListener{
 	public static int envSize = 150;
 	public static int cellPadding = 5;
-
+	private int updateCount = 0;
+	private static int UPDATE_LIMIT = 2;
+	
 	SimplifiedMouseListener[] SMListeners;
 	
 	World world;
@@ -79,7 +79,13 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 		SMListeners[0] = l;
 	}
 	
-	
+	private void mouseEventHappened(MouseEvent e) {
+		int tempX = e.getX()/(envSize + cellPadding), tempY = e.getY()/(envSize + cellPadding);
+		// FocusPanel.setEnv(world.environments[tempX][tempY]);
+		if(SMListeners[0] != null) {
+			SMListeners[0].fireMouseEvent(new SimplifiedMouseEvent("Environment Update", 0, new Point(tempX, tempY)));
+		}
+	}
 	
 	@Override
 	public void run() {
@@ -88,17 +94,18 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 
 	@Override
 	public void fireDataUpdate() {
-		thread = new Thread(this, "World-GUI");
-		thread.start();
+		updateCount++;
+		if(updateCount>WorldPanel.UPDATE_LIMIT) {
+			thread = new Thread(this, "World-GUI");
+			thread.start();
+			updateCount = 0;
+		}
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int tempX = e.getX()/(envSize + cellPadding), tempY = e.getY()/(envSize + cellPadding);
-		FocusPanel.setEnv(world.environments[tempX][tempY]);
-		if(SMListeners[0] != null) {
-			SMListeners[0].fireMouseEvent(new SimplifiedMouseEvent("Environment Update", 0, new Point(tempX, tempY)));
-		}
+		// Creates weird interface interactions
+		// mouseEventHappened(e);
 	}
 
 	@Override
@@ -108,8 +115,13 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	public void mousePressed(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		mouseEventHappened(e);
+	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		// Creates weird interface interactions
+		// mouseEventHappened(e);
+	}
 }

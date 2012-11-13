@@ -1,5 +1,5 @@
-Ice Sheet
-Polar Desert
+Ocean
+Ice Sheet/Polar Desert
 Tundra
 Taiga
 Temperate Broadleaf Forest

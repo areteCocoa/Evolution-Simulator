@@ -12,7 +12,7 @@ public class EnvironmentTableModel extends AbstractTableModel {
 	final String[] columnHeader = {"Biome #", "Name", "Color"};
 	
 	public EnvironmentTableModel() {
-		tableData = new Object[Environment.biomeCount+1][3];
+		tableData = new Object[Environment.biomeCount][3];
 		for(int y=0; y<tableData.length; y++) {
 			tableData[y][0] = Integer.toString(y);
 			tableData[y][1] = Singleton.biomeNameTable.get(y);
@@ -27,7 +27,7 @@ public class EnvironmentTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return tableData.length-1;
+		return tableData.length;
 	}
 
 	@Override

@@ -2,8 +2,11 @@ Cat
 Dog
 Butterfly
 Dinosaur
-Sim
+Spider
 Capybera
 Echidna
 Okapi
 Cassowary
+Flying Bison
+Pokemon
+Monkey

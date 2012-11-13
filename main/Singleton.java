@@ -6,14 +6,14 @@ import java.lang.reflect.*;
 import java.util.*;
 
 public class Singleton {
-	public static Hashtable<Integer, Color> biomeColorTable;
-	public static Hashtable<Integer, Color> organismColorTable;
+	public static ArrayList<Color> biomeColorTable;
+	public static ArrayList<Color> organismColorTable;
 	
-	public static Hashtable<Integer, String> organismNameTable;
-	public static Hashtable<Integer, String> biomeNameTable;
+	public static ArrayList<String> organismNameTable;
+	public static ArrayList<String> biomeNameTable;
 	
-	public static Hashtable<Integer, String> behaviorTraitTable;
-	public static Hashtable<Integer, String> physicalTraitTable;
+	public static ArrayList<String> behaviorTraitTable;
+	public static ArrayList<String> physicalTraitTable;
 	
 	
 	public static Font defaultFont;
@@ -32,10 +32,8 @@ public class Singleton {
 		readFileToList("organismColors.txt", organismColorList);
 		
 		// List of biome colors
-		ArrayList<Color> biomeColorList = new ArrayList<Color>();
-		biomeColorList.add(Color.black);
-		biomeColorList.add(Color.gray);
-		biomeColorList.add(new Color(25, 25, 25));
+		ArrayList<String> biomeColorList = new ArrayList<String>();
+		readFileToList("biomeColors.txt", biomeColorList);
 	
 		// List of biome names
 		ArrayList<String> biomeNameList = new ArrayList<String>();
@@ -51,50 +49,50 @@ public class Singleton {
 		
 		// All the static Hashtables
 		// Table of Color per Biome
-		biomeColorTable = new Hashtable<Integer, Color>(); // TODO Read biomeColorList to this table
-		biomeColorTable.put(0, Color.black);
-		biomeColorTable.put(1, new Color(50, 50, 50));
-		biomeColorTable.put(2, Color.gray);
+		biomeColorTable = new ArrayList<Color>();
+		// randomizeListToColorArrayList(biomeColorList, biomeColorTable);
+		for(int x = 0; x < biomeColorList.size(); x++) {
+			if(stringToColor(biomeColorList.get(x)) != null) {
+				biomeColorTable.add(stringToColor(biomeColorList.get(x)));
+			}
+		}
 		
-		organismColorTable = new Hashtable<Integer, Color>();
-		randomizeListToColorHashtable(organismColorList, organismColorTable);
+		organismColorTable = new ArrayList<Color>();
+		randomizeListToColorArrayList(organismColorList, organismColorTable);
 		
-		organismNameTable = new Hashtable<Integer, String>();
-		randomizeListToStringHashtable(nameList, organismNameTable);
+		organismNameTable = new ArrayList<String>();
+		randomizeListToStringArrayList(nameList, organismNameTable);
 		
-		biomeNameTable = new Hashtable<Integer, String>();
-		randomizeListToStringHashtable(biomeNameList, biomeNameTable);
+		biomeNameTable = new ArrayList<String>();
+		// randomizeListToStringArrayList(biomeNameList, biomeNameTable);
+		biomeNameTable = biomeNameList;
 		
-		behaviorTraitTable = new Hashtable<Integer, String>();
-		randomizeListToStringHashtable(behaviorTraitList, behaviorTraitTable);
+		behaviorTraitTable = new ArrayList<String>();
+		randomizeListToStringArrayList(behaviorTraitList, behaviorTraitTable);
 		
-		physicalTraitTable = new Hashtable<Integer, String>();
-		randomizeListToStringHashtable(physicalTraitList, physicalTraitTable);
+		physicalTraitTable = new ArrayList<String>();
+		randomizeListToStringArrayList(physicalTraitList, physicalTraitTable);
 	}
 	
-	public static void randomizeListToStringHashtable(ArrayList<String> list, Hashtable<Integer, String> table) {
+	public static void randomizeListToStringArrayList(ArrayList<String> list, ArrayList<String> table) {
 		Random rand = new Random();
 		int randInt;
-		int count = 0;
 		
 		while(list.size() > 0) {
 			 randInt = rand.nextInt(list.size());
-			 table.put(count, list.get(randInt));
+			 table.add(list.get(randInt));
 			 list.remove(randInt);
-			 count++;
 		}
 	}
 	
-	public static void randomizeListToColorHashtable(ArrayList<String> list, Hashtable<Integer, Color> table) {
+	public static void randomizeListToColorArrayList(ArrayList<String> list, ArrayList<Color> table) {
 		Random rand = new Random();
 		int randInt;
-		int count = 0;
 		
 		while(list.size() > 0) {
 			 randInt = rand.nextInt(list.size());
-			 table.put(count, stringToColor(list.get(randInt)));
+			 table.add(stringToColor(list.get(randInt)));
 			 list.remove(randInt);
-			 count++;
 		}
 	}
 	
@@ -116,11 +114,22 @@ public class Singleton {
 	public static Color stringToColor(String string) {
 		Color color;
 		try {
-			Field field = Color.class.getField(string);
-			color = (Color)field.get(null);
+			if(Character.isLetter(string.charAt(0))) {
+				Field field = Color.class.getField(string);
+				color = (Color)field.get(null);
+			}
+			else if(Character.isDigit(string.charAt(0))) {
+				int red = Integer.parseInt(string.substring(0, 3)),
+						green = Integer.parseInt(string.substring(4, 7)),
+						blue = Integer.parseInt(string.substring(8, 11));
+				color = new Color(red, green, blue);
+			}
+			else {
+				color = null;
+			}
 		} catch (Exception e) {
 		    color = null;
-		    System.out.println("Error processing stringToColor");
+		    System.out.println("Error processing stringToColor: " + string);
 		}
 		return color;
 	}

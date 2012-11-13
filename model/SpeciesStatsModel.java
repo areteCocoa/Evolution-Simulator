@@ -8,9 +8,11 @@ public class SpeciesStatsModel {
 	public static int[] totalAlive = new int[speciesCount];
 	public static int[] totalEver = new int[speciesCount];
 	
+	/*
 	private static int[] todayDead = new int[speciesCount];
 	private static int[] todayAlive = new int[speciesCount];
 	private static int[] todayEver = new int[speciesCount];
+	*/
 	
 	private int _speciesCount;
 	private int[] _totalDead, _totalAlive, _totalEver;
@@ -19,16 +21,20 @@ public class SpeciesStatsModel {
 		totalAlive[species]++;
 		totalEver[species]++;
 		
+		/*
 		todayAlive[species]++;
 		todayEver[species]++;
+		*/
 	}
 	
 	public static void deadOrganism(int species) {
 		totalDead[species]++;
 		totalAlive[species]--;
 		
-		todayAlive[species]++;
+		/*
+		todayDead[species]++;
 		todayAlive[species]--;
+		*/
 	}
 	
 	public static SpeciesStatsModel getInstance() {
@@ -38,36 +44,24 @@ public class SpeciesStatsModel {
 	public static SpeciesStatsModel getTodayInstance() {
 		SpeciesStatsModel temp = new SpeciesStatsModel();
 		
-		temp._speciesCount = speciesCount;
-		temp._totalAlive = todayAlive;
-		temp._totalDead = todayDead;
-		temp._totalEver = todayEver;
-		
 		return temp;
 	}
 	
 	public static void newDay() {
-		todayDead = new int[speciesCount];
-		todayAlive = new int[speciesCount];
-		todayEver = new int[speciesCount];
+		// todayDead = new int[speciesCount];
+		// todayAlive = new int[speciesCount];
+		// todayEver = new int[speciesCount];
 	}
 	
 	private SpeciesStatsModel() {
 		_speciesCount = speciesCount;
-		_totalDead = totalDead;
-		_totalAlive = totalAlive;
-		_totalEver = totalEver;
+		_totalDead = totalDead.clone();
+		_totalAlive = totalAlive.clone();
+		_totalEver = totalEver.clone();
 	}
 	
 	public int getSpeciesCount() {
 		return _speciesCount;
-	}
-	
-	public int getTotalDead(int index) {
-		if(index < _totalDead.length) {
-			return _totalDead[index];
-		}
-		return 0;
 	}
 	
 	public int getTotalAlive(int index) {
@@ -77,22 +71,17 @@ public class SpeciesStatsModel {
 		return 0;
 	}
 	
+	public int getTotalDead(int index) {
+		if(index < _totalDead.length) {
+			return _totalDead[index];
+		}
+		return 0;
+	}
+	
 	public int getTotal(int index) {
 		if(index < _totalEver.length) {
 			return _totalEver[index];
 		}
 		return 0;
-	}
-	
-	public int[] getTotalDeadArray() {
-		return _totalDead;
-	}
-	
-	public int[] getTotalAliveArray() {
-		return _totalAlive;
-	}
-	
-	public int[] getTotalArray() {
-		return _totalEver;
 	}
 }

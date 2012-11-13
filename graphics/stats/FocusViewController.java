@@ -58,7 +58,7 @@ public class FocusViewController extends JPanel implements SimplifiedMouseListen
 		if(s.getCustomObject().getClass() == Point.class) {
 			p = (Point) s.getCustomObject();
 			lastClickedEnvironment = world.environments[p.x][p.y];
-			focusPanel.lastClickedEnvironment = this.lastClickedEnvironment;
+			focusPanel.setLastClickedEnvironment(lastClickedEnvironment);
 			focusInfoPanel.setLastClickedEnvironment(lastClickedEnvironment);
 		}
 	}

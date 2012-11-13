@@ -2,6 +2,7 @@ package graphics.stats;
 
 import java.awt.*;
 import javax.swing.*;
+
 import model.tableModel.*;
 
 public class OverviewInfoPanel extends JPanel {
@@ -36,6 +37,8 @@ public class OverviewInfoPanel extends JPanel {
 			tables[x].setRowHeight(30);
 			tables[x].setEnabled(false);
 			tables[x].getColumnModel().setColumnMargin(1);
+			tables[x].getTableHeader().setResizingAllowed(false);
+			tables[x].getTableHeader().setReorderingAllowed(false);
 		}
 		
 		scrollPane.setViewportView(biomeTable);

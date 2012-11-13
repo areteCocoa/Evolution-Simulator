@@ -16,7 +16,7 @@ import model.tableModel.*;
 
 public class OverviewPanel extends JPanel implements MouseListener, KeyListener, TableCellRenderer {
 	private static final long serialVersionUID = 1L;
-
+	
 	JTabbedPane tabbedView;
 	JTable environmentTable, speciesTable;
 	JTable[] tables;
@@ -51,6 +51,8 @@ public class OverviewPanel extends JPanel implements MouseListener, KeyListener,
 			tables[x].setColumnSelectionAllowed(false);
 			tables[x].setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			tables[x].getColumnModel().getColumn(2).setCellRenderer(this);
+			tables[x].getTableHeader().setResizingAllowed(false);
+			tables[x].getTableHeader().setReorderingAllowed(false);
 			tables[x].addMouseListener(this);
 			tables[x].addKeyListener(this);
 		}
@@ -65,11 +67,12 @@ public class OverviewPanel extends JPanel implements MouseListener, KeyListener,
 	}
 	
 	public void resizeTable(int width) {
-		int maxWidth = (int)(width*.9);
+		int colorCellWidth = tables[0].getRowHeight(),
+				maxWidth = (int)(width*.9)-colorCellWidth;
 		for(int x=0; x<tables.length; x++) {
-			tables[x].getColumnModel().getColumn(0).setPreferredWidth((int)(maxWidth*.2));
-			tables[x].getColumnModel().getColumn(1).setPreferredWidth((int)(maxWidth*.6));
-			tables[x].getColumnModel().getColumn(2).setPreferredWidth((int)(maxWidth*.2));
+			tables[x].getColumnModel().getColumn(0).setPreferredWidth((int)(maxWidth*.3));
+			tables[x].getColumnModel().getColumn(1).setPreferredWidth((int)(maxWidth*.7));
+			tables[x].getColumnModel().getColumn(2).setPreferredWidth((int)(colorCellWidth));
 		}
 	}
 	

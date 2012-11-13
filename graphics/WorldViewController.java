@@ -36,12 +36,13 @@ public class WorldViewController implements DataListener{
 		int MPWidth = (int)(workingWidth*.7), MPHeight = (int)(workingHeight*.8);
 		if(world.height > world.width) {
 			WorldPanel.envSize = (MPHeight - (WorldPanel.cellPadding*(world.height + 1)))/world.height;
-			MPWidth = (WorldPanel.cellPadding*(world.width)) + (WorldPanel.envSize*world.width);
 		}
 		else if(world.height < world.width) {
-			WorldPanel.envSize = (MPWidth - (WorldPanel.cellPadding*(world.width+1)))/world.width;
-			MPHeight = (WorldPanel.cellPadding*(world.height+1)) + (WorldPanel.envSize*world.height);
+			WorldPanel.envSize = (MPWidth - (WorldPanel.cellPadding*(world.width + 1)))/world.width;
 		}
+		
+		MPWidth = (WorldPanel.cellPadding*(world.width + 1)) + ((WorldPanel.envSize)*world.width);
+		MPHeight = (WorldPanel.cellPadding*(world.height + 1)) + (WorldPanel.envSize*world.height);
 		
 		// Set rectangles for the panels
 		mainRectangle = new Rectangle(panelPadding, panelPadding, MPWidth, MPHeight);

@@ -2,7 +2,8 @@ package graphics.end;
 
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import model.WorldData;
+import main.Singleton;
+import model.analytical.WorldData;
 
 
 public class GraphDataInitializer {
@@ -15,24 +16,30 @@ public class GraphDataInitializer {
 		if(dataType == TOTAL_ALIVE) {
 			for(int y=0; y<data.speciesStats.getSpeciesCount(); y++) {
 				for(int x=0; x<data.daysRun; x++) {
+					String label = new String(Singleton.organismNameTable.get(y));
+					// new String("Organism " + Integer.toString(y))
 					dataset.addValue(data.dayData.getDayData(x).getSpeciesStatsModel().getTotalAlive(y),
-							new String("Organism " + Integer.toString(y)), new String("Day " + Integer.toString(x)));
+							label, new String("Day " + Integer.toString(x)));
 				}
 			}
 		}
 		else if(dataType == TOTAL_DEAD) {
 			for(int y=0; y<data.speciesStats.getSpeciesCount(); y++) {
 				for(int x=0; x<data.daysRun; x++) {
+					String label = new String(Singleton.organismNameTable.get(y));
+					// new String("Organism " + Integer.toString(y))
 					dataset.addValue(data.dayData.getDayData(x).getSpeciesStatsModel().getTotalDead(y),
-							new String("Organism " + Integer.toString(y)), new String("Day " + Integer.toString(x)));
+							label, new String("Day " + Integer.toString(x)));
 				}
 			}
 		}
 		else if(dataType == TOTAL_EVER) {
 			for(int y=0; y<data.speciesStats.getSpeciesCount(); y++) {
 				for(int x=0; x<data.daysRun; x++) {
+					String label = new String(Singleton.organismNameTable.get(y));
+					// new String("Organism " + Integer.toString(y))
 					dataset.addValue(data.dayData.getDayData(x).getSpeciesStatsModel().getTotal(y),
-							new String("Organism " + Integer.toString(y)), new String("Day " + Integer.toString(x)));
+							label, new String("Day " + Integer.toString(x)));
 				}
 			}
 		}		

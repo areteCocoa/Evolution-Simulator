@@ -8,7 +8,7 @@ import main.Singleton;
 public class EnvironmentStatsModel {
 	public String name;
 	public Point coordinates;
-	public int biome, resourceCount, resourceRate;
+	public int biome, resourceCount, resourceRate, resourceMax;
 	
 	public EnvironmentStatsModel(Environment e) {
 		this.coordinates = e.coordinates;
@@ -16,5 +16,6 @@ public class EnvironmentStatsModel {
 		this.name = Singleton.biomeNameTable.get(this.biome);
 		this.resourceCount = e.resourceCount;
 		this.resourceRate = e.resourceRegenRate;
+		this.resourceMax = e.resourceMax;
 	}
 }
