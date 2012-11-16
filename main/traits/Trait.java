@@ -22,5 +22,9 @@ public abstract class Trait {
 		return name;
 	}
 	
+	protected void setValue(int value) {
+		this.value = value;
+	}
+	
 	abstract public Trait reproduceTrait();
 }

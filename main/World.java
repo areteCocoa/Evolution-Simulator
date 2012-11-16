@@ -41,6 +41,8 @@ public class World implements Runnable{
 		dayData = new DayDataManager();
 		
 		environments = new Environment[width][height];
+		// Original python code
+		
 		/*
         # Fill world with land
         while (world.LAND_COUNT > 0):
@@ -64,6 +66,8 @@ public class World implements Runnable{
                     randEnv = self.environments[tempEnv.coordinates[0]+random.randrange(-1, 1)][tempEnv.coordinates[1]+random.randrange(-1, 1)];  
                 # End
         */
+		
+		
 		// Fill world with water
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
@@ -82,6 +86,8 @@ public class World implements Runnable{
 			}
 		}
 		
+		// Single land mass creation
+		// Save for future use?
 		/*
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
@@ -148,7 +154,7 @@ public class World implements Runnable{
 			try {
 				Thread.sleep(dayDuration);
 			}
-			catch (InterruptedException e) {System.out.println("ERROR");}
+			catch (InterruptedException e) {System.out.println("Threading error in world.");}
 		}
 		if(doneRunning) {
 			updateWorldData();

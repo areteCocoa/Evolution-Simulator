@@ -1,7 +1,5 @@
 package graphics.end;
 
-import graphics.stats.OverviewViewController;
-
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,7 +27,7 @@ public class EndView extends JPanel {
 		nameLabel = new JLabel("Name: " + data.name);
 		durationDayLabel = new JLabel(data.daysRun + "/" + data.intendedDuration);
 		
-		OverviewViewController overviewController = new OverviewViewController();
+		// OverviewViewController overviewController = new OverviewViewController();
 		
 		// Initialize chart data
 		DefaultCategoryDataset aliveDataset = new DefaultCategoryDataset(),

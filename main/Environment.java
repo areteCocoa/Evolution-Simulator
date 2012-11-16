@@ -14,7 +14,7 @@ public class Environment {
 	
 	public int biome;
 	public Point coordinates;
-	public ArrayList<Organism> organisms, incomingOrganisms;
+	public ArrayList<Organism> organisms, incomingOrganisms, newOrganisms;
 	
 	public int resourceCount, resourceRegenRate, resourceMax;
 	
@@ -29,8 +29,10 @@ public class Environment {
 		this.world = world;
 		coordinates = new Point(x, y);
 		biome = biomeType;
+		
 		organisms = new ArrayList<Organism>();
 		incomingOrganisms = new ArrayList<Organism>();
+		newOrganisms = new ArrayList<Organism>();
 		
 		resourceRegenRate = (new Random()).nextInt(5)+5;
 		resourceCount = resourceRegenRate * 2;
@@ -53,6 +55,11 @@ public class Environment {
 	
 	public void addIncomingOrganism(Organism o) {
 		incomingOrganisms.add(o);
+		o.containingEnvironment = this;
+	}
+	
+	public void addReproducedOrganism(Organism o) {
+		newOrganisms.add(o);
 	}
 	
 	public void update() {
@@ -69,9 +76,7 @@ public class Environment {
 		}
 		
 		// Update all organisms, reproduce, sweep out old organisms with "isDead"
-		Random rand = new Random();
-		ArrayList<Organism> newOrganisms = new ArrayList<Organism>(),
-				deadOrganisms = new ArrayList<Organism>(),
+		ArrayList<Organism> deadOrganisms = new ArrayList<Organism>(),
 				outgoingOrganisms = new ArrayList<Organism>();
 		
 		Organism tempOrganism;
@@ -88,11 +93,7 @@ public class Environment {
 				deadOrganisms.add(tempOrganism);
 			}
 			
-			// Chance to reproduce/migrate
-			if(rand.nextBoolean() && !deadOrganisms.contains(tempOrganism)) {
-				newOrganisms.add(tempOrganism.reproduce());
-			}
-			
+			// Does it want to migrate?
 			if(tempOrganism.wantsMigration && !tempOrganism.isDead) {
 				outgoingOrganisms.add(tempOrganism);
 				
@@ -119,6 +120,7 @@ public class Environment {
 		organisms.removeAll(outgoingOrganisms);
 		
 		incomingOrganisms.removeAll(incomingOrganisms);
+		newOrganisms.removeAll(newOrganisms);
 	}
 	
 	public EnvironmentStatsModel getEnvironmentStats() {

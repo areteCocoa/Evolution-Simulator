@@ -14,8 +14,6 @@ public class EndViewController {
 		
 		mainFrame = new JFrame("End of Simulation Analysis");
 		mainFrame.setContentPane(endView);
-		// mainFrame.addWindowListener(this);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mainFrame.pack();
 		mainFrame.setLocationRelativeTo(null);
@@ -23,5 +21,9 @@ public class EndViewController {
 	
 	public void showFrame() {
 		mainFrame.setVisible(true);
+	}
+	
+	public boolean isVisible() {
+		return mainFrame.isVisible();
 	}
 }

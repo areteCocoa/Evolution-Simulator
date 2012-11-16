@@ -1,6 +1,4 @@
 Fins
 Flippers
-Brain
-Eyeball
-Arms
-Torso
+Useless Limb
+Another Useless Trait

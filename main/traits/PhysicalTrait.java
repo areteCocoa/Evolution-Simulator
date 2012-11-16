@@ -24,7 +24,7 @@ public class PhysicalTrait extends Trait {
 		
 		// Chance for mutation after reproducing trait
 		if(Dice.getPercentBoolean(1)) {
-			temp.value += ((new Random()).nextInt(3))-1;
+			temp.setValue(temp.getValue() + ( ((new Random()).nextInt(3))-1));
 			if(temp.value < 0) {
 				temp.value = 0;
 			}

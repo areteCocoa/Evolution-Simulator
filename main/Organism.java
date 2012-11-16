@@ -84,6 +84,10 @@ public class Organism {
 		// Eat
 		if(feed>0) {
 			feed--;
+			// More traits requires more food
+			for(int x=0; x<traits.size(); x++) {
+				feed--;
+			}
 		}
 		else if(!isDead) {
 			kill();
@@ -104,21 +108,19 @@ public class Organism {
 		if(age==maxAge.getValue() && !this.isDead) {
 			kill();
 		}
-		// For all the traits
-		// Chance to mutate
-		// If mutate == true
-		// trait.mutate
+		
 		// Test water survivability
+		// Temporary implementation, eventually work towards dynamic implementations for different biomes/traits
 		boolean canSwim = false;
-		for(int x=0; x>traits.size(); x++) {
-			if(traits.get(x).getName() == "Fins" || traits.get(x).getName() == "Flippers") {
+		for(int x=0; x<traits.size(); x++) {
+			if(traits.get(x).getName() == Singleton.physicalTraitTable.get(0) || traits.get(x).getName() == Singleton.physicalTraitTable.get(1)) {
 				canSwim = true;
 				
-				// Temporary reward for having well adapted traits
-				System.out.println("Value is: " + traits.get(x).getValue());
-				if(traits.get(x).getValue() > 1) {
-					System.out.println("Yay!");
-					feed++;
+				if(containingEnvironment.biome == 0) {
+					// Temporary reward for having well adapted traits
+					if(traits.get(x).getValue() > 1) {
+						feed++;
+					}
 				}
 			}
 			
@@ -133,7 +135,12 @@ public class Organism {
 		}
 		if(canSwim == false && containingEnvironment.biome == 0) { 
 			kill();
-		}		
+		}
+		
+		// Chance to reproduce/migrate
+		if((new Random()).nextBoolean() && !isDead) {
+			containingEnvironment.addReproducedOrganism(this.reproduce());
+		}
 	}
 	
 	// Marks organism as dead and notifies stats models

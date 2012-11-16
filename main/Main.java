@@ -12,7 +12,7 @@ public class Main {
 		// Initialize the Singleton and all the files
 		Singleton.main();
 		
-		// Create a scenario file to lock (and possibly load) - no pun intended.
+		// Create a scenario file to lock (and possibly load)
 		Scenario scenario = new Scenario();
 		
 		// Create first window to see what the user wants
@@ -26,7 +26,6 @@ public class Main {
 		
 		// Create new world
 		World world = new World(scenario);
-		// world.addOrganisms(10);
 		
 		// Display the world
 		WorldViewController mainController = new WorldViewController(world);
@@ -35,9 +34,7 @@ public class Main {
 		// Set up updating
 		world.addDataListener(mainController);
 		
-		// Auto-start the world - possibly remove later
-		// world.startThread();
-		
+		// Wait for world to finish running - either user force stop or duration has ended
 		while(!world.isDoneRunning()) {
 			try {
 				Thread.sleep(100);
@@ -52,6 +49,15 @@ public class Main {
 			
 			EndViewController endWindow = new EndViewController(world.getWorldData());
 			endWindow.showFrame();
+			while(endWindow.isVisible()) {
+				try {
+					Thread.sleep(100);
+				}
+				catch (InterruptedException e) {System.out.println("ERROR");}
+			}
 		}
+		
+		// Easy lazy loop
+		Main.main(args);
 	}
 }
