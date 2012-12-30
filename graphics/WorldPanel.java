@@ -2,6 +2,7 @@ package graphics;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -15,11 +16,12 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 	public static int envSize = 150;
 	public static int cellPadding = 5;
 	private int updateCount = 0;
-	private static int UPDATE_LIMIT = 2;
+	private static int UPDATE_LIMIT = 0;
 	
-	SimplifiedMouseListener[] SMListeners;
+	ArrayList<SimplifiedMouseListener> SMListeners;
 	
-	World world;
+	private EnvironmentGraphics[][] worldGraphics;
+	private World world;
 	
 	Thread thread;
 	
@@ -27,9 +29,16 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		world = w;
+		worldGraphics = new EnvironmentGraphics[w.width][w.height];
+		for(int x=0; x<w.width; x++) {
+			for(int y=0; y<w.height; y++) {
+				worldGraphics[x][y] = new EnvironmentGraphics(w.environments[x][y]);
+			}
+		}
+		
 		
 		this.addMouseListener(this);
-		SMListeners = new SimplifiedMouseListener[1];
+		SMListeners = new ArrayList<SimplifiedMouseListener>();
 		
 		// Initialize Thread
 		thread = new Thread(this, "World-GUI");
@@ -39,18 +48,40 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
 		
-		// Custom drawing
+		// Fill screen
 		g.setColor(Color.white);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.setColor(Color.black);
 		
+		// Declare variables
+		EnvironmentGraphics graphics;
+		
 		// Draw world cell by cell
 		Rectangle tempRect;
-		for(int x=0; x<world.width; x++) {
-			for(int y=0; y<world.height; y++) {
-				tempRect = new Rectangle((envSize*x) + cellPadding*(x+1), (envSize*y) + cellPadding*(y+1), envSize, envSize);
+		for(int x=0; x<worldGraphics.length; x++) {
+			for(int y=0; y<worldGraphics[0].length; y++) {
+				graphics = worldGraphics[x][y];
 				
-				g.setColor(Singleton.biomeColorTable.get(world.environments[x][y].biome));
+				tempRect = new Rectangle((envSize*x) + cellPadding*(x+1), (envSize*y) + cellPadding*(y+1), envSize, envSize);
+				g.setColor(Color.blue);
+				g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
+				
+				g.setColor(graphics.color);
+				
+				// Draw properly shaped tile
+				/*
+				if(graphics.isSquare) {
+					g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
+				} else if(graphics.isCircle) {
+					g.fillOval(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
+				} else if(graphics.drawAngle == 90) {
+					g.fillArc(tempRect.x, tempRect.y, tempRect.width, tempRect.height, graphics.startingAngle, graphics.drawAngle);
+					
+				} else if(graphics.drawAngle == 180) {
+					g.fillArc(tempRect.x, tempRect.y, tempRect.width, tempRect.height, graphics.startingAngle, graphics.drawAngle);
+				}
+				*/
+				
 				g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
 				
 				// Draw organisms inside environment
@@ -66,9 +97,6 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 					if(row>maxLength) {
 						row = 1;
 						column++;
-						if(column>maxLength) {
-							System.out.println("ERROR: ENVIRONMENT EXCEEDED MAXIMUM Y SIZE");
-						}
 					}
 				}
 			}
@@ -76,14 +104,14 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 	}
 
 	public void addSimplifiedMouseListener(SimplifiedMouseListener l) {
-		SMListeners[0] = l;
+		SMListeners.add(l);
 	}
 	
 	private void mouseEventHappened(MouseEvent e) {
 		int tempX = e.getX()/(envSize + cellPadding), tempY = e.getY()/(envSize + cellPadding);
 		// FocusPanel.setEnv(world.environments[tempX][tempY]);
-		if(SMListeners[0] != null) {
-			SMListeners[0].fireMouseEvent(new SimplifiedMouseEvent("Environment Update", 0, new Point(tempX, tempY)));
+		for(int count=0; count<SMListeners.size(); count++) {
+			SMListeners.get(count).fireMouseEvent(new SimplifiedMouseEvent("Environment Update", 0, new Point(tempX, tempY)));
 		}
 	}
 	

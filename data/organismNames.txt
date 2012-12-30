@@ -10,3 +10,4 @@ Cassowary
 Flying Bison
 Pokemon
 Monkey
+Smarter Monkeys

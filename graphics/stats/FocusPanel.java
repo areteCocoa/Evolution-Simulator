@@ -44,7 +44,7 @@ public class FocusPanel extends JPanel {
 					row = 1;
 					column++;
 					if(column>maxLength) {
-						System.out.println("ERROR: ENVIRONMENT EXCEEDED MAXIMUM Y SIZE");
+						System.out.println("Focus Panel Error: Environment exceeded max y size");
 					}
 				}
 			}

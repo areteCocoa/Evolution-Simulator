@@ -1,6 +1,6 @@
 package model.analytical;
 
-import model.SpeciesStatsModel;
+import model.stats.SpeciesStatsModel;
 
 public class Day {
 	

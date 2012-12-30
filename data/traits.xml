@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<traits>
+	<physicalTrait id="0">
+		<name>Fins</name>
+		<biomeID>0</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="1">
+		<name>Chloroplasts</name>
+		<biomeID>5</biomeID>
+	</physicalTrait>
+</traits>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<biomes>
+	<biome id="0">
+		<name>Ocean</name>
+		<color>
+			<red>0</red>
+			<blue>240</blue>
+			<green>0</green>
+		</color>
+		<resources>
+			<minimum>1</minimum>
+			<maximum>5</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="1">
+		<name>Ice Sheet</name>
+		<color>
+			<red>240</red>
+			<blue>240</blue>
+			<green>240</green>
+		</color>
+		<resources>
+			<minimum>1</minimum>
+			<maximum>5</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="2">
+		<name>Tundra</name>
+		<color>
+			<red>145</red>
+			<blue>220</blue>
+			<green>220</green>
+		</color>
+		<resources>
+			<minimum>2</minimum>
+			<maximum>6</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="3">
+		<name>Taiga</name>
+		<color>
+			<red>000</red>
+			<blue>109</blue>
+			<green>100</green>
+		</color>
+		<resources>
+			<minimum>2</minimum>
+			<maximum>6</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="4">
+		<name>Temperate Broadloaf Forest</name>
+		<color>
+			<red>164</red>
+			<blue>224</blue>
+			<green>093</green>
+		</color>
+		<resources>
+			<minimum>4</minimum>
+			<maximum>10</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="5">
+		<name>Temperate Steppe</name>
+		<color>
+			<red>247</red>
+			<blue>236</blue>
+			<green>111</green>
+		</color>
+		<resources>
+			<minimum>4</minimum>
+			<maximum>10</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="6">
+		<name>Subtropical Rainforest</name>
+		<color>
+			<red>13</red>
+			<blue>126</blue>
+			<green>13</green>
+		</color>
+		<resources>
+			<minimum>14</minimum>
+			<maximum>20</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="7">
+		<name>Mediterranean Vegetation</name>
+		<color>
+			<red>144</red>
+			<blue>118</blue>
+			<green>153</green>
+		</color>
+		<resources>
+			<minimum>14</minimum>
+			<maximum>20</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="8">
+		<name>Monsoon Forest</name>
+		<color>
+			<red>111</red>
+			<blue>149</blue>
+			<green>111</green>
+		</color>
+		<resources>
+			<minimum>14</minimum>
+			<maximum>20</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="9">
+		<name>Arid Desert</name>
+		<color>
+			<red>149</red>
+			<blue>88</blue>
+			<green>60</green>
+		</color>
+		<resources>
+			<minimum>2</minimum>
+			<maximum>6</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="10">
+		<name>Xeric Shrubland</name>
+		<color>
+			<red>185</red>
+			<blue>117</blue>
+			<green>83</green>
+		</color>
+		<resources>
+			<minimum>2</minimum>
+			<maximum>6</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="11">
+		<name>Dry Steppe</name>
+		<color>
+			<red>115</red>
+			<blue>132</blue>
+			<green>71</green>
+		</color>
+		<resources>
+			<minimum>2</minimum>
+			<maximum>6</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="12">
+		<name>Semiarid Desert</name>
+		<color>
+			<red>222</red>
+			<blue>184</blue>
+			<green>135</green>
+		</color>
+		<resources>
+			<minimum>2</minimum>
+			<maximum>6</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="13">
+		<name>Grass Savana</name>
+		<color>
+			<red>205</red>
+			<blue>201</blue>
+			<green>84</green>
+		</color>
+		<resources>
+			<minimum>1</minimum>
+			<maximum>5</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="14">
+		<name>Tree Savana</name>
+		<color>
+			<red>172</red>
+			<blue>167</blue>
+			<green>25</green>
+		</color>
+		<resources>
+			<minimum>1</minimum>
+			<maximum>5</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="15">
+		<name>Subtropical Dry Forest</name>
+		<color>
+			<red>118</red>
+			<blue>142</blue>
+			<green>52</green>
+		</color>
+		<resources>
+			<minimum>3</minimum>
+			<maximum>10</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="16">
+		<name>Tropical Rainforest</name>
+		<color>
+			<red>0</red>
+			<blue>92</blue>
+			<green>0</green>
+		</color>
+		<resources>
+			<minimum>14</minimum>
+			<maximum>20</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="17">
+		<name>Alpine Tundra</name>
+		<color>
+			<red>167</red>
+			<blue>189</blue>
+			<green>219</green>
+		</color>
+		<resources>
+			<minimum>14</minimum>
+			<maximum>20</maximum>
+		</resources>
+	</biome>
+	
+	<biome id="18">
+		<name>Mountain Forest</name>
+		<color>
+			<red>60</red>
+			<blue>151</blue>
+			<green>152</green>
+		</color>
+		<resources>
+			<minimum>14</minimum>
+			<maximum>20</maximum>
+		</resources>
+	</biome>
+	
+</biomes>

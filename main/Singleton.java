@@ -5,9 +5,15 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 
+import javax.xml.parsers.*;
+
+import model.DefaultSettings;
+
+import org.w3c.dom.*;
+
 public class Singleton {
-	public static ArrayList<Color> biomeColorTable;
-	public static ArrayList<Color> organismColorTable;
+	public static ArrayList<Color> 	biomeColorTable;
+	public static ArrayList<Color> 	organismColorTable;
 	
 	public static ArrayList<String> organismNameTable;
 	public static ArrayList<String> biomeNameTable;
@@ -15,8 +21,9 @@ public class Singleton {
 	public static ArrayList<String> behaviorTraitTable;
 	public static ArrayList<String> physicalTraitTable;
 	
+	public static DefaultSettings 	defaultSettings;
 	
-	public static Font defaultFont;
+	public static Font 				defaultFont;
 	
 	public static void main() {
 		// Non-list statics
@@ -33,11 +40,11 @@ public class Singleton {
 		
 		// List of biome colors
 		ArrayList<String> biomeColorList = new ArrayList<String>();
-		readFileToList("biomeColors.txt", biomeColorList);
+		readFileToList("biomeData/biomeColors.txt", biomeColorList);
 	
 		// List of biome names
 		ArrayList<String> biomeNameList = new ArrayList<String>();
-		readFileToList("biomeNames.txt", biomeNameList);
+		readFileToList("biomeData/biomeNames.txt", biomeNameList);
 		
 		ArrayList<String> behaviorTraitList = new ArrayList<String>();
 		readFileToList("behaviorTraits.txt", behaviorTraitList);
@@ -45,7 +52,12 @@ public class Singleton {
 		ArrayList<String> physicalTraitList = new ArrayList<String>();
 		readFileToList("physicalTraits.txt", physicalTraitList);
 		
+		// readXMLToDictionary("biomes.xml");
+		// readBiomeXMLFileToSettings("biomes.xml");
 		
+		// Get settings from XML File
+		defaultSettings = new DefaultSettings();
+		readSettingsXMLToSettings("settings.xml", defaultSettings);
 		
 		// All the static Hashtables
 		// Table of Color per Biome
@@ -74,7 +86,7 @@ public class Singleton {
 		randomizeListToStringArrayList(physicalTraitList, physicalTraitTable);
 	}
 	
-	public static void randomizeListToStringArrayList(ArrayList<String> list, ArrayList<String> table) {
+	private static void randomizeListToStringArrayList(ArrayList<String> list, ArrayList<String> table) {
 		Random rand = new Random();
 		int randInt;
 		
@@ -85,7 +97,7 @@ public class Singleton {
 		}
 	}
 	
-	public static void randomizeListToColorArrayList(ArrayList<String> list, ArrayList<Color> table) {
+	private static void randomizeListToColorArrayList(ArrayList<String> list, ArrayList<Color> table) {
 		Random rand = new Random();
 		int randInt;
 		
@@ -96,9 +108,8 @@ public class Singleton {
 		}
 	}
 	
-	public static void readFileToList(String fileName, ArrayList<String> list) {
+	private static void readFileToList(String fileName, ArrayList<String> list) {
 		try {
-		    // BufferedReader in = new BufferedReader(new FileReader(Singleton.class.getResource("/data/").toString() + fileName));
 			BufferedReader in = new BufferedReader(new InputStreamReader(Singleton.class.getResourceAsStream("/data/" + fileName)));
 		    String str;
 		    while ((str = in.readLine()) != null) {
@@ -110,8 +121,7 @@ public class Singleton {
 		}
 	}
 	
-	
-	public static Color stringToColor(String string) {
+	private static Color stringToColor(String string) {
 		Color color;
 		try {
 			if(Character.isLetter(string.charAt(0))) {
@@ -132,5 +142,86 @@ public class Singleton {
 		    System.out.println("Error processing stringToColor: " + string);
 		}
 		return color;
+	}
+	
+	private static void readXMLToDictionary(String fileName) {
+		try {
+			Document document = getDocumentWithFileName(fileName);
+			
+			NodeList list = document.getElementsByTagName("biome");
+			Node node = list.item(0);
+			System.out.println(list.getLength());
+			for(int count=0; count<list.getLength(); count++) {
+				node = list.item(count);
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) node;
+					System.out.print(element.getAttributes().item(0).getNodeValue());
+					System.out.println(element.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue());
+					
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void readBiomeXMLFileToSettings(String fileName) { // ADD: Load data to list
+		try {
+			Document document = getDocumentWithFileName(fileName);
+			
+			NodeList list = document.getElementsByTagName("biome");
+			Node node;
+			
+			for(int count=0; count<list.getLength(); count++) {
+				node = list.item(count);
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) node;
+					System.out.print(element.getAttributes().item(0).getNodeValue());
+					System.out.println(element.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue());
+					
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void readSettingsXMLToSettings(String fileName, DefaultSettings settings) {
+		try {
+			Element e = (Element) getDocumentWithFileName(fileName).getFirstChild();
+			
+			settings.sizeIndex = Integer.parseInt(e.getElementsByTagName("sizeIndex").item(0).getChildNodes().item(0).getNodeValue());
+			settings.duration = Integer.parseInt(e.getElementsByTagName("duration").item(0).getChildNodes().item(0).getNodeValue());
+			settings.dayDuration = Integer.parseInt(e.getElementsByTagName("dayDuration").item(0).getChildNodes().item(0).getNodeValue());
+			settings.organismCount = Integer.parseInt(e.getElementsByTagName("organismCount").item(0).getChildNodes().item(0).getNodeValue());
+			settings.speciesCount = Integer.parseInt(e.getElementsByTagName("speciesCount").item(0).getChildNodes().item(0).getNodeValue());
+			settings.biomeCount = Integer.parseInt(e.getElementsByTagName("biomeCount").item(0).getChildNodes().item(0).getNodeValue());
+			
+			String limit = e.getElementsByTagName("limitedDuration").item(0).getChildNodes().item(0).getNodeValue();
+			settings.limitedDuration = !(limit.equalsIgnoreCase("0"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static Document getDocumentWithFileName(String fileName) {
+		try {
+			// Get URL for current directory and add data/fileName and convert to String
+			File file = new File((Singleton.class.getResource("/data/" + fileName)).getPath());
+			
+			// Create document from file to read data to
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+			document.getDocumentElement().normalize();
+			
+			return document;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

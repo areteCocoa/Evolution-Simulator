@@ -4,10 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import simplifiedMouseListener.SimplifiedMouseEvent;
+import simplifiedMouseListener.SimplifiedMouseListener;
+import main.Environment;
 import main.World;
 import model.ConsoleController;
 
-public class ControlPanel extends JPanel implements ActionListener {
+public class ControlPanel extends JPanel implements ActionListener, SimplifiedMouseListener {
 	private static final long serialVersionUID = 1L;
 
 	World world;
@@ -18,6 +22,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 	GridBagLayout gridBag;
 	
 	ConsoleController consoleController;
+	
+	Environment selectedEnvironment;
 	
 	public ControlPanel(World world) {
 		// Non-GUI data
@@ -59,5 +65,15 @@ public class ControlPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		consolePanel.processString(e.getActionCommand());
+	}
+
+	@Override
+	public void fireMouseEvent(SimplifiedMouseEvent s) {
+		Point p;
+		if(s.getCustomObject().getClass() == Point.class) {
+			p = (Point) s.getCustomObject();
+			selectedEnvironment = world.environments[p.x][p.y];
+			consoleController.setSelectedEnvironment(selectedEnvironment);
+		}
 	}
 }

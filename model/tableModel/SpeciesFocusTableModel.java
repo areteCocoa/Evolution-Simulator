@@ -2,7 +2,7 @@ package model.tableModel;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.SpeciesStatsModel;
+import model.stats.SpeciesStatsModel;
 
 public class SpeciesFocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

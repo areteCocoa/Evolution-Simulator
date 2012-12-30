@@ -4,7 +4,7 @@ import java.util.*;
 
 import main.traits.*;
 import model.Dice;
-import model.SpeciesStatsModel;
+import model.stats.SpeciesStatsModel;
 
 public class Organism {
 	public static int speciesCount=5;
@@ -68,6 +68,7 @@ public class Organism {
 	
 	public void testBiomeSurvival() {
 		// Test physical traits compared to the biome
+		// Swimmers do well in 0, etc
 	}
 	
 	public void update() {
@@ -111,19 +112,24 @@ public class Organism {
 		
 		// Test water survivability
 		// Temporary implementation, eventually work towards dynamic implementations for different biomes/traits
+		
 		boolean canSwim = false;
 		for(int x=0; x<traits.size(); x++) {
 			if(traits.get(x).getName() == Singleton.physicalTraitTable.get(0) || traits.get(x).getName() == Singleton.physicalTraitTable.get(1)) {
 				canSwim = true;
 				
 				if(containingEnvironment.biome == 0) {
-					// Temporary reward for having well adapted traits
-					if(traits.get(x).getValue() > 1) {
-						feed++;
+					// A temporary reward for having well adapted traits
+					// Or a detriment for being too adapted
+					if(traits.get(x).getValue() > 2) {
+						feed--;
+					}
+				} else {
+					if(traits.get(x).getValue() >= 1) {
+						kill();
 					}
 				}
 			}
-			
 			// Handle the physical traits
 			/* if(traits.get(x).getClass() == PhysicalTrait.class) {
 				PhysicalTrait tempTrait = (PhysicalTrait)traits.get(x);
@@ -131,7 +137,6 @@ public class Organism {
 			} else if(traits.get(x).getClass() == BehaviorTrait.class) { // Handle the behavioral traits
 				
 			} */
-			
 		}
 		if(canSwim == false && containingEnvironment.biome == 0) { 
 			kill();
@@ -149,9 +154,6 @@ public class Organism {
 			SpeciesStatsModel.deadOrganism(species);
 			isDead = true;
 			containingEnvironment.resourceCount+=feed;
-		}
-		else {
-			System.out.println("Error: kill() called on organism already dead: " + this);
 		}
 	}
 	

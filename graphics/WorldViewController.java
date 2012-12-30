@@ -67,6 +67,7 @@ public class WorldViewController implements DataListener{
 		
 		// Configure SMListeners
 		worldPanel.addSimplifiedMouseListener(statsPanel.getSMListeners()[0]);
+		worldPanel.addSimplifiedMouseListener(controlPanel);
 		
 		// Add panels to frame
 		mainFrame.add(worldPanel);
@@ -75,7 +76,8 @@ public class WorldViewController implements DataListener{
 		
 		// Add data listeners
 		dataListeners = new ArrayList<DataListener>();
-		dataListeners.add(worldPanel); dataListeners.add(statsPanel);
+		dataListeners.add(worldPanel);
+		dataListeners.add(statsPanel);
 	}
 	
 	public void showFrame(boolean should) {

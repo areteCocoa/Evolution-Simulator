@@ -20,7 +20,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
 		
 		setBackground(Color.white);
 		
-		this.setLayout(new GridLayout(2, 2, 10, 10));
+		this.setLayout(new GridLayout(2, 3, 10, 10));
 		
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(this);
@@ -33,6 +33,14 @@ public class ButtonPanel extends JPanel implements ActionListener {
 		JButton insertButton = new JButton("Insert");
 		insertButton.addActionListener(this);
 		this.add(insertButton);
+		
+		JButton disasterButton = new JButton("Disaster");
+		disasterButton.addActionListener(this);
+		this.add(disasterButton);
+		
+		JButton stepButton = new JButton("Step");
+		stepButton.addActionListener(this);
+		this.add(stepButton);
 		
 		JButton endButton = new JButton("End");
 		endButton.addActionListener(this);

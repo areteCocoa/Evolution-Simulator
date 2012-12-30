@@ -3,14 +3,14 @@ package main;
 import java.awt.*;
 import java.util.*;
 
-import model.BiomeStatsModel;
-import model.EnvironmentStatsModel;
+import model.stats.BiomeStatsModel;
+import model.stats.EnvironmentStatsModel;
 
 public class Environment {
 	public static int biomeCount;
 	
-	private static int[] heights = {5, 7, 9, 11, 13, 15},
-			widths = {7, 9, 13, 16, 18, 21};
+	private static int[] heights =  {5, 7, 9,  11, 13, 15, 17, 19, 21, 24, 27, 30},
+			widths = 				{7, 9, 13, 16, 18, 21, 24, 27, 30, 33, 37, 41};
 	
 	public int biome;
 	public Point coordinates;
@@ -125,6 +125,23 @@ public class Environment {
 	
 	public EnvironmentStatsModel getEnvironmentStats() {
 		return (new EnvironmentStatsModel(this));
+	}
+	
+	public void changeBiome(int biome) {
+		BiomeStatsModel.totalBiomes[this.biome]--;
+		this.biome = biome;
+		BiomeStatsModel.totalBiomes[this.biome]++;
+	}
+	
+	public Environment nearbyEnvironment(int xOffset, int yOffset) {
+		Environment temp;
+		try{
+			temp = world.environments[coordinates.x+xOffset][coordinates.y+yOffset];
+		} catch(ArrayIndexOutOfBoundsException e) {
+			temp = new Environment(world, coordinates.x+xOffset, coordinates.y+yOffset, 0);
+		}
+		
+		return temp;
 	}
 	
 	// Statics

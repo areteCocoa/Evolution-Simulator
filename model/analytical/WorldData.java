@@ -1,7 +1,7 @@
 package model.analytical;
 
-import model.BiomeStatsModel;
-import model.SpeciesStatsModel;
+import model.stats.BiomeStatsModel;
+import model.stats.SpeciesStatsModel;
 
 public class WorldData {
 	

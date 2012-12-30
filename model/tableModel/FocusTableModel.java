@@ -2,7 +2,7 @@ package model.tableModel;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.EnvironmentStatsModel;
+import model.stats.EnvironmentStatsModel;
 
 public class FocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

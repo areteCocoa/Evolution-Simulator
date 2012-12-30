@@ -1,4 +1,4 @@
-package model;
+package model.stats;
 
 import main.Organism;
 

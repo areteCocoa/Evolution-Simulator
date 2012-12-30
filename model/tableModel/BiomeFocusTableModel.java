@@ -2,7 +2,7 @@ package model.tableModel;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.BiomeStatsModel;
+import model.stats.BiomeStatsModel;
 
 public class BiomeFocusTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
