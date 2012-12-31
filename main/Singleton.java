@@ -7,22 +7,23 @@ import java.util.*;
 
 import javax.xml.parsers.*;
 
+import model.BiomeData;
 import model.DefaultSettings;
 
 import org.w3c.dom.*;
 
 public class Singleton {
-	public static ArrayList<Color> 	biomeColorTable;
+	// Temporary Lists
 	public static ArrayList<Color> 	organismColorTable;
-	
 	public static ArrayList<String> organismNameTable;
-	public static ArrayList<String> biomeNameTable;
 	
 	public static ArrayList<String> behaviorTraitTable;
 	public static ArrayList<String> physicalTraitTable;
 	
-	public static DefaultSettings 	defaultSettings;
+	// Standards
+	public static BiomeData[]		biomeData;
 	
+	public static DefaultSettings 	defaultSettings;
 	public static Font 				defaultFont;
 	
 	public static void main() {
@@ -38,46 +39,25 @@ public class Singleton {
 		ArrayList<String> organismColorList = new ArrayList<String>();
 		readFileToList("organismColors.txt", organismColorList);
 		
-		// List of biome colors
-		ArrayList<String> biomeColorList = new ArrayList<String>();
-		readFileToList("biomeData/biomeColors.txt", biomeColorList);
-	
-		// List of biome names
-		ArrayList<String> biomeNameList = new ArrayList<String>();
-		readFileToList("biomeData/biomeNames.txt", biomeNameList);
-		
 		ArrayList<String> behaviorTraitList = new ArrayList<String>();
 		readFileToList("behaviorTraits.txt", behaviorTraitList);
 		
 		ArrayList<String> physicalTraitList = new ArrayList<String>();
 		readFileToList("physicalTraits.txt", physicalTraitList);
 		
-		// readXMLToDictionary("biomes.xml");
-		// readBiomeXMLFileToSettings("biomes.xml");
-		
 		// Get settings from XML File
 		defaultSettings = new DefaultSettings();
 		readSettingsXMLToSettings("settings.xml", defaultSettings);
 		
-		// All the static Hashtables
-		// Table of Color per Biome
-		biomeColorTable = new ArrayList<Color>();
-		// randomizeListToColorArrayList(biomeColorList, biomeColorTable);
-		for(int x = 0; x < biomeColorList.size(); x++) {
-			if(stringToColor(biomeColorList.get(x)) != null) {
-				biomeColorTable.add(stringToColor(biomeColorList.get(x)));
-			}
-		}
+		// Load biome data from biomes.xml
+		biomeData = new BiomeData[19];
+		loadBiomeDataFromXML("biomes.xml", biomeData);
 		
 		organismColorTable = new ArrayList<Color>();
 		randomizeListToColorArrayList(organismColorList, organismColorTable);
 		
 		organismNameTable = new ArrayList<String>();
 		randomizeListToStringArrayList(nameList, organismNameTable);
-		
-		biomeNameTable = new ArrayList<String>();
-		// randomizeListToStringArrayList(biomeNameList, biomeNameTable);
-		biomeNameTable = biomeNameList;
 		
 		behaviorTraitTable = new ArrayList<String>();
 		randomizeListToStringArrayList(behaviorTraitList, behaviorTraitTable);
@@ -144,52 +124,6 @@ public class Singleton {
 		return color;
 	}
 	
-	private static void readXMLToDictionary(String fileName) {
-		try {
-			Document document = getDocumentWithFileName(fileName);
-			
-			NodeList list = document.getElementsByTagName("biome");
-			Node node = list.item(0);
-			System.out.println(list.getLength());
-			for(int count=0; count<list.getLength(); count++) {
-				node = list.item(count);
-				if(node.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element) node;
-					System.out.print(element.getAttributes().item(0).getNodeValue());
-					System.out.println(element.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue());
-					
-				}
-				
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private static void readBiomeXMLFileToSettings(String fileName) { // ADD: Load data to list
-		try {
-			Document document = getDocumentWithFileName(fileName);
-			
-			NodeList list = document.getElementsByTagName("biome");
-			Node node;
-			
-			for(int count=0; count<list.getLength(); count++) {
-				node = list.item(count);
-				if(node.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element) node;
-					System.out.print(element.getAttributes().item(0).getNodeValue());
-					System.out.println(element.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue());
-					
-				}
-				
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private static void readSettingsXMLToSettings(String fileName, DefaultSettings settings) {
 		try {
 			Element e = (Element) getDocumentWithFileName(fileName).getFirstChild();
@@ -203,6 +137,43 @@ public class Singleton {
 			
 			String limit = e.getElementsByTagName("limitedDuration").item(0).getChildNodes().item(0).getNodeValue();
 			settings.limitedDuration = !(limit.equalsIgnoreCase("0"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void loadBiomeDataFromXML(String fileName, BiomeData[] data) {
+		try {
+			Document document = getDocumentWithFileName(fileName);
+			
+			NodeList list = document.getElementsByTagName("biome");
+			Node node = list.item(0);
+			// data = new BiomeData[list.getLength()];	Dynamically allocate the size of the list to the amount of biomes
+			for(int count=0; count<list.getLength(); count++) {
+				node = list.item(count);
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					data[count] = new BiomeData();
+					Element rootElement = (Element) node,
+							resourceElement = (Element) rootElement.getElementsByTagName("resources").item(0),
+							colorElement = (Element) rootElement.getElementsByTagName("color").item(0);
+					
+					// Set attributes to biomes
+					data[count].ID = Integer.parseInt(rootElement.getAttribute("id"));
+					data[count].name = rootElement.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
+					data[count].minimumResources = Integer.parseInt(resourceElement.getElementsByTagName("minimum").item(0).getChildNodes().item(0).getNodeValue());
+					data[count].maximumResources = Integer.parseInt(resourceElement.getElementsByTagName("maximum").item(0).getChildNodes().item(0).getNodeValue());
+					
+					int red = Integer.parseInt(colorElement.getElementsByTagName("red").item(0).getChildNodes().item(0).getNodeValue()),
+							green = Integer.parseInt(colorElement.getElementsByTagName("green").item(0).getChildNodes().item(0).getNodeValue()),
+							blue = Integer.parseInt(colorElement.getElementsByTagName("blue").item(0).getChildNodes().item(0).getNodeValue());
+					
+					data[count].color = new Color(red, green, blue);
+					
+					System.out.println(data[count]);
+				}
+				
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -15,8 +15,8 @@ public class EnvironmentTableModel extends AbstractTableModel {
 		tableData = new Object[Environment.biomeCount][3];
 		for(int y=0; y<tableData.length; y++) {
 			tableData[y][0] = Integer.toString(y);
-			tableData[y][1] = Singleton.biomeNameTable.get(y);
-			tableData[y][2] = Singleton.biomeColorTable.get(y);
+			tableData[y][1] = Singleton.biomeData[y].name;
+			tableData[y][2] = Singleton.biomeData[y].color;
 		}
 	}
 	

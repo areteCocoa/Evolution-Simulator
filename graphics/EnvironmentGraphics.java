@@ -64,7 +64,7 @@ public class EnvironmentGraphics {
 		}
 		
 		// Set other variables
-		color = Singleton.biomeColorTable.get(environment.biome);
+		color = Singleton.biomeData[environment.biome].color;
 	}
 	
 }

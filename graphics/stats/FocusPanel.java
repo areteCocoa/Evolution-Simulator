@@ -29,7 +29,7 @@ public class FocusPanel extends JPanel {
 		if(lastClickedEnvironment != null) {
 			Rectangle tempRect = new Rectangle(envPadding, envPadding, this.getWidth() - envPadding*2, this.getWidth() - envPadding*2);
 			
-			g.setColor(Singleton.biomeColorTable.get(lastClickedEnvironment.biome));
+			g.setColor(Singleton.biomeData[lastClickedEnvironment.biome].color);
 			g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
 			
 			int maxLength = (int)Math.sqrt(lastClickedEnvironment.organisms.size())+1;
