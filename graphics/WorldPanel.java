@@ -14,9 +14,9 @@ import main.*;
 @SuppressWarnings("serial")
 public class WorldPanel extends JPanel implements Runnable, MouseListener, DataListener{
 	public static int envSize = 150;
-	public static int cellPadding = 5;
+	public static int cellPadding = 1;
 	private int updateCount = 0;
-	private static int UPDATE_LIMIT = 0;
+	private static int UPDATE_LIMIT = 0, maxWidth=2;
 	
 	ArrayList<SimplifiedMouseListener> SMListeners;
 	
@@ -87,14 +87,20 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 				// Draw organisms inside environment
 				// Uses square root + 1 of total organisms to calculate sizes and max lengths
 				int maxLength = (int)Math.sqrt(world.environments[x][y].organisms.size())+1;
-				int cellSize = (int)((1.0/maxLength)*(envSize/2));
-				int cellPadding = (envSize - cellSize*maxLength)/(maxLength+1);
+				if(maxLength > maxWidth) {
+					maxWidth = maxLength;
+					if(maxWidth > 5) {
+						maxWidth = 5;
+					}
+				}
+				int cellSize = (int)((1.0/maxWidth)*(envSize/2));
+				int cellPadding = (envSize - cellSize*maxWidth)/(maxWidth+1);
 				int row = 1; int column = 1;
 				for(int c=0; c<world.environments[x][y].organisms.size(); c++) {
 					g.setColor(Singleton.organismColorTable.get(world.environments[x][y].organisms.get(c).species));
 					g.fillRect(tempRect.x + row*cellPadding + cellSize*(row-1), tempRect.y + column*cellPadding + cellSize*(column-1), cellSize, cellSize);
 					row++;
-					if(row>maxLength) {
+					if(row>maxWidth) {
 						row = 1;
 						column++;
 					}

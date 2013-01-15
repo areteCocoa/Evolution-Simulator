@@ -45,6 +45,8 @@ public class Singleton {
 		ArrayList<String> physicalTraitList = new ArrayList<String>();
 		readFileToList("physicalTraits.txt", physicalTraitList);
 		
+		
+		
 		// Get settings from XML File
 		defaultSettings = new DefaultSettings();
 		readSettingsXMLToSettings("settings.xml", defaultSettings);
@@ -52,6 +54,8 @@ public class Singleton {
 		// Load biome data from biomes.xml
 		biomeData = new BiomeData[19];
 		loadBiomeDataFromXML("biomes.xml", biomeData);
+		
+		
 		
 		organismColorTable = new ArrayList<Color>();
 		randomizeListToColorArrayList(organismColorList, organismColorTable);
@@ -169,8 +173,6 @@ public class Singleton {
 							blue = Integer.parseInt(colorElement.getElementsByTagName("blue").item(0).getChildNodes().item(0).getNodeValue());
 					
 					data[count].color = new Color(red, green, blue);
-					
-					System.out.println(data[count]);
 				}
 				
 			}

@@ -1,16 +1,18 @@
 package graphics.start;
 
+import graphics.WorldViewController;
+import graphics.editor.ScenarioEditorViewController;
+import graphics.end.EndViewController;
 import graphics.start.create.*;
 import graphics.start.help.*;
 import graphics.start.load.*;
-import graphics.start.scenario.*;
 
 import java.awt.event.*;
 
 import main.*;
 import javax.swing.*;
 
-public class StartViewController implements WindowListener, ActionListener {
+public class StartViewController implements WindowListener, ActionListener, Runnable {
 
 	StartView startView;
 	JFrame mainFrame;
@@ -18,6 +20,8 @@ public class StartViewController implements WindowListener, ActionListener {
 	Scenario scenario;
 	
 	public boolean isShowing;
+	
+	private StartWindow selection;
 	
 	public StartViewController(Scenario s) {
 		isShowing = false;
@@ -30,6 +34,8 @@ public class StartViewController implements WindowListener, ActionListener {
 		mainFrame.setContentPane(startView);
 		mainFrame.addWindowListener(this);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		selection = StartWindow.NONE;
 	}
 	
 	public void showFrame(boolean should) {
@@ -45,7 +51,7 @@ public class StartViewController implements WindowListener, ActionListener {
 			synchronized(scenario) {
 				try {
 					Thread.sleep(1000);
-				} catch (InterruptedException e) {System.out.println("ERROR");}
+				} catch (InterruptedException e) {e.printStackTrace();}
 			}
 		}
 	}
@@ -53,24 +59,26 @@ public class StartViewController implements WindowListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if("new".equalsIgnoreCase(e.getActionCommand())) {
-			createNewWorldWindow();
+			selection = StartWindow.NEW;
 		}
 		else if("open".equalsIgnoreCase(e.getActionCommand())) {
-			LoadViewController loadController = new LoadViewController(mainFrame);
-			loadController.showDialog(true);
+			selection = StartWindow.OPEN;
 		}
 		else if("scenario".equalsIgnoreCase(e.getActionCommand())) {
-			ScenarioViewController scenarioWindow = new ScenarioViewController(mainFrame);
-			scenarioWindow.showDialog(true);
+			selection = StartWindow.SCENARIO;
 		}
 		else if("help".equalsIgnoreCase(e.getActionCommand())) {
-			HelpViewController helpController = new HelpViewController(mainFrame);
-			helpController.showDialog(true);
+			selection = StartWindow.HELP;
 		}
 		else {
-			System.out.println("Invalid ActionEvent received");
+			System.out.println("Invalid ActionEvent received in StartViewController");
 		}
-		
+		Thread newThread = new Thread(this);
+		newThread.start();
+	}
+	
+	private enum StartWindow {
+		NEW, OPEN, SCENARIO, HELP, NONE
 	}
 	
 	// Dialog loading methods
@@ -80,7 +88,69 @@ public class StartViewController implements WindowListener, ActionListener {
 		if(newWorld.getWorldScenario() != null) {
 			scenario.cloneFromScenario(newWorld.getWorldScenario());
 			showFrame(false);
+			
+			World world = new World(this.getScenario());
+			WorldViewController worldController = new WorldViewController(world);
+			worldController.showFrame(true);
+			world.addDataListener(worldController);
+			
+			while(!world.isDoneRunning()) {
+				try {
+					Thread.sleep(100);
+				}
+				catch (InterruptedException e) {e.printStackTrace();}
+			}
+			if(world.isDoneRunning()) {
+				System.out.println("Blah blah");
+			}
+			
+			if(world.isDoneRunning()) {
+				JOptionPane.showConfirmDialog(worldController.getMainFrame(), "View Data?", "End of Simulation",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				worldController.showFrame(false);
+				
+				EndViewController endWindow = new EndViewController(world.getWorldData());
+				endWindow.showFrame();
+				while(endWindow.isVisible()) {
+					try {
+						Thread.sleep(100);
+					}
+					catch (InterruptedException e) {System.out.println("ERROR");}
+				}
+			}
 		}
+	}
+	
+	@Override
+	public void run() {
+		switch(selection){
+			case NEW:
+				createNewWorldWindow();
+				break;
+			
+			case OPEN:
+				LoadViewController loadController = new LoadViewController(mainFrame);
+				loadController.showDialog(true);
+				break;
+			
+			case SCENARIO:
+				createNewScenarioWindow();
+				break;
+			
+			case HELP:
+				HelpViewController helpController = new HelpViewController(mainFrame);
+				helpController.showDialog(true);
+				break;
+			
+			default:
+				break;
+		}
+			
+	}
+	
+	private void createNewScenarioWindow() {
+		ScenarioEditorViewController scenarioWindow = new ScenarioEditorViewController();
+		scenarioWindow.showDialog();
 	}
 	
 	public Scenario getScenario() {

@@ -30,7 +30,7 @@ public class ControlPanel extends JPanel implements ActionListener, SimplifiedMo
 		this.world = world;
 		consoleController = new ConsoleController(world);
 		
-		// GUI
+		// GUI setup
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.white);
 		

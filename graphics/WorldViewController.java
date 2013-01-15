@@ -10,7 +10,7 @@ import main.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class WorldViewController implements DataListener{
+public class WorldViewController implements DataListener {
 	public static int height = (int) ((Toolkit.getDefaultToolkit().getScreenSize().height) * .95);
 	public static int width = (int) ((Toolkit.getDefaultToolkit().getScreenSize().width));
 	public static int panelPadding = (int) (height*.01);

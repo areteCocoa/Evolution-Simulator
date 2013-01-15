@@ -5,7 +5,7 @@
 	
 	<duration>1000</duration>
 	
-	<dayDuration>10</dayDuration>
+	<dayDuration>30</dayDuration>
 	
 	<organismCount>20</organismCount>
 	

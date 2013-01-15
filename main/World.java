@@ -72,18 +72,6 @@ public class World implements Runnable{
 			}
 		}
 		
-		
-		
-		// Single land mass creation
-		// Save for future use?
-		/*
-		for(int x=0; x<width; x++) {
-			for(int y=0; y<height; y++) {
-				environments[x][y] = new Environment(this, x, y);
-			}
-		}
-		*/
-		
 		dataListeners = new ArrayList<DataListener>();
 		
 		worldData = new WorldData();
@@ -183,7 +171,8 @@ public class World implements Runnable{
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
 				environments[x][y].update();
-				}				}
+			}
+		}
 					
 		// Update DayData and reset speciesStatsModel
 		day++;
@@ -245,5 +234,18 @@ public class World implements Runnable{
 	
 	public void end() {
 		doneRunning = true;
+	}
+	
+	// Static methods
+	
+	public World getBlankWorld(int height, int width) {
+		World world = new World(height, width);
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				world.environments[x][y] = new Environment(this, x, y, 0);
+			}
+		}
+		
+		return world;
 	}
 }

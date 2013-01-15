@@ -30,7 +30,6 @@ public class CreateWorldViewController implements ActionListener{
 		createWorldRadioView.addActionListener(this);
 		
 		autoView = new ScenarioCreateView();
-		// autoView.addActionListener(this);
 		
 		JButton doneButton = new JButton("Done");
 		doneButton.addActionListener(this);
