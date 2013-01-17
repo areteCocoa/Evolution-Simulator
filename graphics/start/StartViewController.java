@@ -23,9 +23,9 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 	
 	private StartWindow selection;
 	
-	public StartViewController(Scenario s) {
+	public StartViewController() {
 		isShowing = false;
-		this.scenario = s;
+		this.scenario = new Scenario();
 		
 		startView = new StartView();
 		startView.addActionListener(this);
@@ -100,22 +100,23 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 				}
 				catch (InterruptedException e) {e.printStackTrace();}
 			}
-			if(world.isDoneRunning()) {
-				System.out.println("Blah blah");
-			}
 			
 			if(world.isDoneRunning()) {
-				JOptionPane.showConfirmDialog(worldController.getMainFrame(), "View Data?", "End of Simulation",
+				int returnValue = JOptionPane.showConfirmDialog(worldController.getMainFrame(), "View Data?", "End of Simulation",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				System.out.println(returnValue);
+				
 				worldController.showFrame(false);
 				
-				EndViewController endWindow = new EndViewController(world.getWorldData());
-				endWindow.showFrame();
-				while(endWindow.isVisible()) {
-					try {
-						Thread.sleep(100);
+				if(returnValue == 0) {
+					EndViewController endWindow = new EndViewController(world.getWorldData());
+					endWindow.showFrame();
+					while(endWindow.isVisible()) {
+						try {
+							Thread.sleep(100);
+						}
+						catch (InterruptedException e) {System.out.println("ERROR");}
 					}
-					catch (InterruptedException e) {System.out.println("ERROR");}
 				}
 			}
 		}

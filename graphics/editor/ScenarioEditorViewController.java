@@ -1,5 +1,7 @@
 package graphics.editor;
 
+import graphics.WorldPanel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +10,12 @@ import javax.swing.*;
 
 import main.Environment;
 import main.Singleton;
+import main.World;
 
 public class ScenarioEditorViewController {
 	// Fields
 	private JFrame mainFrame;
+	private WorldPanel worldPanel;
 	
 	// Popup used to get data from user
 	private class SettingsPopup {
@@ -69,15 +73,26 @@ public class ScenarioEditorViewController {
 	public ScenarioEditorViewController() {
 		mainFrame = new JFrame("Scenario Editor");
 		mainFrame.getContentPane().add(new JLabel("Scenario Editor Frame"));
-		mainFrame.pack();
-		mainFrame.setLocationRelativeTo(null);
-		mainFrame.setVisible(true);
+		
+		worldPanel = new WorldPanel(new World(5,5));
 	}
 	
 	// Methods
-	
 	public void showDialog() {
 		SettingsPopup temp = new SettingsPopup(mainFrame);
 		temp.showDialog(true);
+		
+		worldPanel.setWorld(World.getBlankWorld((int)temp.getSettingsData().getSize().getHeight(), (int)temp.getSettingsData().getSize().getWidth()));
+	}
+	
+	public void setVisible(boolean visible) {
+		if(visible) {
+			mainFrame.pack();
+			mainFrame.setLocationRelativeTo(null);
+			mainFrame.setVisible(true);
+		}
+		else {
+			mainFrame.setVisible(false);
+		}
 	}
 }

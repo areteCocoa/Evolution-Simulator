@@ -10,10 +10,13 @@ public class BiomeStatsModel {
 	private int[] _totalBiomes;
 	
 	public static void newBiomeCreated(int biome) {
-		totalBiomes[biome]++;
+		if(totalBiomes != null) {
+			totalBiomes[biome]++;
+		}
 	}
 	
 	public static BiomeStatsModel getInstance() {
+		System.out.println("Called");
 		return (new BiomeStatsModel());
 	}
 	

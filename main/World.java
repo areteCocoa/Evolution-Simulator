@@ -238,11 +238,11 @@ public class World implements Runnable{
 	
 	// Static methods
 	
-	public World getBlankWorld(int height, int width) {
+	public static World getBlankWorld(int height, int width) {
 		World world = new World(height, width);
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
-				world.environments[x][y] = new Environment(this, x, y, 0);
+				world.environments[x][y] = new Environment(world, x, y, 0);
 			}
 		}
 		

@@ -89,8 +89,8 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 				int maxLength = (int)Math.sqrt(world.environments[x][y].organisms.size())+1;
 				if(maxLength > maxWidth) {
 					maxWidth = maxLength;
-					if(maxWidth > 5) {
-						maxWidth = 5;
+					if(maxWidth > 4) {
+						maxWidth = 4;
 					}
 				}
 				int cellSize = (int)((1.0/maxWidth)*(envSize/2));
@@ -134,6 +134,10 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 			thread.start();
 			updateCount = 0;
 		}
+	}
+	
+	public void setWorld(World world) {
+		this.world = world;
 	}
 	
 	@Override
