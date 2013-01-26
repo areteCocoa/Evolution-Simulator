@@ -29,6 +29,8 @@ public class World implements Runnable{
 	
 	// Main Constructor - All others default to this
 	public World(int height, int width, int duration) {
+		worldData = new WorldData();
+		
 		this.height = height;
 		this.width = width;
 		
@@ -45,6 +47,7 @@ public class World implements Runnable{
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
 				environments[x][y] = new Environment(this, x, y, 0);
+				worldData.biomeStats.addBiome(0);
 			}
 		}
 		
@@ -52,7 +55,7 @@ public class World implements Runnable{
 		// Add islands of varying sizes
 		// Declare all variables
 		int landCount = (int)(width*height)/3;
-		int landSquareCount, biome;
+		int landSquareCount, biome, biomesPlaced;
 		Random random = new Random();
 		Environment randomEnvironment;
 		
@@ -67,14 +70,17 @@ public class World implements Runnable{
 				while(landCount - landSquareCount < 0) {
 					landSquareCount = random.nextInt(16);
 				}
+				biomesPlaced = buildIsland(x, y, biome, landSquareCount);
 				
-				landCount -= buildIsland(x, y, biome, landSquareCount);
+				landCount -= biomesPlaced;
+				for(int count=0; count<biomesPlaced; count++) {
+					worldData.biomeStats.addBiome(biome);
+					worldData.biomeStats.removeBiome(0);
+				}
 			}
 		}
 		
 		dataListeners = new ArrayList<DataListener>();
-		
-		worldData = new WorldData();
 	}
 	
 	// Builds island and returns amount of squares used

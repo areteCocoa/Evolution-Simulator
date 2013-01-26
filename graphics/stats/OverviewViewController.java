@@ -5,6 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import main.World;
+
 public class OverviewViewController extends JPanel implements MouseListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	
@@ -13,7 +15,7 @@ public class OverviewViewController extends JPanel implements MouseListener, Key
 	
 	GridBagLayout grid;
 	
-	public OverviewViewController() {
+	public OverviewViewController(World world) {
 		grid = new GridBagLayout();
 		setLayout(grid);
 		GridBagConstraints c = new GridBagConstraints();
@@ -25,7 +27,7 @@ public class OverviewViewController extends JPanel implements MouseListener, Key
 		c.insets = new Insets(0, 0, 0, StatsPanel.inset);
 		this.add(overviewPanel, c);
 		
-		overviewInfoPanel = new OverviewInfoPanel();
+		overviewInfoPanel = new OverviewInfoPanel(world);
 		c.gridx = 1;
 		c.insets = new Insets(0, StatsPanel.inset, 0, 0);
 		this.add(overviewInfoPanel, c);

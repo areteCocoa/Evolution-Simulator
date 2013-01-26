@@ -1,38 +1,32 @@
 package model.stats;
 
-import main.Environment;
-
 public class BiomeStatsModel {
-	public static int biomeCount = Environment.biomeCount;
-	public static int[] totalBiomes = new int[biomeCount];
+	// public static int biomeCount = Environment.biomeCount;
+	// public static int[] totalBiomes = new int[biomeCount];
 	
-	private int _biomeCount;
-	private int[] _totalBiomes;
+	private int biomeCount;
+	private int[] totalBiomes;
 	
-	public static void newBiomeCreated(int biome) {
-		if(totalBiomes != null) {
-			totalBiomes[biome]++;
-		}
+	public BiomeStatsModel(int biomeCount) {
+		this.biomeCount = biomeCount;
+		totalBiomes = new int[this.biomeCount];
 	}
 	
-	public static BiomeStatsModel getInstance() {
-		System.out.println("Called");
-		return (new BiomeStatsModel());
+	public void addBiome(int biome) {
+		totalBiomes[biome]++;
 	}
 	
-	
-	private BiomeStatsModel() {
-		_biomeCount = BiomeStatsModel.biomeCount;
-		_totalBiomes = BiomeStatsModel.totalBiomes;
+	public void removeBiome(int biome) {
+		totalBiomes[biome]--;
 	}
 	
 	public int getBiomeCount() {
-		return _biomeCount;
+		return this.biomeCount;
 	}
 	
 	public int getTotalBiomes(int index) {
-		if(index < _totalBiomes.length) {
-			return _totalBiomes[index];
+		if(index < totalBiomes.length) {
+			return totalBiomes[index];
 		}
 		return 0;
 	}

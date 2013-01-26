@@ -15,15 +15,22 @@ public class WorldViewController implements DataListener {
 	public static int width = (int) ((Toolkit.getDefaultToolkit().getScreenSize().width));
 	public static int panelPadding = (int) (height*.01);
 	
-	JFrame mainFrame;
+	private JFrame mainFrame;
 	
-	WorldPanel worldPanel;
-	StatsPanel statsPanel;
-	ControlPanel controlPanel;
+	private WorldPanel worldPanel;
+	private StatsPanel statsPanel;
+	private ControlPanel controlPanel;
 	
 	private ArrayList<DataListener> dataListeners;
 	
 	public WorldViewController(World world) {
+		// Main Frame
+		mainFrame = new JFrame("Evolution Simulation");
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setSize(width, height);
+		mainFrame.setResizable(false);
+		mainFrame.setLayout(null);
+		
 		Rectangle mainRectangle, statsRectangle, controlRectangle;
 		
 		// Handle all the panels before the main frame
@@ -58,26 +65,22 @@ public class WorldViewController implements DataListener {
 		statsPanel.setBounds(statsRectangle);
 		controlPanel.setBounds(controlRectangle);
 		
-		// Main Frame
-		mainFrame = new JFrame("Evolution Simulation");
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(width, height);
-		mainFrame.setResizable(false);
-		mainFrame.setLayout(null);
-		
-		// Configure SMListeners
-		worldPanel.addSimplifiedMouseListener(statsPanel.getSMListeners()[0]);
-		worldPanel.addSimplifiedMouseListener(controlPanel);
-		
 		// Add panels to frame
 		mainFrame.add(worldPanel);
 		mainFrame.add(statsPanel);
 		mainFrame.add(controlPanel);
 		
+		// Configure SMListeners
+		worldPanel.addSimplifiedMouseListener(statsPanel.getSMListeners()[0]);
+		worldPanel.addSimplifiedMouseListener(controlPanel);
+		
 		// Add data listeners
 		dataListeners = new ArrayList<DataListener>();
 		dataListeners.add(worldPanel);
 		dataListeners.add(statsPanel);
+		
+		// Set up data models
+		
 	}
 	
 	public void showFrame(boolean should) {

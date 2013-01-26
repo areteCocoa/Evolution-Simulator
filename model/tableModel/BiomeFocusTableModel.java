@@ -10,26 +10,24 @@ public class BiomeFocusTableModel extends AbstractTableModel {
 	Object[][] data;
 	
 	int biome;
+	private BiomeStatsModel model;
 	
-	public BiomeFocusTableModel() {
-		this(-1);
+	public BiomeFocusTableModel(BiomeStatsModel model) {
+		this(-1, model);
 	}
 	
-	public BiomeFocusTableModel(int biome) {
+	public BiomeFocusTableModel(int biome, BiomeStatsModel model) {
+		this.model = model;
 		data = new String[2][2];
 		
 		data[0][0] = "Total #";
 		
-		if(biome >= 0) {
-			data[0][1] = Integer.toString(BiomeStatsModel.totalBiomes[biome]);
-		}
-		
-		this.biome = biome;
+		changeBiome(biome);
 	}
 	
 	public void changeBiome(int biome) {
 		if(biome != -1) {
-			data[0][1] = Integer.toString(BiomeStatsModel.totalBiomes[biome]);
+			data[0][1] = Integer.toString(model.getTotalBiomes(biome));
 		}
 		else {
 			data[0][1] = "";

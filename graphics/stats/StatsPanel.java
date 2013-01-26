@@ -41,7 +41,7 @@ public class StatsPanel extends JPanel implements Runnable, DataListener {
 		c.gridy = 0;
 		this.add(timePanel, c);
 		
-		overviewPanel = new OverviewViewController();
+		overviewPanel = new OverviewViewController(world);
 		c.insets = new Insets(inset, 0, inset, 0);
 		c.gridy = 1;
 		this.add(overviewPanel, c);

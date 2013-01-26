@@ -3,7 +3,6 @@ package main;
 import java.awt.*;
 import java.util.*;
 
-import model.stats.BiomeStatsModel;
 import model.stats.EnvironmentStatsModel;
 
 public class Environment {
@@ -37,9 +36,6 @@ public class Environment {
 		resourceRegenRate = (new Random()).nextInt(5)+5;
 		resourceCount = resourceRegenRate * 2;
 		resourceMax = resourceRegenRate*8;
-		
-		// All statistics data
-		BiomeStatsModel.newBiomeCreated(biomeType);
 	}
 	
 	public void addOrganism(Organism o) {
@@ -128,9 +124,7 @@ public class Environment {
 	}
 	
 	public void changeBiome(int biome) {
-		BiomeStatsModel.totalBiomes[this.biome]--;
 		this.biome = biome;
-		BiomeStatsModel.totalBiomes[this.biome]++;
 	}
 	
 	public Environment nearbyEnvironment(int xOffset, int yOffset) {

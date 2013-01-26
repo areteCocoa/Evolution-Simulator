@@ -3,6 +3,7 @@ package graphics.stats;
 import java.awt.*;
 import javax.swing.*;
 
+import main.World;
 import model.tableModel.*;
 
 public class OverviewInfoPanel extends JPanel {
@@ -16,13 +17,13 @@ public class OverviewInfoPanel extends JPanel {
 	SpeciesFocusTableModel speciesModel;
 	BiomeFocusTableModel biomeModel;
 	
-	public OverviewInfoPanel() {
+	public OverviewInfoPanel(World world) {
 		setBackground(Color.white);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setLayout(new GridLayout(1,1));
 		
 		speciesModel = new SpeciesFocusTableModel();
-		biomeModel = new BiomeFocusTableModel();
+		biomeModel = new BiomeFocusTableModel(world.getWorldData().getBiomeStatsModel());
 		
 		scrollPane = new JScrollPane();
 		speciesTable = new JTable(speciesModel);
