@@ -9,16 +9,24 @@ public class PhysicalTrait extends Trait {
 	
 	// Alleles with value 0 (aa), 1 (Aa), 2 (AA) instead of infinite range for simple implementation
 	
+	private int ID, biomeID;
+	private TraitEffect traitEffect;
 	
-	public PhysicalTrait() {
-		super();
-		
-		name = Singleton.physicalTraitTable.get((new Random()).nextInt(Singleton.physicalTraitTable.size()-1));
-		super.value = 2;
+	protected enum TraitEffect {
+		ENVIRONMENTAL, COMPETITIVE
 	}
 	
-	public Trait reproduceTrait() {
-		PhysicalTrait temp = new PhysicalTrait();
+	public PhysicalTrait(int ID) {
+		super();
+		
+		this.ID = ID;
+		name = Singleton.traitData[ID].name;
+		biomeID = Singleton.traitData[ID].biomeID;
+		traitEffect = TraitEffect.ENVIRONMENTAL;
+	}
+	
+	public PhysicalTrait reproduceTrait() {
+		PhysicalTrait temp = new PhysicalTrait(this.ID);
 		temp.name = this.getName();
 		temp.value = this.getValue();
 		
@@ -31,5 +39,16 @@ public class PhysicalTrait extends Trait {
 		}
 		
 		return temp;
+	}
+	
+	public int getBiomeID() {
+		if(TraitEffect.ENVIRONMENTAL == traitEffect) {
+			return biomeID;
+		}
+		return -1;
+	}
+	
+	public void setValue(int value) {
+		this.value = value;
 	}
 }

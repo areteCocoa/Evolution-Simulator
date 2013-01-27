@@ -5,3 +5,5 @@ cyan
 pink
 black
 magenta
+gray
+white

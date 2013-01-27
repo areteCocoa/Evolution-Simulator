@@ -10,7 +10,7 @@ public class BehaviorTrait extends Trait {
 	public BehaviorTrait() {
 		super();
 		
-		name = Singleton.behaviorTraitTable.get((new Random()).nextInt(Singleton.behaviorTraitTable.size()-1));
+		// name = Singleton.behaviorTraitTable.get((new Random()).nextInt(Singleton.behaviorTraitTable.size()-1));
 	}
 	
 	public static BehaviorTrait getMaxAgeTrait(int age) {

@@ -7,14 +7,15 @@ public class BiomeData {
 	public String name;
 	public Color color;
 	public int minimumResources, maximumResources;
+	public int harshness;
+	public String notes;
 	
 	public String toString() {
-		String temp = ID + " " + name + " " + color.toString() + " " + minimumResources + " " + maximumResources;
+		String temp = ID + " " + name + " " + color.toString() + " " + minimumResources + "-" + maximumResources + " " + harshness;
 		return temp;
 	}
 	
 	public Color getColor() {
-		System.out.println(color);
 		return color;
 	}
 }

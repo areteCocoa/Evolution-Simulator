@@ -5,13 +5,13 @@
 	
 	<duration>1000</duration>
 	
-	<dayDuration>30</dayDuration>
+	<dayDuration>20</dayDuration>
 	
-	<organismCount>20</organismCount>
+	<organismCount>1000</organismCount>
 	
-	<speciesCount>3</speciesCount>
+	<speciesCount>8</speciesCount>
 	
-	<biomeCount>5</biomeCount>
+	<biomeCount>8</biomeCount>
 	
 	<limitedDuration>0</limitedDuration>
 </settings>

@@ -7,7 +7,42 @@
 	</physicalTrait>
 	
 	<physicalTrait id="1">
-		<name>Whatever</name>
+		<name>Fur Coat</name>
+		<biomeID>1</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="2">
+		<name>(Tundra adaptation)</name>
+		<biomeID>2</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="3">
+		<name>(Taiga adaptation)</name>
+		<biomeID>3</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="4">
+		<name>(Temperate Forest adaptation)</name>
+		<biomeID>4</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="5">
+		<name>(Temperate Steepe adaptation)</name>
 		<biomeID>5</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="6">
+		<name>(Subtropical Rainforest adaptation)</name>
+		<biomeID>6</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="7">
+		<name>(Mediteranian adaptation)</name>
+		<biomeID>7</biomeID>
+	</physicalTrait>
+	
+	<physicalTrait id="8">
+		<name>(Desert adaptation)</name>
+		<biomeID>8</biomeID>
 	</physicalTrait>
 </traits>

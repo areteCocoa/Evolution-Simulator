@@ -3,6 +3,7 @@ package main;
 import java.awt.*;
 import java.util.*;
 
+import model.BiomeData;
 import model.stats.EnvironmentStatsModel;
 
 public class Environment {
@@ -11,7 +12,7 @@ public class Environment {
 	private static int[] heights =  {5, 7, 9,  11, 13, 15, 17, 19, 21, 24, 27, 30},
 			widths = 				{7, 9, 13, 16, 18, 21, 24, 27, 30, 33, 37, 41};
 	
-	public int biome;
+	public int biome, harshness;
 	public Point coordinates;
 	public ArrayList<Organism> organisms, incomingOrganisms, newOrganisms;
 	
@@ -33,9 +34,12 @@ public class Environment {
 		incomingOrganisms = new ArrayList<Organism>();
 		newOrganisms = new ArrayList<Organism>();
 		
-		resourceRegenRate = (new Random()).nextInt(5)+5;
+		resourceRegenRate = (new Random()).nextInt(Singleton.biomeData[biome].maximumResources-Singleton.biomeData[biome].minimumResources)+
+				Singleton.biomeData[biome].minimumResources;
 		resourceCount = resourceRegenRate * 2;
-		resourceMax = resourceRegenRate*8;
+		resourceMax = resourceRegenRate * 8;
+		
+		harshness = Singleton.biomeData[biome].harshness;
 	}
 	
 	public void addOrganism(Organism o) {
@@ -124,7 +128,15 @@ public class Environment {
 	}
 	
 	public void changeBiome(int biome) {
+		BiomeData data = Singleton.biomeData[biome];
+		
 		this.biome = biome;
+		
+		resourceRegenRate = (new Random()).nextInt(data.maximumResources-data.minimumResources)+data.minimumResources;
+		resourceCount = resourceRegenRate * 2;
+		resourceMax = resourceRegenRate * 8;
+		
+		harshness = data.harshness;
 	}
 	
 	public Environment nearbyEnvironment(int xOffset, int yOffset) {

@@ -7,8 +7,8 @@ import java.util.*;
 
 import javax.xml.parsers.*;
 
-import model.BiomeData;
-import model.DefaultSettings;
+import model.*;
+import model.TraitData.TraitType;
 
 import org.w3c.dom.*;
 
@@ -17,11 +17,9 @@ public class Singleton {
 	public static ArrayList<Color> 	organismColorTable;
 	public static ArrayList<String> organismNameTable;
 	
-	public static ArrayList<String> behaviorTraitTable;
-	public static ArrayList<String> physicalTraitTable;
-	
 	// Standards
 	public static BiomeData[]		biomeData;
+	public static TraitData[]		traitData;
 	
 	public static DefaultSettings 	defaultSettings;
 	public static Font 				defaultFont;
@@ -39,14 +37,6 @@ public class Singleton {
 		ArrayList<String> organismColorList = new ArrayList<String>();
 		readFileToList("organismColors.txt", organismColorList);
 		
-		ArrayList<String> behaviorTraitList = new ArrayList<String>();
-		readFileToList("behaviorTraits.txt", behaviorTraitList);
-		
-		ArrayList<String> physicalTraitList = new ArrayList<String>();
-		readFileToList("physicalTraits.txt", physicalTraitList);
-		
-		
-		
 		// Get settings from XML File
 		defaultSettings = new DefaultSettings();
 		readSettingsXMLToSettings("settings.xml", defaultSettings);
@@ -55,19 +45,14 @@ public class Singleton {
 		biomeData = new BiomeData[19];
 		loadBiomeDataFromXML("biomes.xml", biomeData);
 		
-		
+		traitData = new TraitData[9];
+		loadTraitDataFromXML("traits.xml", traitData);
 		
 		organismColorTable = new ArrayList<Color>();
 		randomizeListToColorArrayList(organismColorList, organismColorTable);
 		
 		organismNameTable = new ArrayList<String>();
 		randomizeListToStringArrayList(nameList, organismNameTable);
-		
-		behaviorTraitTable = new ArrayList<String>();
-		randomizeListToStringArrayList(behaviorTraitList, behaviorTraitTable);
-		
-		physicalTraitTable = new ArrayList<String>();
-		randomizeListToStringArrayList(physicalTraitList, physicalTraitTable);
 	}
 	
 	private static void randomizeListToStringArrayList(ArrayList<String> list, ArrayList<String> table) {
@@ -172,7 +157,34 @@ public class Singleton {
 							green = Integer.parseInt(colorElement.getElementsByTagName("green").item(0).getChildNodes().item(0).getNodeValue()),
 							blue = Integer.parseInt(colorElement.getElementsByTagName("blue").item(0).getChildNodes().item(0).getNodeValue());
 					
+					data[count].harshness = Integer.parseInt(rootElement.getElementsByTagName("harshness").item(0).getChildNodes().item(0).getNodeValue());
 					data[count].color = new Color(red, green, blue);
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void loadTraitDataFromXML(String fileName, TraitData[] data) {
+		try {
+			Document document = getDocumentWithFileName(fileName);
+			
+			NodeList list = document.getElementsByTagName("physicalTrait");
+			Node node = list.item(0);
+			// data = new BiomeData[list.getLength()];	Dynamically allocate the size of the list to the amount of biomes
+			for(int count=0; count<list.getLength(); count++) {
+				node = list.item(count);
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					data[count] = new TraitData();
+					Element rootElement = (Element) node;
+					
+					// Set attributes to traits
+					data[count].biomeID = Integer.parseInt(rootElement.getElementsByTagName("biomeID").item(0).getChildNodes().item(0).getNodeValue());
+					data[count].name = rootElement.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
+					data[count].traitType = TraitType.PHYSICAL;
 				}
 				
 			}
