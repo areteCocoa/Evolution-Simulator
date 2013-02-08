@@ -36,7 +36,7 @@ public class CreateWorldViewController implements ActionListener{
 		
 		window = new JDialog(owner, "Create New World", true);
 		
-		window.getContentPane().add(createWorldRadioView, BorderLayout.NORTH);
+		// window.getContentPane().add(createWorldRadioView, BorderLayout.NORTH);
 		window.getContentPane().add(createWorldView, BorderLayout.CENTER);
 		window.getContentPane().add(doneButton, BorderLayout.SOUTH);
 		

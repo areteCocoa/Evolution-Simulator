@@ -9,7 +9,7 @@ import model.stats.EnvironmentStatsModel;
 public class Environment {
 	public static int biomeCount;
 	
-	private static int[] heights =  {5, 7, 9,  11, 13, 15, 17, 19, 21, 24, 27, 30},
+	private static int[] heights =  {5, 7, 9,  11, 13, 15, 17, 19, 21, 23, 26, 30},
 			widths = 				{7, 9, 13, 16, 18, 21, 24, 27, 30, 33, 37, 41};
 	
 	public int biome, harshness;

@@ -26,7 +26,7 @@ public class CustomCreateView extends JPanel implements ActionListener{
 	public CustomCreateView() {
 		setBorder(BorderFactory.createLineBorder(getBackground(), 15));
 		
-		this.setLayout(new GridLayout(7, 3, 10, 10));
+		this.setLayout(new GridLayout(6, 3, 10, 10));
 		
 		// Labels on the left hand column
 		JLabel nameLabel = new JLabel("Name: "),
@@ -51,9 +51,11 @@ public class CustomCreateView extends JPanel implements ActionListener{
 		sizeMenu = new JComboBox(Environment.getSizesAsString());
 		sizeMenu.getModel().setSelectedItem(Environment.getSizesAsString()[0]);
 		
+		/*
 		this.add(nameLabel);
 		this.add(getEmptyComp());
 		this.add(nameInput);
+		*/
 		
 		this.add(sizeLabel);
 		this.add(getEmptyComp());

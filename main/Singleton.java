@@ -1,10 +1,12 @@
 package main;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 
+import javax.imageio.ImageIO;
 import javax.xml.parsers.*;
 
 import model.*;
@@ -17,12 +19,19 @@ public class Singleton {
 	public static ArrayList<Color> 	organismColorTable;
 	public static ArrayList<String> organismNameTable;
 	
+	// Images
+	public static BufferedImage	startWindowImage;
+	
 	// Standards
 	public static BiomeData[]		biomeData;
 	public static TraitData[]		traitData;
 	
 	public static DefaultSettings 	defaultSettings;
 	public static Font 				defaultFont;
+	
+	// Graphics Constants
+	public static int height = (int) ((Toolkit.getDefaultToolkit().getScreenSize().height) * .95);
+	public static int width = (int) ((Toolkit.getDefaultToolkit().getScreenSize().width));
 	
 	public static void main() {
 		// Non-list statics
@@ -40,6 +49,10 @@ public class Singleton {
 		// Get settings from XML File
 		defaultSettings = new DefaultSettings();
 		readSettingsXMLToSettings("settings.xml", defaultSettings);
+		
+		// Load Images
+		startWindowImage = null;
+		startWindowImage = getImageWithFileName("big_bacteria.jpg");
 		
 		// Load biome data from biomes.xml
 		biomeData = new BiomeData[19];
@@ -208,5 +221,18 @@ public class Singleton {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private static BufferedImage getImageWithFileName(String fileName) {
+		BufferedImage image;
+		
+		File file = new File((Singleton.class.getResource("/images/" + fileName)).getPath());
+		try {
+			image = ImageIO.read(file);
+			return image;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

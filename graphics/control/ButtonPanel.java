@@ -15,18 +15,21 @@ public class ButtonPanel extends JPanel implements ActionListener {
 	
 	ActionListener actionListener;
 	
-	public ButtonPanel(ConsoleController console) {
+	private WorldSettingsPopup settingsPopup;
+	
+	public ButtonPanel(final ConsoleController console) {
 		this.consoleController = console;
 		
 		setBackground(Color.white);
+		setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
 		
-		this.setLayout(new GridLayout(2, 3, 10, 10));
+		this.setLayout(new GridLayout(2, 3, 20, 20));
 		
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(this);
 		this.add(startButton);
 		
-		JButton stopButton = new JButton("Stop");
+		JButton stopButton = new JButton("Pause");
 		stopButton.addActionListener(this);
 		this.add(stopButton);
 		
@@ -34,9 +37,24 @@ public class ButtonPanel extends JPanel implements ActionListener {
 		insertButton.addActionListener(this);
 		this.add(insertButton);
 		
+		JButton settingsButton = new JButton("Settings");
+		settingsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(settingsPopup == null) {
+					settingsPopup = new WorldSettingsPopup(console);
+				}
+				if(!settingsPopup.isShowing()) {
+					settingsPopup.showDialog();
+				} else {
+					// settingsPopup.setSelected();
+				}
+			}
+		});
+		this.add(settingsButton);
+		
 		JButton disasterButton = new JButton("Disaster");
 		disasterButton.addActionListener(this);
-		this.add(disasterButton);
+		// this.add(disasterButton);
 		
 		JButton stepButton = new JButton("Step");
 		stepButton.addActionListener(this);
@@ -45,6 +63,10 @@ public class ButtonPanel extends JPanel implements ActionListener {
 		JButton endButton = new JButton("End");
 		endButton.addActionListener(this);
 		this.add(endButton);
+		
+		JButton idkButton = new JButton("idk");
+		idkButton.addActionListener(this);
+		// this.add(idkButton);
 	}
 
 	@Override

@@ -1,16 +1,19 @@
 package model;
 
+import graphics.WorldPanel;
 import main.*;
 
 public class ConsoleController {
 	
 	private static String DEFAULT_MESSAGE = "Invalid command.";
 	
-	World world;
+	private World world;
+	private WorldPanel worldPanel;
 	Environment selectedEnvironment;
 	
-	public ConsoleController(World world) {
+	public ConsoleController(World world, WorldPanel worldPanel) {
 		this.world = world;
+		this.worldPanel = worldPanel;
 	}
 	
 	public void setSelectedEnvironment(Environment environment) {
@@ -30,13 +33,13 @@ public class ConsoleController {
 		String output = DEFAULT_MESSAGE;
 		if(world.isDoneRunning()) {
 			return "The simulation has ended";
-		} else if(input.equalsIgnoreCase("stop")) {
+		} else if(input.equalsIgnoreCase("pause")) {
 			if(world.isRunning()) {
-				output = "Stopping world.";
+				output = "Pausing world.";
 				world.stop();
 			}
 			else {
-				output = "World already stopped.";
+				output = "World already paused.";
 			}
 		} else if(input.equalsIgnoreCase("start")) {
 			if(world.isRunning()) {
@@ -69,5 +72,12 @@ public class ConsoleController {
 		return output;
 	}
 	
+	public World getWorld() {
+		return world;
+	}
+	
+	public WorldPanel getWorldPanel() {
+		return this.worldPanel;
+	}
 	
 }

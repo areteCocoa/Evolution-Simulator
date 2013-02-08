@@ -14,4 +14,8 @@ public class Dice {
 	public static int getPercentage(int numerator, int denominator) {
 		return (int)((int)((100.0*numerator/denominator)));
 	}
+	
+	public static float getFloatPercentage(float numerator, float denominator) {
+		return 100*numerator/denominator;
+	}
 }
