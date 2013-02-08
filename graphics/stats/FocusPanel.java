@@ -13,6 +13,7 @@ public class FocusPanel extends JPanel {
 	private Environment lastClickedEnvironment;
 	
 	private static final int envPadding = 2;
+	private static final int maxWidth = 6;
 	
 	public FocusPanel() {
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -32,20 +33,16 @@ public class FocusPanel extends JPanel {
 			g.setColor(Singleton.biomeData[lastClickedEnvironment.biome].color);
 			g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
 			
-			int maxLength = (int)Math.sqrt(lastClickedEnvironment.organisms.size())+1;
-			int cellSize = (int)((1.0/maxLength)*(tempRect.getWidth()/2));
-			int cellPadding = (int) (tempRect.getWidth() - cellSize*maxLength)/(maxLength+1);
+			int cellSize = (int)((1.0/maxWidth)*(tempRect.getWidth()/2));
+			int cellPadding = (int) (tempRect.getWidth() - cellSize*maxWidth)/(maxWidth+1);
 			int row = 1; int column = 1;
 			for(int c=0; c<lastClickedEnvironment.organisms.size(); c++) {
 				g.setColor(Singleton.organismColorTable.get(lastClickedEnvironment.organisms.get(c).species));
 				g.fillRect(tempRect.x + row*cellPadding + cellSize*(row-1), tempRect.y + column*cellPadding + cellSize*(column-1), cellSize, cellSize);
 				row++;
-				if(row>maxLength) {
+				if(row>maxWidth) {
 					row = 1;
 					column++;
-					if(column>maxLength) {
-						System.out.println("Focus Panel Error: Environment exceeded max y size");
-					}
 				}
 			}
 		}

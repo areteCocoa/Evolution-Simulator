@@ -9,8 +9,8 @@
 			<blue>240</blue>
 		</color>
 		<resources>
-			<minimum>1</minimum>
-			<maximum>5</maximum>
+			<minimum>10</minimum>
+			<maximum>20</maximum>
 		</resources>
 		<harshness>100</harshness>
 		<notes>NOTES</notes>
@@ -24,10 +24,10 @@
 			<blue>240</blue>
 		</color>
 		<resources>
-			<minimum>1</minimum>
-			<maximum>5</maximum>
+			<minimum>10</minimum>
+			<maximum>20</maximum>
 		</resources>
-		<harshness>90</harshness>
+		<harshness>75</harshness>
 		<notes>NOTES</notes>
 	</biome>
 	

@@ -1,5 +1,7 @@
 package graphics.control;
 
+import graphics.WorldPanel;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -25,10 +27,10 @@ public class ControlPanel extends JPanel implements ActionListener, SimplifiedMo
 	
 	Environment selectedEnvironment;
 	
-	public ControlPanel(World world) {
+	public ControlPanel(World world, WorldPanel worldPanel) {
 		// Non-GUI data
 		this.world = world;
-		consoleController = new ConsoleController(world);
+		consoleController = new ConsoleController(world, worldPanel);
 		
 		// GUI setup
 		setBorder(BorderFactory.createLineBorder(Color.black));

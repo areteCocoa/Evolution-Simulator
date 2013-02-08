@@ -36,7 +36,7 @@ public class WorldViewController implements DataListener {
 		// Handle all the panels before the main frame
 		worldPanel = new WorldPanel(world);
 		statsPanel = new StatsPanel(world);
-		controlPanel = new ControlPanel(world);
+		controlPanel = new ControlPanel(world, worldPanel);
 		
 		// Calculate envSize and mainWidth
 		int workingWidth = width - (panelPadding*3), workingHeight = height - (panelPadding*3) - 25;

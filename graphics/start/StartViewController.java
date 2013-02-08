@@ -1,5 +1,6 @@
 package graphics.start;
 
+import graphics.ImagePanel;
 import graphics.WorldViewController;
 import graphics.editor.ScenarioEditorViewController;
 import graphics.end.EndViewController;
@@ -7,6 +8,8 @@ import graphics.start.create.*;
 import graphics.start.help.*;
 import graphics.start.load.*;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.*;
 
 import main.*;
@@ -27,13 +30,19 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 		isShowing = false;
 		this.scenario = new Scenario();
 		
+		mainFrame = new JFrame("Evolution Simulator");
+		
 		startView = new StartView();
 		startView.addActionListener(this);
 		
-		mainFrame = new JFrame("Evolution Simulator");
-		mainFrame.setContentPane(startView);
+		ImagePanel panel = new ImagePanel(Singleton.startWindowImage, new Dimension((int)Singleton.startWindowImage.getWidth()/4, (int)Singleton.startWindowImage.getHeight()/4));
+		panel.setBorder(BorderFactory.createLineBorder(panel.getBackground(), 10));
+		mainFrame.getContentPane().add(panel, BorderLayout.CENTER);
+		
+		mainFrame.getContentPane().add(startView, BorderLayout.EAST);
 		mainFrame.addWindowListener(this);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setResizable(false);
 		
 		selection = StartWindow.NONE;
 	}
@@ -117,6 +126,7 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 						}
 						catch (InterruptedException e) {System.out.println("ERROR");}
 					}
+					this.showFrame(true);
 				}
 			}
 		}

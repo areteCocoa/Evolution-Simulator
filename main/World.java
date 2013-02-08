@@ -6,6 +6,8 @@ import model.analytical.WorldData;
 import model.stats.SpeciesStatsModel;
 
 public class World implements Runnable{
+	private static double LAND_PERCETAGE = .5;
+	
 	public int height, width;
 	
 	private Thread worldThread;
@@ -54,7 +56,7 @@ public class World implements Runnable{
 		
 		// Add islands of varying sizes
 		// Declare all variables
-		int landCount = (int)(width*height)/3;
+		int landCount = (int)(width*height*World.LAND_PERCETAGE);
 		int landSquareCount, biome, biomesPlaced;
 		Random random = new Random();
 		Environment randomEnvironment;

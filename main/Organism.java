@@ -18,7 +18,7 @@ public class Organism {
 	private int nextOffspringSpecies;
 	
 	// Other attributes - Change often
-	private int feed, maxFeed;
+	private float feed, maxFeed;
 	private ArrayList<PhysicalTrait> traits;
 	
 	// Age
@@ -113,9 +113,9 @@ public class Organism {
 		for(int count=0; count<traits.size(); count++) {
 			if(traits.get(count).getBiomeID() == this.containingEnvironment.biome) {
 				if(traits.get(count).getValue() != 0) {
-					deathChance = deathChance / traits.get(count).getValue();
-					System.out.println(containingEnvironment.coordinates + " " + deathChance);
-					feed++;
+					deathChance = deathChance / (traits.get(count).getValue()*10);
+					// System.out.println(containingEnvironment.coordinates + " " + deathChance);
+					feed+= .3;
 				}
 			}
 		}
@@ -147,7 +147,7 @@ public class Organism {
 			kill();
 		}
 		
-		if(Dice.getPercentage(feed, maxFeed) < 40 && Dice.getPercentBoolean(5) && !isDead) {
+		if(Dice.getFloatPercentage(feed, maxFeed) < 40 && Dice.getPercentBoolean(5) && !isDead) {
 			this.wantsMigration = true;
 		}
 		else {
@@ -156,11 +156,10 @@ public class Organism {
 		
 		// Manipulate traits, possible speciation
 		if(Dice.getPercentBoolean(2)) {
-			if(Dice.getPercentBoolean(10)) {
+			if(Dice.getPercentBoolean(5)) {
 				int traitID = (new Random()).nextInt(Organism.speciesCount);
 				traits.add(new PhysicalTrait(traitID));
 				this.nextOffspringSpecies = traitID;
-				System.out.println(this + " Wow");
 			} else {
 				traits.add(new PhysicalTrait(species));
 			}
@@ -183,7 +182,7 @@ public class Organism {
 		if(!isDead) {
 			SpeciesStatsModel.deadOrganism(species);
 			isDead = true;
-			containingEnvironment.resourceCount+=feed;
+			containingEnvironment.resourceCount+=(feed/2);
 		}
 	}
 	

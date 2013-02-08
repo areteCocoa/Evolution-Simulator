@@ -1,6 +1,5 @@
 package graphics.start;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ public class StartView extends JPanel {
 	
 	public StartView() {
 		this.setBorder(BorderFactory.createLineBorder(getBackground(), 10));
-		this.setLayout(new GridLayout(2, 2, 10, 10));
+		this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
 		newButton = new JButton("Create New World");
 		newButton.setActionCommand("new");
@@ -20,15 +19,15 @@ public class StartView extends JPanel {
 		
 		openButton = new JButton("Open World");
 		openButton.setActionCommand("open");
-		this.add(openButton);
+		// this.add(openButton);
 		
 		editorButton = new JButton("Scenario Editor");
 		editorButton.setActionCommand("scenario");
-		this.add(editorButton);
+		// this.add(editorButton);
 		
 		helpButton = new JButton("Help");
 		helpButton.setActionCommand("help");
-		this.add(helpButton);
+		// this.add(helpButton);
 	}
 	
 	public void addActionListener(ActionListener a) {
