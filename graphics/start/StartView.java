@@ -7,7 +7,7 @@ import javax.swing.*;
 public class StartView extends JPanel {
 	static final long serialVersionUID = 1L;
 
-	JButton newButton, openButton, editorButton, helpButton;
+	JButton newButton, openButton, editorButton, helpButton, dataEditorButton;
 	
 	public StartView() {
 		this.setBorder(BorderFactory.createLineBorder(getBackground(), 10));
@@ -28,6 +28,10 @@ public class StartView extends JPanel {
 		helpButton = new JButton("Help");
 		helpButton.setActionCommand("help");
 		// this.add(helpButton);
+		
+		dataEditorButton = new JButton("Data Editor");
+		dataEditorButton.setActionCommand("data");
+		// this.add(this.dataEditorButton);
 	}
 	
 	public void addActionListener(ActionListener a) {

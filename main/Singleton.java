@@ -52,7 +52,7 @@ public class Singleton {
 		
 		// Load Images
 		startWindowImage = null;
-		startWindowImage = getImageWithFileName("big_bacteria.jpg");
+		startWindowImage = getImageWithFileName("start_logo.png");
 		
 		// Load biome data from biomes.xml
 		biomeData = new BiomeData[19];

@@ -35,7 +35,7 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 		startView = new StartView();
 		startView.addActionListener(this);
 		
-		ImagePanel panel = new ImagePanel(Singleton.startWindowImage, new Dimension((int)Singleton.startWindowImage.getWidth()/4, (int)Singleton.startWindowImage.getHeight()/4));
+		ImagePanel panel = new ImagePanel(Singleton.startWindowImage, new Dimension((int)Singleton.startWindowImage.getWidth(), (int)Singleton.startWindowImage.getHeight()));
 		panel.setBorder(BorderFactory.createLineBorder(panel.getBackground(), 10));
 		mainFrame.getContentPane().add(panel, BorderLayout.CENTER);
 		
@@ -110,7 +110,7 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 				catch (InterruptedException e) {e.printStackTrace();}
 			}
 			
-			if(world.isDoneRunning()) {
+			if(world.isDoneRunning() && world.day != 0) {
 				int returnValue = JOptionPane.showConfirmDialog(worldController.getMainFrame(), "View Data?", "End of Simulation",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 				System.out.println(returnValue);
@@ -124,10 +124,13 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 						try {
 							Thread.sleep(100);
 						}
-						catch (InterruptedException e) {System.out.println("ERROR");}
+						catch (InterruptedException e) {e.printStackTrace();}
 					}
 					this.showFrame(true);
 				}
+			} else {
+				worldController.showFrame(false);
+				this.showFrame(true);
 			}
 		}
 	}
