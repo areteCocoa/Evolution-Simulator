@@ -25,7 +25,8 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 	private EnvironmentGraphics[][] worldGraphics;
 	private World world;
 	
-	private boolean shouldDisplayBiomeTypes, shouldDisplayOrganismTypes;
+	private boolean displayBiomeTypes, displayOrganismTypes;
+	private boolean[] displayOrganisms;
 	
 	private Thread thread;
 	
@@ -40,8 +41,10 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 			}
 		}
 		
-		shouldDisplayBiomeTypes = false;
-		shouldDisplayOrganismTypes = false;
+		this.displayOrganisms = new boolean[Organism.speciesCount];
+		for(int count=0; count<displayOrganisms.length; count++) {
+			this.displayOrganisms[count] = true;
+		}
 		
 		this.addMouseListener(this);
 		SMListeners = new ArrayList<SimplifiedMouseListener>();
@@ -72,7 +75,7 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 				g.setColor(Color.blue);
 				g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
 				
-				if(this.shouldDisplayBiomeTypes || graphics.color == Singleton.biomeData[0].color) {
+				if(this.displayBiomeTypes || graphics.color == Singleton.biomeData[0].color) {
 					g.setColor(graphics.color);
 				} else {
 					g.setColor(Singleton.biomeData[6].color);
@@ -99,19 +102,24 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 				int cellSize = (int)((1.0/maxWidth)*(envSize/2));
 				int cellPadding = (envSize - cellSize*maxWidth)/(maxWidth+1);
 				int row = 1; int column = 1;
+				int species;
+				
 				for(int c=0; c<world.environments[x][y].organisms.size(); c++) {
-					
-					if(this.shouldDisplayOrganismTypes) {
-						g.setColor(Singleton.organismColorTable.get(world.environments[x][y].organisms.get(c).species));
-					} else {
-						g.setColor(Color.white);
-					}
-					
-					g.fillRect(tempRect.x + row*cellPadding + cellSize*(row-1), tempRect.y + column*cellPadding + cellSize*(column-1), cellSize, cellSize);
-					row++;
-					if(row>maxWidth) {
-						row = 1;
-						column++;
+					species = world.environments[x][y].organisms.get(c).species;
+					if(this.displayOrganisms[species]) {
+						
+						if(this.displayOrganismTypes) {
+							g.setColor(Singleton.organismColorTable.get(species));
+						} else {
+							g.setColor(Color.white);
+						}
+						
+						g.fillRect(tempRect.x + row*cellPadding + cellSize*(row-1), tempRect.y + column*cellPadding + cellSize*(column-1), cellSize, cellSize);
+						row++;
+						if(row>maxWidth) {
+							row = 1;
+							column++;
+						}
 					}
 				}
 			}
@@ -149,22 +157,33 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 		this.world = world;
 	}
 	
+	
+	// Graphics settings getters/setters
+	public boolean shouldDisplayBiomeType() {
+		return this.displayBiomeTypes;
+	}
+	
 	public void setDisplayBiomeTypes(boolean should) {
-		this.shouldDisplayBiomeTypes = should;
+		this.displayBiomeTypes = should;
 		this.fireDataUpdate();
 	}
 	
-	public boolean getShouldDisplayBiomeTypes() {
-		return this.shouldDisplayBiomeTypes;
+	public boolean shouldDisplayOrganismType() {
+		return this.displayOrganismTypes;
 	}
 	
 	public void setDisplayOrganismTypes(boolean should) {
-		this.shouldDisplayOrganismTypes = should;
+		this.displayOrganismTypes = should;
 		this.fireDataUpdate();
 	}
 	
-	public boolean getShouldDisplayOrganismTypes() {
-		return this.shouldDisplayBiomeTypes;
+	public boolean shouldDisplayOrganism(int index) {
+		return this.displayOrganisms[index];
+	}
+	
+	public void setDisplayOrganism(int index, boolean should) {
+		this.displayOrganisms[index] = should;
+		this.fireDataUpdate();
 	}
 	
 	@Override

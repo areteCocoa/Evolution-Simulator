@@ -25,7 +25,12 @@ public class EndView extends JPanel {
 		setLayout(new BorderLayout(10, 10));
 		
 		nameLabel = new JLabel("Name: " + data.name);
-		durationDayLabel = new JLabel(data.daysRun + "/" + data.intendedDuration);
+		durationDayLabel = new JLabel("Days run: " + data.daysRun + "/" + data.intendedDuration);
+		if(data.intendedDuration != 0) {
+			durationDayLabel.setText("Total days run: " + data.daysRun + "/" + data.intendedDuration);
+		} else {
+			durationDayLabel.setText("Total days run: " + data.daysRun);
+		}
 		
 		// OverviewViewController overviewController = new OverviewViewController();
 		
@@ -46,14 +51,14 @@ public class EndView extends JPanel {
 		// Initialize tab view for charts
 		JTabbedPane tabView = new JTabbedPane();
 		tabView.addTab("Alive", new ChartPanel(aliveChart));
-		tabView.addTab("Dead", new ChartPanel(deadChart));
+		// tabView.addTab("Dead", new ChartPanel(deadChart));
 		tabView.addTab("Total", new ChartPanel(totalChart));
 		
 		customizeChart(aliveChart, data);
 		customizeChart(deadChart, data);
 		customizeChart(totalChart, data);
 		
-		this.add(nameLabel, BorderLayout.NORTH);
+		// this.add(nameLabel, BorderLayout.NORTH);
 		this.add(tabView, BorderLayout.CENTER);
 		// this.add(overviewController, BorderLayout.EAST);
 		this.add(durationDayLabel, BorderLayout.SOUTH);

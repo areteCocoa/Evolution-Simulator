@@ -9,6 +9,7 @@ import graphics.WorldViewController;
 
 import javax.swing.*;
 
+import main.Organism;
 import main.World;
 import model.ConsoleController;
 
@@ -32,20 +33,34 @@ public class WorldSettingsPopup implements ActionListener {
 			mainWindow.setTitle("World Settings");
 		}
 		
-		JPanel checkBoxPanel = new JPanel();
-		checkBoxPanel.setLayout(new GridLayout(2,1,10,10));
-		checkBoxPanel.setBorder(BorderFactory.createLineBorder(checkBoxPanel.getBackground(), 10));
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(4 + Organism.speciesCount,1,10,10));
+		container.setBorder(BorderFactory.createLineBorder(container.getBackground(), 10));
 		
-		biomeTypes = new JCheckBox("Biome Types", worldPanel.getShouldDisplayBiomeTypes());
+		biomeTypes = new JCheckBox("Biome Types", worldPanel.shouldDisplayBiomeType());
 		biomeTypes.addActionListener(this);
-		checkBoxPanel.add(biomeTypes);
+		container.add(biomeTypes);
 		
-		organismTypes = new JCheckBox("Organism Types", worldPanel.getShouldDisplayOrganismTypes());
+		organismTypes = new JCheckBox("Organism Types", worldPanel.shouldDisplayOrganismType());
 		organismTypes.addActionListener(this);
-		checkBoxPanel.add(organismTypes);
+		container.add(organismTypes);
+		
+		container.add(new JSeparator(SwingConstants.HORIZONTAL));
+		container.add(new JLabel("Display Organism Types:"));
+		
+		JCheckBox temp;
+		for(int count=0; count<Organism.speciesCount; count++) {
+			temp = new JCheckBox("Organism " + count);
+			temp.setActionCommand("O" + count);
+			temp.addActionListener(this);
+			temp.setSelected(worldPanel.shouldDisplayOrganism(count));
+			
+			container.add(temp);
+		}
+		
+		mainWindow.getContentPane().add(container);
 		
 		mainWindow.setAlwaysOnTop(true);
-		mainWindow.getContentPane().add(checkBoxPanel);
 		mainWindow.pack();
 		mainWindow.setLocationRelativeTo(null);
 	}
@@ -72,7 +87,15 @@ public class WorldSettingsPopup implements ActionListener {
 			worldPanel.setDisplayBiomeTypes(biomeTypes.isSelected());
 		} else if(e.getActionCommand().equalsIgnoreCase("organism types")) {
 			worldPanel.setDisplayOrganismTypes(organismTypes.isSelected());
-		} else {
+		} else if(e.getActionCommand().substring(0, 1).equalsIgnoreCase("O")) {
+			// Change display of organism
+			for(int type=0; type<Organism.speciesCount; type++) {
+				if(e.getActionCommand().equalsIgnoreCase("O" + type)) {
+					worldPanel.setDisplayOrganism(type, !worldPanel.shouldDisplayOrganism(type));
+				}
+			}
+		}
+		else {
 			System.out.println("Unhandled event in WorldSettingsPopup: " + e.getActionCommand());
 		}
 	}

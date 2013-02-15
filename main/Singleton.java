@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.*;
+import java.net.URL;
 import java.util.*;
 
 import javax.imageio.ImageIO;
@@ -52,7 +53,7 @@ public class Singleton {
 		
 		// Load Images
 		startWindowImage = null;
-		startWindowImage = getImageWithFileName("big_bacteria.jpg");
+		startWindowImage = getImageWithFileName("start_logo.png");
 		
 		// Load biome data from biomes.xml
 		biomeData = new BiomeData[19];
@@ -226,9 +227,10 @@ public class Singleton {
 	private static BufferedImage getImageWithFileName(String fileName) {
 		BufferedImage image;
 		
-		File file = new File((Singleton.class.getResource("/images/" + fileName)).getPath());
+		URL url = (Singleton.class.getResource("/images/" + fileName));
+		System.out.println(url.getPath());
 		try {
-			image = ImageIO.read(file);
+			image = ImageIO.read(url);
 			return image;
 		} catch (IOException e) {
 			e.printStackTrace();

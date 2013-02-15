@@ -39,8 +39,8 @@
 			<blue>220</blue>
 		</color>
 		<resources>
-			<minimum>2</minimum>
-			<maximum>6</maximum>
+			<minimum>10</minimum>
+			<maximum>20</maximum>
 		</resources>
 		<harshness>50</harshness>
 	</biome>
@@ -53,8 +53,8 @@
 			<blue>100</blue>
 		</color>
 		<resources>
-			<minimum>2</minimum>
-			<maximum>6</maximum>
+			<minimum>10</minimum>
+			<maximum>20</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -68,8 +68,8 @@
 			<blue>093</blue>
 		</color>
 		<resources>
-			<minimum>4</minimum>
-			<maximum>10</maximum>
+			<minimum>15</minimum>
+			<maximum>30</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -83,8 +83,8 @@
 			<blue>111</blue>
 		</color>
 		<resources>
-			<minimum>4</minimum>
-			<maximum>10</maximum>
+			<minimum>15</minimum>
+			<maximum>30</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -98,8 +98,8 @@
 			<blue>13</blue>
 		</color>
 		<resources>
-			<minimum>14</minimum>
-			<maximum>20</maximum>
+			<minimum>25</minimum>
+			<maximum>35</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -113,8 +113,8 @@
 			<blue>153</blue>
 		</color>
 		<resources>
-			<minimum>14</minimum>
-			<maximum>20</maximum>
+			<minimum>25</minimum>
+			<maximum>35</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -128,8 +128,8 @@
 			<blue>111</blue>
 		</color>
 		<resources>
-			<minimum>14</minimum>
-			<maximum>20</maximum>
+			<minimum>20</minimum>
+			<maximum>30</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -143,8 +143,8 @@
 			<blue>60</blue>
 		</color>
 		<resources>
-			<minimum>2</minimum>
-			<maximum>6</maximum>
+			<minimum>10</minimum>
+			<maximum>20</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -158,8 +158,8 @@
 			<blue>83</blue>
 		</color>
 		<resources>
-			<minimum>2</minimum>
-			<maximum>6</maximum>
+			<minimum>15</minimum>
+			<maximum>25</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -173,8 +173,8 @@
 			<blue>71</blue>
 		</color>
 		<resources>
-			<minimum>2</minimum>
-			<maximum>6</maximum>
+			<minimum>15</minimum>
+			<maximum>25</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -188,8 +188,8 @@
 			<blue>135</blue>
 		</color>
 		<resources>
-			<minimum>2</minimum>
-			<maximum>6</maximum>
+			<minimum>15</minimum>
+			<maximum>25</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -203,8 +203,8 @@
 			<blue>84</blue>
 		</color>
 		<resources>
-			<minimum>1</minimum>
-			<maximum>5</maximum>
+			<minimum>20</minimum>
+			<maximum>30</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -218,8 +218,8 @@
 			<blue>25</blue>
 		</color>
 		<resources>
-			<minimum>1</minimum>
-			<maximum>5</maximum>
+			<minimum>25</minimum>
+			<maximum>35</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
@@ -233,8 +233,8 @@
 			<blue>52</blue>
 		</color>
 		<resources>
-			<minimum>3</minimum>
-			<maximum>10</maximum>
+			<minimum>10</minimum>
+			<maximum>20</maximum>
 		</resources>
 		<harshness>50</harshness>
 		<notes>NOTES</notes>
