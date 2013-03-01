@@ -27,6 +27,7 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 	
 	private boolean displayBiomeTypes, displayOrganismTypes;
 	private boolean[] displayOrganisms;
+	private boolean shouldDisplayPadding;
 	
 	private Thread thread;
 	
@@ -45,6 +46,7 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 		for(int count=0; count<displayOrganisms.length; count++) {
 			this.displayOrganisms[count] = true;
 		}
+		this.shouldDisplayPadding = true;
 		
 		this.addMouseListener(this);
 		SMListeners = new ArrayList<SimplifiedMouseListener>();
@@ -71,7 +73,12 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 			for(int y=0; y<worldGraphics[0].length; y++) {
 				graphics = worldGraphics[x][y];
 				
-				tempRect = new Rectangle((envSize*x) + cellPadding*(x+1), (envSize*y) + cellPadding*(y+1), envSize, envSize);
+				if(this.shouldDisplayPadding) {
+					tempRect = new Rectangle((envSize*x) + cellPadding*(x+1), (envSize*y) + cellPadding*(y+1), envSize, envSize);
+				} else {
+					tempRect = new Rectangle((envSize*x) + cellPadding*(x+1), (envSize*y) + cellPadding*(y+1), envSize+cellPadding, envSize+cellPadding);
+				}
+				
 				g.setColor(Color.blue);
 				g.fillRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
 				
@@ -184,6 +191,19 @@ public class WorldPanel extends JPanel implements Runnable, MouseListener, DataL
 	public void setDisplayOrganism(int index, boolean should) {
 		this.displayOrganisms[index] = should;
 		this.fireDataUpdate();
+	}
+	
+	public void setShouldDisplayGrid(boolean should) {
+		if(should) {
+			this.shouldDisplayPadding = true;
+		} else {
+			this.shouldDisplayPadding = false;
+		}
+		this.fireDataUpdate();
+	}
+	
+	public boolean isDisplayingGrid() {
+		return this.shouldDisplayPadding;
 	}
 	
 	@Override

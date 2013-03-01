@@ -60,6 +60,13 @@ public class SpeciesStatsModel {
 		_totalEver = totalEver.clone();
 	}
 	
+	public static void reset() {
+		speciesCount = Organism.speciesCount;
+		totalDead = new int[speciesCount];
+		totalAlive = new int[speciesCount];
+		totalEver = new int[speciesCount];
+	}
+	
 	public int getSpeciesCount() {
 		return _speciesCount;
 	}

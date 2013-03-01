@@ -6,7 +6,7 @@ import model.analytical.WorldData;
 import model.stats.SpeciesStatsModel;
 
 public class World implements Runnable{
-	private static double LAND_PERCETAGE = .5;
+	private double landPercentage;
 	
 	public int height, width;
 	
@@ -53,10 +53,13 @@ public class World implements Runnable{
 			}
 		}
 		
-		
+		dataListeners = new ArrayList<DataListener>();
+	}
+	
+	private void buildWorld() {
 		// Add islands of varying sizes
 		// Declare all variables
-		int landCount = (int)(width*height*World.LAND_PERCETAGE);
+		int landCount = (int)(width*height*this.landPercentage);
 		int landSquareCount, biome, biomesPlaced;
 		Random random = new Random();
 		Environment randomEnvironment;
@@ -73,7 +76,7 @@ public class World implements Runnable{
 					landSquareCount = random.nextInt(16);
 				}
 				biomesPlaced = buildIsland(x, y, biome, landSquareCount);
-				
+						
 				landCount -= biomesPlaced;
 				for(int count=0; count<biomesPlaced; count++) {
 					worldData.biomeStats.addBiome(biome);
@@ -81,8 +84,6 @@ public class World implements Runnable{
 				}
 			}
 		}
-		
-		dataListeners = new ArrayList<DataListener>();
 	}
 	
 	// Builds island and returns amount of squares used
@@ -131,14 +132,21 @@ public class World implements Runnable{
 		this(scenario.size.height, scenario.size.width, scenario.duration);
 		this.worldData.name = scenario.name;
 		this.dayDuration = scenario.dayDuration;
+		this.landPercentage = scenario.landPercentage;
+		
+		this.buildWorld();
 		this.addOrganisms(scenario.startingOrganismCount);
+		updateStats(false);
 	}
 
 	public void addOrganisms(int count) {
 		Environment tempEnv;
-		for(int x=0; x<count; x++) {
-			tempEnv = environments[(new Random().nextInt(this.width))][(new Random().nextInt(this.height))];
-			tempEnv.addRandomOrganism();
+		int organismsPerSpecies = count/Organism.speciesCount;
+		for(int speciesCount = 0; speciesCount<Organism.speciesCount; speciesCount++) {
+			for(int organismsPlaced = 0; organismsPlaced < organismsPerSpecies; organismsPlaced++) {
+				tempEnv = environments[(new Random().nextInt(this.width))][(new Random().nextInt(this.height))];
+				tempEnv.addOrganism(new Organism(tempEnv, speciesCount));
+			}
 		}
 	}
 	
@@ -174,21 +182,25 @@ public class World implements Runnable{
 		}
 	}
 	
-	public void update() {
+	private void update() {
 		// Tell Environments to update
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
 				environments[x][y].update();
 			}
 		}
-					
-		// Update DayData and reset speciesStatsModel
-		day++;
-		dayData.update();
-		SpeciesStatsModel.newDay();
-					
+		
+		updateStats(true);
+		
 		// Update other classes listening for updates in this class
 		fireDataUpdate();
+	}
+	
+	private void updateStats(boolean dayPassed) {
+		// Update DayData and reset speciesStatsModel
+		dayData.update();
+		SpeciesStatsModel.newDay();
+		if(dayPassed){day++;}
 	}
 	
 	public void fireDataUpdate() {
@@ -244,8 +256,16 @@ public class World implements Runnable{
 		doneRunning = true;
 	}
 	
-	// Static methods
+	// Getters/Setters
+	public void setDayDuration(int duration) {
+		this.dayDuration = duration;
+	}
 	
+	public int getDayDuration() {
+		return this.dayDuration;
+	}
+	
+	// Static methods
 	public static World getBlankWorld(int height, int width) {
 		World world = new World(height, width);
 		for(int x=0; x<width; x++) {

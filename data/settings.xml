@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <settings>
-	<sizeIndex>11</sizeIndex>
+	<sizeIndex>5</sizeIndex>
 	
 	<duration>1000</duration>
 	
-	<dayDuration>30</dayDuration>
+	<dayDuration>50</dayDuration>
 	
 	<organismCount>200</organismCount>
 	

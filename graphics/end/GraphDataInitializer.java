@@ -19,7 +19,7 @@ public class GraphDataInitializer {
 					String label = new String(Singleton.organismNameTable.get(y));
 					// new String("Organism " + Integer.toString(y))
 					dataset.addValue(data.dayData.getDayData(x).getSpeciesStatsModel().getTotalAlive(y),
-							label, new String("Day " + Integer.toString(x)));
+							label, new String(Integer.toString(x)));
 				}
 			}
 		}
@@ -29,7 +29,7 @@ public class GraphDataInitializer {
 					String label = new String(Singleton.organismNameTable.get(y));
 					// new String("Organism " + Integer.toString(y))
 					dataset.addValue(data.dayData.getDayData(x).getSpeciesStatsModel().getTotalDead(y),
-							label, new String("Day " + Integer.toString(x)));
+							label, new String(Integer.toString(x)));
 				}
 			}
 		}
@@ -39,7 +39,7 @@ public class GraphDataInitializer {
 					String label = new String(Singleton.organismNameTable.get(y));
 					// new String("Organism " + Integer.toString(y))
 					dataset.addValue(data.dayData.getDayData(x).getSpeciesStatsModel().getTotal(y),
-							label, new String("Day " + Integer.toString(x)));
+							label, new String(Integer.toString(x)));
 				}
 			}
 		}		

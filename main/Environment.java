@@ -9,8 +9,8 @@ import model.stats.EnvironmentStatsModel;
 public class Environment {
 	public static int biomeCount;
 	
-	private static int[] heights =  {5, 7, 9,  11, 13, 15, 17, 19, 21, 23, 26, 30},
-			widths = 				{7, 9, 13, 16, 18, 21, 24, 27, 30, 33, 37, 41};
+	private static int[] heights =  {5, 10,  15, 20, 25, 30, 35, 40, 50, 60, 70, 80},
+			widths = 						{7, 14, 21, 28, 34, 41, 48, 54, 69, 80, 94, 105};
 	
 	public int biome, harshness;
 	public Point coordinates;

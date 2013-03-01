@@ -1,13 +1,9 @@
 Cat
 Dog
 Butterfly
-Dinosaur
 Spider
 Capybera
 Echidna
 Okapi
 Cassowary
-Flying Bison
-Pokemon
 Monkey
-Smarter Monkeys

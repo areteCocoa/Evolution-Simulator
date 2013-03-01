@@ -45,7 +45,7 @@ public class EndView extends JPanel {
 		
 		// Initialize and set chart
 		JFreeChart aliveChart = ChartFactory.createLineChart("Total Organisms Alive per Day", "Day", "Alive Count", aliveDataset, PlotOrientation.VERTICAL, true, true, false);
-		JFreeChart deadChart = ChartFactory.createLineChart("Total Organisms Dead per Day", "Day", "Dead Count", deadDataset, PlotOrientation.VERTICAL, true, true, false);
+		// JFreeChart deadChart = ChartFactory.createLineChart("Total Organisms Dead per Day", "Day", "Dead Count", deadDataset, PlotOrientation.VERTICAL, true, true, false);
 		JFreeChart totalChart = ChartFactory.createLineChart("Total Organisms Ever per Day", "Day", "Total Count", totalDataset, PlotOrientation.VERTICAL, true, true, false);
 		
 		// Initialize tab view for charts
@@ -55,7 +55,7 @@ public class EndView extends JPanel {
 		tabView.addTab("Total", new ChartPanel(totalChart));
 		
 		customizeChart(aliveChart, data);
-		customizeChart(deadChart, data);
+		// customizeChart(deadChart, data);
 		customizeChart(totalChart, data);
 		
 		// this.add(nameLabel, BorderLayout.NORTH);

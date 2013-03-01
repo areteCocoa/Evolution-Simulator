@@ -1,5 +1,6 @@
 package graphics.stats;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -17,19 +18,20 @@ public class TimePanel extends JPanel {
 	private JLabel dayLabel, monthLabel, yearLabel,
 		durationLabel;
 	private static final String[] MONTHS = {"January", "Feburary", "March", "April",
-		"May", "June", "July", "August", "September", "October", "November", "December", "Labember"};
+		"May", "June", "July", "August", "September", "October", "November", "December", "December"};
 	
 	public TimePanel(World world) {
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.white);
 		
-		if(world.duration > 0) {
-			setLayout(new GridLayout(1, 1, 10, 10));
-		} else {
-			setLayout(new GridLayout(1, 2, 10, 10));
+		setLayout(new GridLayout(1, 2, 10, 10));
+		
+		float newFontSize = 21;
+		if(world.duration != 0) {
+			newFontSize = 18;
 		}
 		
-		Font timeFont = Singleton.defaultFont.deriveFont((float) 21.0);
+		Font timeFont = Singleton.defaultFont.deriveFont(newFontSize);
 		
 		dayLabel = new JLabel(Integer.toString(world.day));
 		setupLabel(dayLabel, timeFont);
@@ -47,13 +49,18 @@ public class TimePanel extends JPanel {
 		dayPanel.add(monthLabel);
 		dayPanel.add(yearLabel);
 		
+		JPanel durationPanel = new JPanel();
+		durationPanel.setBackground(this.getBackground());
+		durationPanel.setLayout(new BorderLayout());
 		durationLabel = new JLabel();
 		durationLabel.setText(Integer.toString(world.duration));
-		durationLabel.setFont(Singleton.defaultFont);
+		durationLabel.setFont(timeFont);
+		durationLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		durationPanel.add(durationLabel, BorderLayout.CENTER);
 		
 		this.add(dayPanel);
 		if(world.duration != 0) {
-			this.add(durationLabel);
+			this.add(durationPanel);
 		}
 		
 		this.world = world;

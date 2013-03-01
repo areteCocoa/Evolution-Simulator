@@ -19,14 +19,14 @@ public class CustomCreateView extends JPanel implements ActionListener{
 	JTextArea nameInput;
 	JSpinner durationSpinner, dayDurationSpinner,
 		startingOrganism, startingSpecies,
-		biomeCountSpinner;
+		biomeCountSpinner, landSpinner;
 	JCheckBox setDurationBox;
 	JComboBox sizeMenu;
 	
 	public CustomCreateView() {
 		setBorder(BorderFactory.createLineBorder(getBackground(), 15));
 		
-		this.setLayout(new GridLayout(6, 3, 10, 10));
+		this.setLayout(new GridLayout(7, 3, 10, 10));
 		
 		// Labels on the left hand column
 		JLabel nameLabel = new JLabel("Name: "),
@@ -35,15 +35,17 @@ public class CustomCreateView extends JPanel implements ActionListener{
 				dayDurationLabel = new JLabel("Day Duration (ms):"),
 				startingOrganismLabel = new JLabel("Starting Organism Count: "),
 				startingSpeciesLabel = new JLabel("Different Starting Species: "),
-				biomeCountLabel = new JLabel("Different Biomes: ");
+				biomeCountLabel = new JLabel("Different Biomes: "),
+				landLabel = new JLabel("% of Land: ");
 		
 		nameInput = new JTextArea("Earth");
 		
 		durationSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
 		dayDurationSpinner = new JSpinner(new SpinnerNumberModel(5, 5, 1000, 25));
 		startingOrganism = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
-		startingSpecies = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+		startingSpecies = new JSpinner(new SpinnerNumberModel(1, 1, 9, 1));
 		biomeCountSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 18, 1));
+		landSpinner = new JSpinner(new SpinnerNumberModel(75, 10, 90, 1));
 		
 		setDurationBox = new JCheckBox("Enabled");
 		setDurationBox.setSelected(limitedDuration);
@@ -80,6 +82,10 @@ public class CustomCreateView extends JPanel implements ActionListener{
 		this.add(biomeCountLabel);
 		this.add(getEmptyComp());
 		this.add(biomeCountSpinner);
+		
+		this.add(landLabel);
+		this.add(getEmptyComp());
+		this.add(landSpinner);
 	}
 	
 	private JComponent getEmptyComp() {
@@ -121,6 +127,7 @@ public class CustomCreateView extends JPanel implements ActionListener{
 		s.startingOrganismCount = Integer.parseInt(startingOrganism.getValue().toString());
 		s.startingSpeciesCount = Integer.parseInt(startingSpecies.getValue().toString());
 		s.biomeCount = Integer.parseInt(biomeCountSpinner.getValue().toString());
+		s.landPercentage = Integer.parseInt(this.landSpinner.getValue().toString())/100.0;
 		
 		// Set static fields
 		s.setStatics();

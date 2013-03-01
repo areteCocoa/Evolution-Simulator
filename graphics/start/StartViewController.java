@@ -30,12 +30,19 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 		isShowing = false;
 		this.scenario = new Scenario();
 		
-		mainFrame = new JFrame("Evolution Simulator");
+		mainFrame = new JFrame("Population Dynamic Simulator");
 		
 		startView = new StartView();
 		startView.addActionListener(this);
 		
-		ImagePanel panel = new ImagePanel(Singleton.startWindowImage, new Dimension((int)Singleton.startWindowImage.getWidth(), (int)Singleton.startWindowImage.getHeight()));
+		JLabel titleLabel = new JLabel("Population Dynamic Simulator");
+		titleLabel.setFont(Singleton.defaultFont.deriveFont((float) 48.0));
+		JPanel titlePanel = new JPanel();
+		titlePanel.setBorder(BorderFactory.createLineBorder(mainFrame.getBackground(), 10));
+		titlePanel.add(titleLabel);
+		mainFrame.getContentPane().add(titlePanel, BorderLayout.NORTH);
+		
+		ImagePanel panel = new ImagePanel(Singleton.startWindowImage, new Dimension((int)(Singleton.startWindowImage.getWidth()/1.2), (int)(Singleton.startWindowImage.getHeight()/1.2)));
 		panel.setBorder(BorderFactory.createLineBorder(panel.getBackground(), 10));
 		mainFrame.getContentPane().add(panel, BorderLayout.CENTER);
 		
@@ -43,6 +50,7 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 		mainFrame.addWindowListener(this);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setResizable(false);
+		mainFrame.getRootPane().setDefaultButton(startView.newButton);
 		
 		selection = StartWindow.NONE;
 	}
@@ -97,6 +105,8 @@ public class StartViewController implements WindowListener, ActionListener, Runn
 		if(newWorld.getWorldScenario() != null) {
 			scenario.cloneFromScenario(newWorld.getWorldScenario());
 			showFrame(false);
+			
+			model.stats.SpeciesStatsModel.reset();
 			
 			World world = new World(this.getScenario());
 			WorldViewController worldController = new WorldViewController(world);

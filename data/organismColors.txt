@@ -2,7 +2,7 @@ yellow
 green
 red
 cyan
-pink
+orange
 black
 magenta
 gray

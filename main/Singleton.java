@@ -211,10 +211,10 @@ public class Singleton {
 	private static Document getDocumentWithFileName(String fileName) {
 		try {
 			// Get URL for current directory and add data/fileName and convert to String
-			File file = new File((Singleton.class.getResource("/data/" + fileName)).getPath());
+			URL url = (Singleton.class.getResource("/data/" + fileName));
 			
 			// Create document from file to read data to
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.openStream());
 			document.getDocumentElement().normalize();
 			
 			return document;
@@ -228,7 +228,6 @@ public class Singleton {
 		BufferedImage image;
 		
 		URL url = (Singleton.class.getResource("/images/" + fileName));
-		System.out.println(url.getPath());
 		try {
 			image = ImageIO.read(url);
 			return image;

@@ -2,6 +2,7 @@ package graphics.end;
 
 import javax.swing.*;
 
+import main.Singleton;
 import model.analytical.WorldData;
 
 public class EndViewController {
@@ -14,8 +15,9 @@ public class EndViewController {
 		
 		mainFrame = new JFrame("End of Simulation Analysis");
 		mainFrame.setContentPane(endView);
+		mainFrame.setSize((int)(Singleton.width/1.4), (int)(Singleton.height/1.15));
 		
-		mainFrame.pack();
+		// mainFrame.pack();
 		mainFrame.setLocationRelativeTo(null);
 	}
 	

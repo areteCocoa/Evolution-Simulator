@@ -8,6 +8,7 @@ public class Scenario {
 	public Dimension size;
 	public int duration, startingOrganismCount, dayDuration;
 	public int startingSpeciesCount, biomeCount;
+	public double landPercentage;
 	
 	public Scenario() {
 		this(new Dimension());
@@ -27,6 +28,7 @@ public class Scenario {
 		this.startingSpeciesCount = s.startingSpeciesCount;
 		this.startingOrganismCount = s.startingOrganismCount;
 		this.biomeCount = s.biomeCount;
+		this.landPercentage = s.landPercentage;
 	}
 	
 	public void cloneFromScenario(Scenario s) {
@@ -38,6 +40,7 @@ public class Scenario {
 		this.startingSpeciesCount = s.startingSpeciesCount;
 		this.startingOrganismCount = s.startingOrganismCount;
 		this.biomeCount = s.biomeCount;
+		this.landPercentage = s.landPercentage;
 	}
 	
 	public void setStatics() {
